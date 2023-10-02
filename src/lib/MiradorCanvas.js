@@ -70,7 +70,7 @@ export default class MiradorCanvas {
     return this.imageResources[0];
   }
 
-  /** */
+  /** Despite name, this method returns paintable resources, not just images */
   get imageResources() {
     const resources = flattenDeep([
       this.canvas.getImages().map(i => i.getResource()),
