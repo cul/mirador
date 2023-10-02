@@ -70,7 +70,7 @@ export default class MiradorCanvas {
     return this.imageResources[0];
   }
 
-  /** */
+  /** Despite name, this method returns paintable resources, not just images */
   get imageResources() {
     // TODO Clean up the following hack as soon as manifesto.js provides any information if an annotation body is a Choice option, and if so, whether it is the preferred one.
     const resources = flattenDeep([
