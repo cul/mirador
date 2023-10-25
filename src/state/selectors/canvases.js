@@ -1,11 +1,14 @@
 import { createSelector } from 'reselect';
 import flatten from 'lodash/flatten';
+import { Resource } from 'manifesto.js';
 import CanvasGroupings from '../../lib/CanvasGroupings';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { miradorSlice } from './utils';
 import { getWindow } from './getters';
 import { getSequence } from './sequences';
 import { getWindowViewType } from './windows';
+import { getProbeService } from '../../lib/getServices';
+import { anyImageServices } from '../../lib/typeFilters';
 
 /**
  * Returns the info response.
@@ -13,6 +16,9 @@ import { getWindowViewType } from './windows';
  * @returns {object}
  */
 export const selectInfoResponses = state => miradorSlice(state).infoResponses;
+
+/** */
+export const selectProbeResponses = state => miradorSlice(state).probeResponses;
 
 export const getCanvases = createSelector(
   [getSequence],
@@ -201,6 +207,46 @@ export const getCanvasDescription = createSelector(
   canvas => canvas && canvas.getProperty('description'),
 );
 
+/** */
+const probeReplacements = (resources, probeResponses) => {
+  if (!probeResponses) return resources;
+
+  return resources.map((r) => {
+    const probeService = getProbeService(r);
+    const probeServiceId = probeService && probeService.id;
+    const probeResponse = probeServiceId && probeResponses[probeServiceId];
+    if (!probeResponse || probeResponse.isFetching) return r;
+
+    const probeContentUrl = probeResponse.json && (probeResponse.json.location || probeResponse.json.substitute);
+    const probeReplacedProperties = {};
+    if (probeContentUrl) {
+      probeReplacedProperties.id = probeContentUrl;
+      if (probeResponse.json.format) probeReplacedProperties.format = probeResponse.json.format;
+    }
+    return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
+  });
+};
+
+/** */
+const probeReplacements = (resources, probeResponses) => {
+  if (!probeResponses) return resources;
+
+  return resources.map((r) => {
+    const probeService = getProbeService(r);
+    const probeServiceId = probeService && probeService.id;
+    const probeResponse = probeServiceId && probeResponses[probeServiceId];
+    if (!probeResponse || probeResponse.isFetching) return r;
+
+    const probeContentUrl = probeResponse.json && (probeResponse.json.location || probeResponse.json.substitute);
+    const probeReplacedProperties = {};
+    if (probeContentUrl) {
+      probeReplacedProperties.id = probeContentUrl;
+      if (probeResponse.json.format) probeReplacedProperties.format = probeResponse.json.format;
+    }
+    return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
+  });
+};
+
 /**
  * Return visible non tiled canvas resources.
  * @param {object}
@@ -213,7 +259,7 @@ export const getVisibleCanvasNonTiledResources = createSelector(
   ],
   canvases => flatten(canvases
     .map(canvas => new MiradorCanvas(canvas).imageResources))
-    .filter(resource => resource.getServices().length < 1),
+    .filter(resource => anyImageServices(resource).length < 1),
 );
 
 /**
@@ -225,9 +271,10 @@ export const getVisibleCanvasNonTiledResources = createSelector(
 export const getVisibleCanvasVideoResources = createSelector(
   [
     getVisibleCanvases,
+    selectProbeResponses,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).videoResources)),
+  (canvases, probeResponses) => flatten(canvases
+    .map(canvas => probeReplacements(new MiradorCanvas(canvas).videoResources, probeResponses))),
 );
 
 /**
@@ -257,9 +304,10 @@ export const getVisibleCanvasCaptions = createSelector(
 export const getVisibleCanvasAudioResources = createSelector(
   [
     getVisibleCanvases,
+    selectProbeResponses,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).audioResources)),
+  (canvases, probeResponses) => flatten(canvases
+    .map(canvas => probeReplacements(new MiradorCanvas(canvas).audioResources, probeResponses))),
 );
 
 /**
@@ -290,5 +338,28 @@ export const selectInfoResponse = createSelector(
     return iiifServiceId && infoResponses[iiifServiceId]
     && !infoResponses[iiifServiceId].isFetching
     && infoResponses[iiifServiceId];
+  },
+);
+
+export const selectProbeResponse = createSelector(
+  [
+    (state, { probeId }) => probeId,
+    getCanvas,
+    selectProbeResponses,
+  ],
+  (probeId, canvas, probeResponses) => {
+    let probeServiceId = probeId;
+
+    if (!probeServiceId) {
+      if (!canvas) return undefined;
+      const miradorCanvas = new MiradorCanvas(canvas);
+      const contentResource = miradorCanvas.imageResources[0];
+      const probeService = getProbeService(contentResource);
+      probeServiceId = probeService && probeService.id;
+    }
+
+    return probeServiceId && probeResponses[probeServiceId]
+    && !probeResponses[probeServiceId].isFetching
+    && probeResponses[probeServiceId];
   },
 );
