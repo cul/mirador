@@ -17,7 +17,7 @@ export function VideoViewer({ captions = [], videoOptions = {}, videoResources =
   return (
     <StyledContainer>
       <StyledVideo {...videoOptions}>
-        {videoResources.map(video => (
+        {videoResources.filter(video => video.id).map(video => (
           <source key={video.io} src={video.id} type={video.getFormat()} />
         ))}
         {captions.map(caption => (
