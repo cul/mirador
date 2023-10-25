@@ -1,13 +1,14 @@
 import { createSelector } from 'reselect';
 import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
+import { anyProbeServices } from '../../lib/getServices';
 import {
-  audioResourcesFrom, filterByTypes, textResourcesFrom, videoResourcesFrom,
+  audioResourcesFrom, iiifImageResourcesFrom, textResourcesFrom, videoResourcesFrom,
 } from '../../lib/typeFilters';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { miradorSlice, EMPTY_ARRAY, EMPTY_OBJECT } from './utils';
 import { getConfig } from './config';
-import { getVisibleCanvases, selectInfoResponses } from './canvases';
+import { getVisibleCanvases, selectInfoResponses, selectProbeResponses } from './canvases';
 import { getMiradorCanvasWrapper } from './wrappers';
 
 /**
@@ -46,20 +47,21 @@ export const selectCurrentAuthServices = createSelector(
   [
     getVisibleCanvases,
     selectInfoResponses,
+    selectProbeResponses,
     getAuthProfiles,
     getAuth,
     getMiradorCanvasWrapper,
     (state, { iiifResources }) => iiifResources,
   ],
-  (canvases, infoResponses = {}, serviceProfiles, auth, getMiradorCanvas, iiifResources) => {
+  (canvases, infoResponses = {}, probeResponses = {}, serviceProfiles, auth, getMiradorCanvas, iiifResources) => {
     let currentAuthResources = iiifResources;
 
-    if (!currentAuthResources && canvases) {
+    if ((!currentAuthResources || currentAuthResources.length === 0) && !canvases) return EMPTY_ARRAY;
+    if (canvases) {
       currentAuthResources = flatten(canvases.map(c => {
         const miradorCanvas = getMiradorCanvas(c);
-        const images = miradorCanvas.iiifImageResources;
-
-        return images.map(i => {
+        const canvasResources = miradorCanvas.imageResources;
+        const authResources = iiifImageResourcesFrom(canvasResources).map(i => {
           const iiifImageService = i.getServices()[0];
 
           const infoResponse = infoResponses[iiifImageService.id];
@@ -69,15 +71,7 @@ export const selectCurrentAuthServices = createSelector(
 
           return iiifImageService;
         });
-      }));
-    }
-
-    if (!currentAuthResources) return EMPTY_ARRAY;
-    if (currentAuthResources.length === 0 && canvases) {
-      currentAuthResources = flatten(canvases.map(c => {
-        const miradorCanvas = new MiradorCanvas(c);
-        const canvasResources = miradorCanvas.imageResources;
-        return videoResourcesFrom(canvasResources)
+        return authResources.concat(videoResourcesFrom(canvasResources))
           .concat(audioResourcesFrom(canvasResources))
           .concat(textResourcesFrom(canvasResources));
       }));
@@ -88,7 +82,7 @@ export const selectCurrentAuthServices = createSelector(
     const currentAuthServices = currentAuthResources.map(resource => {
       let lastAttemptedService;
       const resourceServices = Utils.getServices(resource);
-      const probeServices = filterByTypes(resourceServices, 'AuthProbeService2');
+      const probeServices = anyProbeServices(resource);
       const probeServiceServices = flatten(probeServices.map(p => Utils.getServices(p)));
 
       for (const authProfile of serviceProfiles) {
@@ -98,9 +92,10 @@ export const selectCurrentAuthServices = createSelector(
 
         for (const service of profiledAuthServices) {
           lastAttemptedService = service;
-
-          if (!auth[service.id] || auth[service.id].isFetching || auth[service.id].ok) {
-            return service;
+          if (service.getProfile() !== 'external') { // external service has no id to track by
+            if (!auth[service.id] || auth[service.id].isFetching || auth[service.id].ok) {
+              return service;
+            }
           }
         }
       }
@@ -112,7 +107,6 @@ export const selectCurrentAuthServices = createSelector(
       if (service && !h[service.id]) {
         h[service.id] = service; // eslint-disable-line no-param-reassign
       }
-
       return h;
     }, {}));
   },
