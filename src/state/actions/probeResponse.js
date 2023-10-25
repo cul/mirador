@@ -25,7 +25,7 @@ export function requestProbeResponse(probeId, resource, windowId) {
  */
 export function receiveProbeResponse(probeId, probeJson, ok, tokenServiceId) {
   return {
-    ok,
+    ok: ok && probeJson.status < 400,
     probeId,
     probeJson,
     tokenServiceId,
