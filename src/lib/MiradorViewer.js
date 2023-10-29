@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import HotApp from '../components/App';
 import {
@@ -17,12 +17,11 @@ class MiradorViewer {
     this.config = config;
     this.store = viewerConfig.store
       || createPluggableStore(this.config, this.plugins);
-
     if (config.id) {
       this.container = document.getElementById(config.id);
-      config.id && ReactDOM.render(
+      this.root = config.id && createRoot(this.container);
+      this?.root.render(
         this.render(),
-        this.container,
       );
     }
   }
@@ -42,7 +41,7 @@ class MiradorViewer {
    * Cleanup method to unmount Mirador from the dom
    */
   unmount() {
-    this.container && ReactDOM.unmountComponentAtNode(this.container);
+    this.root && this.root.unmount();
   }
 }
 
