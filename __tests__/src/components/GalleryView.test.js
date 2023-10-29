@@ -9,7 +9,7 @@ function createWrapper(props) {
   return render(
     <GalleryView
       canvases={Utils.parseManifest(manifestJson).getSequences()[0].getCanvases()}
-      windowId="1234"
+      windowId="x1234"
       selectedCanvasIndex={0}
       {...props}
     />,
@@ -23,6 +23,7 @@ describe('GalleryView', () => {
   });
   it('renders the component', () => {
     const { container } = createWrapper({ setCanvas });
+    expect(container.querySelector('#x1234-gallery')).toBeInTheDocument(); // eslint-disable-line testing-library/no-node-access, testing-library/no-container
     expect(container.querySelector('section')).toBeInTheDocument(); // eslint-disable-line testing-library/no-node-access, testing-library/no-container
   });
   it('renders gallery items for all canvases', () => {

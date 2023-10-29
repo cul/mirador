@@ -45,6 +45,8 @@ const baseConfig = mode => ({
     }),
   ],
   resolve: {
+    alias: {
+    },
     extensions: ['.js'],
   },
 });

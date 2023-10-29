@@ -19,7 +19,10 @@ describe('MiradorViewer', () => {
   });
   describe('constructor', () => {
     it('returns viewer store', () => {
-      const instance = new MiradorViewer({ id: 'mirador' });
+      let instance;
+      act(() => {
+        instance = new MiradorViewer({ id: 'mirador' });
+      });
       expect(instance.store.dispatch).toBeDefined();
     });
     it('renders via ReactDOM', () => {
@@ -30,35 +33,38 @@ describe('MiradorViewer', () => {
   });
   describe('processConfig', () => {
     it('transforms config values to actions to dispatch to store', () => {
-      const instance = new MiradorViewer(
-        {
-          catalog: [
-            { manifestId: 'http://media.nga.gov/public/manifests/nga_highlights.json', provider: 'National Gallery of Art' },
-          ],
-          id: 'mirador',
-          windows: [
-            {
-              canvasId: 'https://iiif.harvardartmuseums.org/manifests/object/299843/canvas/canvas-47174892',
-              loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
-              thumbnailNavigationPosition: 'far-bottom',
-            },
-            {
-              loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
-              view: 'book',
-            },
-          ],
-        },
-        {
-          plugins: [{
-            component: DummyPlugin,
-            config: {
-              foo: 'bar',
-            },
-            mode: 'add',
-            target: 'WindowTopBarPluginArea',
-          }],
-        },
-      );
+      let instance;
+      act(() => {
+        instance = new MiradorViewer(
+          {
+            catalog: [
+              { manifestId: 'http://media.nga.gov/public/manifests/nga_highlights.json', provider: 'National Gallery of Art' },
+            ],
+            id: 'mirador',
+            windows: [
+              {
+                canvasId: 'https://iiif.harvardartmuseums.org/manifests/object/299843/canvas/canvas-47174892',
+                loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
+                thumbnailNavigationPosition: 'far-bottom',
+              },
+              {
+                loadedManifest: 'https://iiif.harvardartmuseums.org/manifests/object/299843',
+                view: 'book',
+              },
+            ],
+          },
+          {
+            plugins: [{
+              component: DummyPlugin,
+              config: {
+                foo: 'bar',
+              },
+              mode: 'add',
+              target: 'WindowTopBarPluginArea',
+            }],
+          },
+        );
+      });
 
       const { windows, catalog, config } = instance.store.getState();
       const windowIds = Object.keys(windows);
@@ -77,39 +83,42 @@ describe('MiradorViewer', () => {
       expect(config.foo).toBe('bar');
     });
     it('merges translation configs from multiple plugins', () => {
-      const instance = new MiradorViewer(
-        {
-          id: 'mirador',
-        },
-        {
-          plugins: [
-            {
-              component: DummyPlugin,
-              config: {
-                translations: {
-                  en: {
-                    foo: 'bar',
+      let instance;
+      act(() => {
+        instance = new MiradorViewer(
+          {
+            id: 'mirador',
+          },
+          {
+            plugins: [
+              {
+                component: DummyPlugin,
+                config: {
+                  translations: {
+                    en: {
+                      foo: 'bar',
+                    },
                   },
                 },
+                mode: 'add',
+                target: 'WindowTopBarPluginArea',
               },
-              mode: 'add',
-              target: 'WindowTopBarPluginArea',
-            },
-            {
-              component: DummyPlugin,
-              config: {
-                translations: {
-                  en: {
-                    bat: 'bar',
+              {
+                component: DummyPlugin,
+                config: {
+                  translations: {
+                    en: {
+                      bat: 'bar',
+                    },
                   },
                 },
+                mode: 'wrap',
+                target: 'Window',
               },
-              mode: 'wrap',
-              target: 'Window',
-            },
-          ],
-        },
-      );
+            ],
+          },
+        );
+      });
 
       const { config } = instance.store.getState();
 
@@ -122,7 +131,10 @@ describe('MiradorViewer', () => {
 
   describe('render', () => {
     it('passes props through to the App component', async () => {
-      const instance = new MiradorViewer({});
+      let instance;
+      act(() => {
+        instance = new MiradorViewer({});
+      });
       const plugins = [{
         component: DummyPlugin,
         mode: 'wrap',

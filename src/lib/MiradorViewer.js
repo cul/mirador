@@ -17,7 +17,6 @@ class MiradorViewer {
     this.config = config;
     this.store = viewerConfig.store
       || createPluggableStore(this.config, this.plugins);
-
     if (config.id) {
       this.container = document.getElementById(config.id);
       this.root = createRoot(this.container);

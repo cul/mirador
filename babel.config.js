@@ -75,6 +75,14 @@ module.exports = function (api) {
         async: false,
       },
     ],
+    [
+      'babel-plugin-module-resolver',
+      {
+        alias: {
+          'react/jsx-runtime.js': 'react/jsx-runtime',
+        },
+      },
+    ],
     ['transform-react-remove-prop-types',
       {
         ignoreFilenames: ['node_modules'],
