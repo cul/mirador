@@ -1,7 +1,9 @@
 import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
 import { Canvas, AnnotationPage, Annotation } from 'manifesto.js';
-import { audioResourcesFrom, iiifImageResourcesFrom, videoResourcesFrom } from './typeFilters';
+import {
+  audioResourcesFrom, iiifImageResourcesFrom, textResourcesFrom, videoResourcesFrom,
+} from './typeFilters';
 import canvasTypes from './canvasTypes';
 
 /**
@@ -82,6 +84,11 @@ export default class MiradorCanvas {
           return resource;
       }
     }));
+  }
+
+  /** */
+  get textResources() {
+    return textResourcesFrom(this.imageResources);
   }
 
   /** */

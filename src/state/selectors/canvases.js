@@ -227,26 +227,6 @@ const probeReplacements = (resources, probeResponses) => {
   });
 };
 
-/** */
-const probeReplacements = (resources, probeResponses) => {
-  if (!probeResponses) return resources;
-
-  return resources.map((r) => {
-    const probeService = getProbeService(r);
-    const probeServiceId = probeService && probeService.id;
-    const probeResponse = probeServiceId && probeResponses[probeServiceId];
-    if (!probeResponse || probeResponse.isFetching) return r;
-
-    const probeContentUrl = probeResponse.json && (probeResponse.json.location || probeResponse.json.substitute);
-    const probeReplacedProperties = {};
-    if (probeContentUrl) {
-      probeReplacedProperties.id = probeContentUrl;
-      if (probeResponse.json.format) probeReplacedProperties.format = probeResponse.json.format;
-    }
-    return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
-  });
-};
-
 /**
  * Return visible non tiled canvas resources.
  * @param {object}
@@ -308,6 +288,15 @@ export const getVisibleCanvasAudioResources = createSelector(
   ],
   (canvases, probeResponses) => flatten(canvases
     .map(canvas => probeReplacements(new MiradorCanvas(canvas).audioResources, probeResponses))),
+);
+
+export const getVisibleCanvasTextResources = createSelector(
+  [
+    getVisibleCanvases,
+    selectProbeResponses,
+  ],
+  (canvases, probeResponses) => flatten(canvases
+    .map(canvas => probeReplacements(new MiradorCanvas(canvas).textResources, probeResponses))),
 );
 
 /**
