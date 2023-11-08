@@ -240,6 +240,15 @@ export const getVisibleCanvasAudioResources = createSelector(
     .map(canvas => probeReplacements(new MiradorCanvas(canvas).audioResources, probeResponses))),
 );
 
+export const getVisibleCanvasTextResources = createSelector(
+  [
+    getVisibleCanvases,
+    selectProbeResponses,
+  ],
+  (canvases, probeResponses) => flatten(canvases
+    .map(canvas => probeReplacements(new MiradorCanvas(canvas).textResources, probeResponses))),
+);
+
 export const selectInfoResponse = createSelector(
   [
     (state, { infoId }) => infoId,

@@ -11,6 +11,7 @@ const GalleryView = lazy(() => import('../containers/GalleryView'));
 const SelectCollection = lazy(() => import('../containers/SelectCollection'));
 const WindowViewer = lazy(() => import('../containers/WindowViewer'));
 const VideoViewer = lazy(() => import('../containers/VideoViewer'));
+const NativeObjectViewer = lazy(() => import('../containers/NativeObjectViewer'));
 
 GalleryView.displayName = 'GalleryView';
 SelectCollection.displayName = 'SelectCollection';
@@ -35,7 +36,7 @@ export class PrimaryWindow extends Component {
   renderViewer() {
     const {
       audioResources, isCollection,
-      isFetching, videoResources, view, windowId,
+      isFetching, textResources, videoResources, view, windowId,
     } = this.props;
     if (isCollection) {
       return (
@@ -62,6 +63,13 @@ export class PrimaryWindow extends Component {
       if (audioResources.length > 0) {
         return (
           <AudioViewer
+            windowId={windowId}
+          />
+        );
+      }
+      if (textResources.length > 0) {
+        return (
+          <NativeObjectViewer
             windowId={windowId}
           />
         );
@@ -101,6 +109,7 @@ PrimaryWindow.propTypes = {
   isCollection: PropTypes.bool,
   isCollectionDialogVisible: PropTypes.bool,
   isFetching: PropTypes.bool,
+  textResources: PropTypes.arrayOf(PropTypes.object), // eslint-disable-line react/forbid-prop-types
   videoResources: PropTypes.arrayOf(PropTypes.object), // eslint-disable-line react/forbid-prop-types
   view: PropTypes.string,
   windowId: PropTypes.string.isRequired,
@@ -112,6 +121,7 @@ PrimaryWindow.defaultProps = {
   isCollection: false,
   isCollectionDialogVisible: false,
   isFetching: false,
+  textResources: [],
   videoResources: [],
   view: undefined,
 };
