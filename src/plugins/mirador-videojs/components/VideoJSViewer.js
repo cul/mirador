@@ -6,7 +6,7 @@ import { VideoViewer } from '@columbia-libraries/mirador/dist/es/src/components/
 import { getConfig, getVisibleCanvasCaptions, getVisibleCanvasVideoResources } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
 
 import VideoJS from './VideoJS';
-import ForbiddenComponent from "../../ForbiddenComponent";
+import ForbiddenComponent from '../../ForbiddenComponent';
 
 /** */
 const mapStateToProps = (state, { windowId }) => (
@@ -31,7 +31,7 @@ class VideoJSViewerBase extends VideoViewer {
     const videoJsOptions = {
       playbackRates: [0.5, 1, 1.5, 2],
       controlBar: {
-        remainingTimeDisplay: false
+        remainingTimeDisplay: false,
       },
       autoplay: false,
       controls: true,
@@ -41,8 +41,8 @@ class VideoJSViewerBase extends VideoViewer {
       tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
     };
 
-    console.log({videoJsOptions, state: this.state});
-    if (videoJsOptions.sources.length == 0) return <ForbiddenComponent id="this content"></ForbiddenComponent>;
+    console.log({ videoJsOptions, state: this.state });
+    if (videoJsOptions.sources.length == 0) return <ForbiddenComponent id="this content" />;
     return (
       <div className="video-js w-100" data-vjs-player>
         <VideoJS options={videoJsOptions} />
@@ -54,6 +54,6 @@ class VideoJSViewerBase extends VideoViewer {
 export const VideoJSViewer = enhance(VideoJSViewerBase);
 
 /** */
-export default function ({ _targetComponent, targetProps  }) {
-  return <VideoJSViewer {...targetProps}></VideoJSViewer>;
+export default function ({ _targetComponent, targetProps }) {
+  return <VideoJSViewer {...targetProps} />;
 }

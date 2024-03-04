@@ -1,8 +1,8 @@
-import Link from "@mui/material/Link";
-import { makeStyles } from "@mui/styles";
-import Alert from "@mui/material/Alert";
-import PropTypes from "prop-types";
-import React from "react";
+import Link from '@mui/material/Link';
+import { makeStyles } from '@mui/styles';
+import Alert from '@mui/material/Alert';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +19,11 @@ const RightsInformation = (props) => {
   }
   return (
     <Alert className={root} severity="warning">
-      <span>{t("canvasLink.noteRights", { count: rights.length })}: </span>
+      <span>
+        {t('canvasLink.noteRights', { count: rights.length })}
+        :
+        {' '}
+      </span>
       {rights.length === 1 ? (
         <Link href={rights[0]} rel="noopener" target="_blank">
           {rights[0]}

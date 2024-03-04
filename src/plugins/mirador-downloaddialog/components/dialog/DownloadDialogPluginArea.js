@@ -1,5 +1,5 @@
-import { PluginHook } from "@columbia-libraries/mirador/dist/es/src/components/PluginHook";
-import React from "react";
+import { PluginHook } from '@columbia-libraries/mirador/dist/es/src/components/PluginHook';
+import React from 'react';
 
 const DownloadDialogPluginArea = (props) => <PluginHook {...props} />; // eslint-disable-line react/jsx-props-no-spreading
 

@@ -1,5 +1,5 @@
-import { getWindowConfig } from "@columbia-libraries/mirador/dist/es/src/state/selectors";
-import { createSelector } from "reselect";
+import { getWindowConfig } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
+import { createSelector } from 'reselect';
 
 const defaultConfig = {
   // Open the panel

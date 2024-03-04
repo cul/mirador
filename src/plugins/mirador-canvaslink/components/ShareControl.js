@@ -1,7 +1,7 @@
-import ShareIcon from "@mui/icons-material/Share";
-import { MiradorMenuButton } from "@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton";
-import PropTypes from "prop-types";
-import React from "react";
+import ShareIcon from '@mui/icons-material/Share';
+import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const ShareControl = (props) => {
   const {
@@ -12,24 +12,22 @@ const ShareControl = (props) => {
     windowViewType,
   } = props;
   const { dialogOpen, enabled, singleCanvasOnly } = config;
-  if (!enabled ||
+  if (!enabled
   // Only show in single canvas view if configured
-  singleCanvasOnly && windowViewType !== "single" ||
+  || singleCanvasOnly && windowViewType !== 'single'
   // Never show in gallery view
-  windowViewType === "gallery") {
+  || windowViewType === 'gallery') {
     return null;
   }
-  return  (
+  return (
     <MiradorMenuButton
       aria-expanded={dialogOpen}
-      aria-label={t("canvasLink.shareLink")}
+      aria-label={t('canvasLink.shareLink')}
       containerId={containerId}
-      onClick={() =>
-        updateConfig({
-          ...config,
-          dialogOpen: !dialogOpen,
-        })
-      }
+      onClick={() => updateConfig({
+        ...config,
+        dialogOpen: !dialogOpen,
+      })}
     >
       <ShareIcon />
     </MiradorMenuButton>

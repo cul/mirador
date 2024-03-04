@@ -12,14 +12,13 @@ const StyledContainer = styled('div')(() => ({
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const {options, onReady} = props;
+  const { options, onReady } = props;
 
   React.useEffect(() => {
-
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
-      // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode. 
-      const videoElement = document.createElement("video-js");
+      // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
+      const videoElement = document.createElement('video-js');
 
       videoElement.classList.add('vjs-big-play-centered');
       videoRef.current.appendChild(videoElement);
@@ -54,6 +53,6 @@ export const VideoJS = (props) => {
   return (
     <div ref={videoRef} />
   );
-}
+};
 
 export default VideoJS;

@@ -1,9 +1,11 @@
-import DownloadIcon from "@mui/icons-material/VerticalAlignBottomSharp";
-import { MiradorMenuButton } from "@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton";
-import PropTypes from "prop-types";
-import React from "react";
+import DownloadIcon from '@mui/icons-material/VerticalAlignBottomSharp';
+import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-const DownloadButton = ({ config, containerId, t, updateConfig }) => {
+const DownloadButton = ({
+  config, containerId, t, updateConfig,
+}) => {
   const { dialogOpen, enabled } = config;
   if (!enabled) {
     return null;
@@ -12,14 +14,12 @@ const DownloadButton = ({ config, containerId, t, updateConfig }) => {
     <MiradorMenuButton
       aria-expanded={dialogOpen}
       aria-haspopup
-      aria-label={t("showDownloadOptions")}
+      aria-label={t('showDownloadOptions')}
       containerId={containerId}
-      onClick={() =>
-        updateConfig({
-          ...config,
-          dialogOpen: !dialogOpen,
-        })
-      }
+      onClick={() => updateConfig({
+        ...config,
+        dialogOpen: !dialogOpen,
+      })}
     >
       <DownloadIcon />
     </MiradorMenuButton>

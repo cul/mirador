@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import CodeIcon from '@mui/icons-material/Code';
-import MiradorMenuButton from "@columbia-libraries/mirador/dist/es/src/containers/MiradorMenuButton";
+import MiradorMenuButton from '@columbia-libraries/mirador/dist/es/src/containers/MiradorMenuButton';
 import { getManifestoInstance } from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
 
 self.$RefreshReg$ = () => {};
@@ -19,17 +19,15 @@ const MiradorViewXml = ({ config, container, updateConfig }) => {
       aria-haspopup
       aria-label="View MODS"
       container={container}
-      onClick={() =>
-        updateConfig({
-          ...config,
-          dialogOpen: !dialogOpen,
-        })
-      }
+      onClick={() => updateConfig({
+        ...config,
+        dialogOpen: !dialogOpen,
+      })}
     >
-          <CodeIcon />
+      <CodeIcon />
     </MiradorMenuButton>
   );
-}
+};
 
 MiradorViewXml.propTypes = {
   config: PropTypes.shape({

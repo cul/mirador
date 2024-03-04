@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material';
 import PropTypes from 'prop-types';
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,9 +10,9 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import XMLViewer from 'react-xml-viewer'
-import {fetch as fetchPolyfill} from 'whatwg-fetch'
-import ns from "@columbia-libraries/mirador/dist/es/src/config/css-ns";
+import XMLViewer from 'react-xml-viewer';
+import { fetch as fetchPolyfill } from 'whatwg-fetch';
+import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
 import ScrollIndicatedDialogContent from '@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent';
 import { getManifestoInstance } from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
 import { getContainerId } from '@columbia-libraries/mirador/dist/es/src/state/selectors/config';
@@ -36,61 +36,58 @@ const MiradorViewXmlDialog = ({
     return null;
   }
 
-  const xmlLink = function(relateds) {
+  const xmlLink = (function (relateds) {
     if (!relateds) return null;
     return relateds.find(ref => ref.schema == 'http://www.loc.gov/mods/v3')?.id;
-  }(seeAlso);
+  }(seeAlso));
 
   if (!xmlLink) return null;
 
   if (!config.xmlSource) {
-    fetchPolyfill(xmlLink).then(function(response) {
-      return response.text()
-    }).then(function(body) {
+    fetchPolyfill(xmlLink).then((response) => response.text()).then((body) => {
       updateConfig(
-      {
-        ...config,
-        xmlSource: body,
-      }
-      )
-    })
+        {
+          ...config,
+          xmlSource: body,
+        },
+      );
+    });
   }
 
-  const closeDialog = () =>
-    updateConfig({
-      ...config,
-      dialogOpen: false,
-    });
+  const closeDialog = () => updateConfig({
+    ...config,
+    dialogOpen: false,
+  });
 
   const theme = createTheme();
 
   return (
     <ThemeProvider theme={theme}>
-    <Dialog
-      container={document.querySelector(`#${containerId} .${ns("viewer")}`)}
-      fullWidth
-      maxWidth="xl"
-      onClose={closeDialog}
-      open={dialogOpen}
-      scroll="paper"
-    >
-      <DialogTitle disableTypography>
-        <Typography variant="h4">
-          <Box fontWeight="fontWeightBold">MODS XML</Box>
-        </Typography>
-      </DialogTitle>
-      <ScrollIndicatedDialogContent>
-        <XMLViewer xml={xmlSource} />
-      </ScrollIndicatedDialogContent>
-      <DialogActions>
-        <Button color="primary" onClick={closeDialog}>
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <Dialog
+        container={document.querySelector(`#${containerId} .${ns('viewer')}`)}
+        fullWidth
+        maxWidth="xl"
+        onClose={closeDialog}
+        open={dialogOpen}
+        scroll="paper"
+      >
+        <DialogTitle disableTypography>
+          <Typography variant="h4">
+            <Box fontWeight="fontWeightBold">MODS XML</Box>
+          </Typography>
+        </DialogTitle>
+        <ScrollIndicatedDialogContent>
+          <XMLViewer xml={xmlSource} />
+        </ScrollIndicatedDialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={closeDialog}>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
-}
+};
 
 MiradorViewXmlDialog.propTypes = {
   config: PropTypes.shape({

@@ -1,8 +1,8 @@
-import InputAdornment from "@mui/material/InputAdornment";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
-import { MiradorMenuButton } from "@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton";
-import PropTypes from "prop-types";
-import React from "react";
+import InputAdornment from '@mui/material/InputAdornment';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const CopyToClipboard = (props) => {
   const { onCopy, supported, t } = props;
@@ -12,7 +12,7 @@ const CopyToClipboard = (props) => {
   return (
     <InputAdornment>
       <MiradorMenuButton
-        aria-label={t("canvasLink.copyToClipboard")}
+        aria-label={t('canvasLink.copyToClipboard')}
         edge="end"
         onClick={onCopy}
       >
@@ -20,7 +20,7 @@ const CopyToClipboard = (props) => {
       </MiradorMenuButton>
     </InputAdornment>
   );
-}
+};
 
 CopyToClipboard.propTypes = {
   onCopy: PropTypes.func.isRequired,

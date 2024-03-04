@@ -1,36 +1,36 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
-import ns from "@columbia-libraries/mirador/dist/es/src/config/css-ns";
-import ScrollIndicatedDialogContent from "@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
+import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
+import ScrollIndicatedDialogContent from '@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
-import CopyToClipboard from "./dialog/CopyToClipboard";
-import RightsInformation from "./dialog/RightsInformation";
-import ShareButton from "./dialog/ShareButton";
+import CopyToClipboard from './dialog/CopyToClipboard';
+import RightsInformation from './dialog/RightsInformation';
+import ShareButton from './dialog/ShareButton';
 
 const useStyles = createTheme((theme) => ({
   actions: {
-    justifyContent: "space-between",
-    flexWrap: "wrap",
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   actionButtons: {
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
   },
   alert: {
     marginBottom: theme.spacing(1),
   },
 }));
 
-const supportsClipboard = "clipboard" in navigator;
+const supportsClipboard = 'clipboard' in navigator;
 
 const ShareCanvasLinkDialog = (props) => {
   const {
@@ -43,25 +43,25 @@ const ShareCanvasLinkDialog = (props) => {
     t,
     updateConfig,
   } = props;
-  const { dialogOpen, enabled, showRightsInformation, getCanvasLink, providers } = config;
+  const {
+    dialogOpen, enabled, showRightsInformation, getCanvasLink, providers,
+  } = config;
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const { actions, actionButtons, alert } = useStyles;
 
   if (!enabled || !dialogOpen || visibleCanvases.length === 0) {
     return null;
   }
-  const closeDialog = () =>
-    updateConfig({
-      ...config,
-      dialogOpen: false,
-    });
+  const closeDialog = () => updateConfig({
+    ...config,
+    dialogOpen: false,
+  });
   const canvasLink = getCanvasLink(manifestId, visibleCanvases);
-  const getPreviewUrl = (width) =>
-    `${visibleCanvases[0]?.imageServiceIds[0]}/full/${width},/0/default.jpg`;
+  const getPreviewUrl = (width) => `${visibleCanvases[0]?.imageServiceIds[0]}/full/${width},/0/default.jpg`;
 
   return (
     <Dialog
-      container={document.querySelector(`#${containerId} .${ns("viewer")}`)}
+      container={document.querySelector(`#${containerId} .${ns('viewer')}`)}
       fullWidth
       maxWidth="sm"
       scroll="paper"
@@ -70,18 +70,18 @@ const ShareCanvasLinkDialog = (props) => {
     >
       <DialogTitle disableTypography>
         <Typography variant="h4">
-          <Box fontWeight="fontWeightBold">{t("canvasLink.shareLink")}</Box>
+          <Box fontWeight="fontWeightBold">{t('canvasLink.shareLink')}</Box>
         </Typography>
       </DialogTitle>
       <ScrollIndicatedDialogContent dividers>
         {copiedToClipboard && (
           <Alert
             className={alert}
-            closeText={t("canvasLink.close")}
+            closeText={t('canvasLink.close')}
             onClose={() => setCopiedToClipboard(false)}
             severity="success"
           >
-            {t("canvasLink.copiedToClipboard")}
+            {t('canvasLink.copiedToClipboard')}
           </Alert>
         )}
         <TextField
@@ -120,9 +120,9 @@ const ShareCanvasLinkDialog = (props) => {
             ),
           )}
         </ButtonGroup>
-        <div style={{ flex: "1 0 0" }} />
+        <div style={{ flex: '1 0 0' }} />
         <Button color="primary" onClick={closeDialog}>
-          {t("canvasLink.close")}
+          {t('canvasLink.close')}
         </Button>
       </DialogActions>
     </Dialog>
@@ -130,11 +130,11 @@ const ShareCanvasLinkDialog = (props) => {
 };
 
 ShareCanvasLinkDialog.defaultProps = {
-  label: "",
+  label: '',
   rights: [],
   visibleCanvases: [],
   config: {
-    providers: ["envelope", "facebook", "pinterest", "twitter", "whatsapp"],
+    providers: ['envelope', 'facebook', 'pinterest', 'twitter', 'whatsapp'],
   },
 };
 

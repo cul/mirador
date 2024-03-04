@@ -3,9 +3,9 @@ import VideoJSViewerComponent, { VideoJSViewer } from './components/VideoJSViewe
 export default [
   {
     component: VideoJSViewerComponent,
-    mode: "wrap",
-    name: "VideoJSViewer",
-    target: "VideoViewer",
+    mode: 'wrap',
+    name: 'VideoJSViewer',
+    target: 'VideoViewer',
   },
 ];
 

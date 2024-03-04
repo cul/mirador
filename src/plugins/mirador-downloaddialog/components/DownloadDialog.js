@@ -1,22 +1,22 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
-import Link from "@mui/material/Link";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import { useTheme } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
-import ns from "@columbia-libraries/mirador/dist/es/src/config/css-ns";
-import ScrollIndicatedDialogContent from "@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent";
-import PropTypes from "prop-types";
-import React from "react";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
+import ScrollIndicatedDialogContent from '@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-import DownloadDialogPluginArea from "../containers/dialog/DownloadDialogPluginArea";
-import CanvasDownloadLinks from "./dialog/CanvasDownloadLinks";
+import DownloadDialogPluginArea from '../containers/dialog/DownloadDialogPluginArea';
+import CanvasDownloadLinks from './dialog/CanvasDownloadLinks';
 
 const DownloadDialog = ({
   canvasLabel,
@@ -36,14 +36,13 @@ const DownloadDialog = ({
   if (!enabled || !dialogOpen) {
     return null;
   }
-  const closeDialog = () =>
-    updateConfig({
-      ...config,
-      dialogOpen: false,
-    });
+  const closeDialog = () => updateConfig({
+    ...config,
+    dialogOpen: false,
+  });
   return (
     <Dialog
-      container={document.querySelector(`#${containerId} .${ns("viewer")}`)}
+      container={document.querySelector(`#${containerId} .${ns('viewer')}`)}
       fullWidth
       maxWidth="xs"
       onClose={closeDialog}
@@ -52,7 +51,7 @@ const DownloadDialog = ({
     >
       <DialogTitle disableTypography>
         <Typography variant="h4">
-          <Box fontWeight="fontWeightBold">{t("downloadOptions")}</Box>
+          <Box fontWeight="fontWeightBold">{t('downloadOptions')}</Box>
         </Typography>
       </DialogTitle>
       <ScrollIndicatedDialogContent dividers>
@@ -67,35 +66,35 @@ const DownloadDialog = ({
         ))}
         <DownloadDialogPluginArea windowId={windowId} />
         {children}
-        <Box sx={{ marginTop: "1rem" }}>
+        <Box sx={{ marginTop: '1rem' }}>
           <Card raised>
             <CardContent>
               <Typography
                 component="h5"
-                style={{ textTransform: "none" }}
+                style={{ textTransform: 'none' }}
                 variant="h6"
               >
                 <Box fontWeight="fontWeightBold" textTransform="none">
-                  {t("otherDownloadOptions")}
+                  {t('otherDownloadOptions')}
                 </Box>
               </Typography>
               <List>
                 <ListItem dense>
                   <Box
-                    fontFamily={theme.typography.fontFamily ?? "sans-serif"}
+                    fontFamily={theme.typography.fontFamily ?? 'sans-serif'}
                     fontSize="0.75rem"
                   >
                     <Link href={manifestUrl} rel="noopener" target="_blank">
-                      {t("iiifManifest")}
+                      {t('iiifManifest')}
                     </Link>
                   </Box>
                 </ListItem>
                 {seeAlso
-                  .filter(({ format }) => format !== "text/html")
+                  .filter(({ format }) => format !== 'text/html')
                   .map(({ label, value }) => (
                     <ListItem dense key={value}>
                       <Box
-                        fontFamily={theme.typography.fontFamily ?? "sans-serif"}
+                        fontFamily={theme.typography.fontFamily ?? 'sans-serif'}
                         fontSize="0.75rem"
                       >
                         <Link href={value} rel="noopener" target="_blank">
@@ -111,7 +110,7 @@ const DownloadDialog = ({
       </ScrollIndicatedDialogContent>
       <DialogActions>
         <Button color="primary" onClick={closeDialog}>
-          {t("close")}
+          {t('close')}
         </Button>
       </DialogActions>
     </Dialog>

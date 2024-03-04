@@ -33,7 +33,7 @@ export class CanvasRelatedLinks extends Component {
       t,
     } = this.props;
 
-    if (!hasContent(related) && !hasContent(renderings) && !hasContent(seeAlso)) return (<div></div>); 
+    if (!hasContent(related) && !hasContent(renderings) && !hasContent(seeAlso)) return (<div />);
 
     return (
       <>

@@ -1,19 +1,19 @@
-import { updateWindow } from "@columbia-libraries/mirador/dist/es/src/state/actions";
-import { getContainerId } from "@columbia-libraries/mirador/dist/es/src/state/selectors";
+import { updateWindow } from '@columbia-libraries/mirador/dist/es/src/state/actions';
+import { getContainerId } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
 import {
   getCanvasLabel,
   getVisibleCanvases,
   selectInfoResponse,
-} from "@columbia-libraries/mirador/dist/es/src/state/selectors/canvases";
+} from '@columbia-libraries/mirador/dist/es/src/state/selectors/canvases';
 import {
   getManifestRelatedContent,
   getManifestUrl,
-} from "@columbia-libraries/mirador/dist/es/src/state/selectors/manifests";
+} from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
 
-import DownloadButton from "./components/DownloadButton";
-import DownloadDialog from "./components/DownloadDialog";
-import translations from "./locales";
-import { getPluginConfig } from "./state/selectors";
+import DownloadButton from './components/DownloadButton';
+import DownloadDialog from './components/DownloadDialog';
+import translations from './locales';
+import { getPluginConfig } from './state/selectors';
 
 export default [
   {
@@ -22,16 +22,15 @@ export default [
       translations,
     },
     mapDispatchToProps: (dispatch, { windowId }) => ({
-      updateConfig: (downloadDialog) =>
-        dispatch(updateWindow(windowId, { downloadDialog })),
+      updateConfig: (downloadDialog) => dispatch(updateWindow(windowId, { downloadDialog })),
     }),
     mapStateToProps: (state, { windowId }) => ({
       containerId: getContainerId(state),
       config: getPluginConfig(state, { windowId }),
     }),
-    mode: "add",
-    name: "DownloadButton",
-    target: "WindowTopBarPluginArea",
+    mode: 'add',
+    name: 'DownloadButton',
+    target: 'WindowTopBarPluginArea',
   },
   {
     component: DownloadDialog,
@@ -39,22 +38,20 @@ export default [
       translations,
     },
     mapDispatchToProps: (dispatch, { windowId }) => ({
-      updateConfig: (downloadDialog) =>
-        dispatch(updateWindow(windowId, { downloadDialog })),
+      updateConfig: (downloadDialog) => dispatch(updateWindow(windowId, { downloadDialog })),
     }),
     mapStateToProps: (state, { windowId }) => ({
       canvasLabel: (canvasId) => getCanvasLabel(state, { canvasId, windowId }),
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
-      infoResponse: (canvasId) =>
-        selectInfoResponse(state, { canvasId, windowId }) ?? {},
+      infoResponse: (canvasId) => selectInfoResponse(state, { canvasId, windowId }) ?? {},
       manifestUrl: getManifestUrl(state, { windowId }),
       seeAlso: getManifestRelatedContent(state, { windowId }),
       visibleCanvases: getVisibleCanvases(state, { windowId }),
     }),
-    mode: "add",
-    name: "DownloadDialog",
-    target: "Window",
+    mode: 'add',
+    name: 'DownloadDialog',
+    target: 'Window',
   },
 ];
 

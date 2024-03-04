@@ -35,7 +35,7 @@ export class WindowSideBarCitationButton extends React.Component {
 
 /**
 TODO: Where are translations registered? Mouseover currently 'openCompanionWindow'
-**/
+* */
 
 WindowSideBarCitationButton.value = 'citation';
 

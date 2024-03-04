@@ -9,7 +9,6 @@ import {
 } from '../state/selectors';
 import { CanvasRelatedLinks } from '../components/CanvasRelatedLinks';
 
-
 /**
  * mapStateToProps - to hook up connect
  * @memberof CanvasInfo
