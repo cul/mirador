@@ -3,6 +3,7 @@ import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+/** */
 const ShareControl = (props) => {
   const {
     containerId,

@@ -7,6 +7,7 @@ import { getManifestoInstance } from '../../state/selectors/manifests';
 self.$RefreshReg$ = () => {};
 self.$RefreshSig$ = () => () => {};
 
+/** */
 const MiradorViewXml = ({ config, container, updateConfig }) => {
   const { dialogOpen, enabled } = config;
   if (!enabled) {

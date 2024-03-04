@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+/** */
 const ImageLink = ({
   height, linkTarget, t, width,
 }) => {

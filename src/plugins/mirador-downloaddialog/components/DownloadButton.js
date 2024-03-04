@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 
+/** */
 const DownloadButton = ({
   config, containerId, t, updateConfig,
 }) => {

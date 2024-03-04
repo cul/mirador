@@ -54,6 +54,7 @@ const MiradorViewXmlDialog = ({
     });
   }
 
+  /** */
   const closeDialog = () => updateConfig({
     ...config,
     dialogOpen: false,

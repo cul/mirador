@@ -22,7 +22,9 @@ const enhance = compose(
   connect(mapStateToProps, null),
 );
 
+/** */
 class VideoJSViewerBase extends VideoViewer {
+  /** */
   render() {
     const {
       captions, videoOptions, videoResources,

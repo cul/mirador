@@ -16,6 +16,7 @@ export default [
     component: WindowSideBarCitationButton,
     config: {},
     mapDispatchToProps: (dispatch, { windowId }) => ({
+      /** */
       updateConfig(openPanel) {
         return dispatch(updateWindow(windowId, { openPanel }));
       },
@@ -32,6 +33,7 @@ export default [
     component: WindowSideBarCitationPanel,
     config: {},
     mapDispatchToProps: (dispatch, { windowId }) => ({
+      /** */
       updateConfig(openPanel) {
         return dispatch(updateWindow(windowId, { openPanel }));
       },

@@ -14,6 +14,7 @@ const StyledDl = styled('dl')(({ theme }) => ({
   },
 }));
 
+/** */
 const hasContent = (arr) => arr && arr.length > 0;
 
 /**

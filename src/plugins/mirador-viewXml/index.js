@@ -16,6 +16,7 @@ export default [
     component: MiradorViewXmlPlugin,
     config: {},
     mapDispatchToProps: (dispatch, { windowId }) => ({
+      /** */
       updateConfig(viewXmlDialog) {
         return dispatch(updateWindow(windowId, { viewXmlDialog }));
       },
@@ -32,6 +33,7 @@ export default [
     component: MiradorViewXmlDialog,
     config: {},
     mapDispatchToProps: (dispatch, { windowId }) => ({
+      /** */
       updateConfig(viewXmlDialog) {
         return dispatch(updateWindow(windowId, { viewXmlDialog }));
       },

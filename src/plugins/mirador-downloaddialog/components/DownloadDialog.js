@@ -18,6 +18,7 @@ import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDia
 import DownloadDialogPluginArea from '../containers/dialog/DownloadDialogPluginArea';
 import CanvasDownloadLinks from './dialog/CanvasDownloadLinks';
 
+/** */
 const DownloadDialog = ({
   canvasLabel,
   children,
@@ -36,6 +37,7 @@ const DownloadDialog = ({
   if (!enabled || !dialogOpen) {
     return null;
   }
+  /** */
   const closeDialog = () => updateConfig({
     ...config,
     dialogOpen: false,

@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** */
 const ForbiddenComponent = (props) => {
   const { id } = props;
   return (

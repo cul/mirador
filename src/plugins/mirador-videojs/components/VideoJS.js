@@ -9,6 +9,7 @@ const StyledContainer = styled('div')(() => ({
   width: '100%',
 }));
 
+/** */
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);

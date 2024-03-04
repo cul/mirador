@@ -9,6 +9,7 @@ import React from 'react';
 
 import ImageLink from './ImageLink';
 
+/** */
 const CanvasDownloadLinks = ({
   canvas, label, sizes, t,
 }) => (

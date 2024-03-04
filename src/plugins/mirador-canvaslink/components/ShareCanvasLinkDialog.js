@@ -32,6 +32,7 @@ const useStyles = createTheme((theme) => ({
 
 const supportsClipboard = 'clipboard' in navigator;
 
+/** */
 const ShareCanvasLinkDialog = (props) => {
   const {
     config,
@@ -52,11 +53,13 @@ const ShareCanvasLinkDialog = (props) => {
   if (!enabled || !dialogOpen || visibleCanvases.length === 0) {
     return null;
   }
+  /** */
   const closeDialog = () => updateConfig({
     ...config,
     dialogOpen: false,
   });
   const canvasLink = getCanvasLink(manifestId, visibleCanvases);
+  /** */
   const getPreviewUrl = (width) => `${visibleCanvases[0]?.imageServiceIds[0]}/full/${width},/0/default.jpg`;
 
   return (
