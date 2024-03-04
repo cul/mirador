@@ -1,5 +1,5 @@
 exports.__esModule = true;
-exports.default = void 0;
+exports.default = undefined;
 const _default = {
   de: {
     canvasLink: {

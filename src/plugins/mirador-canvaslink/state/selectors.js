@@ -1,5 +1,5 @@
 exports.__esModule = true;
-exports.getPluginConfig = void 0;
+exports.getPluginConfig = undefined;
 const _reselect = require('reselect');
 const _selectors = require('../../../state/selectors');
 
@@ -19,7 +19,7 @@ const defaultConfig = {
 /** Selector to get the plugin config for a given window */
 const getPluginConfig = (0, _reselect.createSelector)([_selectors.getWindowConfig], (_ref) => {
   const _ref$canvasLink = _ref.canvasLink;
-  const canvasLink = _ref$canvasLink === void 0 ? {} : _ref$canvasLink;
+  const canvasLink = _ref$canvasLink === undefined ? {} : _ref$canvasLink;
   return _extends({}, defaultConfig, canvasLink);
 });
 exports.getPluginConfig = getPluginConfig;

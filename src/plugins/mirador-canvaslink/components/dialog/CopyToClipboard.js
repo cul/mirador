@@ -22,6 +22,7 @@ const CopyToClipboard = (props) => {
   );
 };
 
+/** */
 CopyToClipboard.propTypes = {
   onCopy: PropTypes.func.isRequired,
   supported: PropTypes.bool.isRequired,

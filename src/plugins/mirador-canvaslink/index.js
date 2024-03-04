@@ -1,5 +1,5 @@
 exports.__esModule = true;
-exports.default = void 0;
+exports.default = undefined;
 const _actions = require('../../state/actions');
 const _selectors = require('../../state/selectors');
 const _ShareCanvasLinkDialog = _interopRequireDefault(require('./components/ShareCanvasLinkDialog'));
