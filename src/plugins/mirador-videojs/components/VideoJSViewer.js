@@ -31,19 +31,19 @@ class VideoJSViewerBase extends VideoViewer {
     } = this.props;
 
     const videoJsOptions = {
-      playbackRates: [0.5, 1, 1.5, 2],
+      autoplay: false,
       controlBar: {
         remainingTimeDisplay: false,
       },
-      autoplay: false,
       controls: true,
-      responsive: true,
       fluid: true,
+      playbackRates: [0.5, 1, 1.5, 2],
+      responsive: true,
       sources: videoResources.filter(video => video.id && video.getFormat()).map(video => ({ src: video.id, type: video.getFormat() })),
       tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
     };
 
-    console.log({ videoJsOptions, state: this.state });
+    console.log({ state: this.state, videoJsOptions });
     if (videoJsOptions.sources.length == 0) return <ForbiddenComponent id="this content" />;
     return (
       <div className="video-js w-100" data-vjs-player>

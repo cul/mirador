@@ -22,8 +22,8 @@ export default [
       },
     }),
     mapStateToProps: (state, { windowId }) => ({
-      containerId: getContainerId(state),
       config: getPluginConfig(state, { windowId }),
+      containerId: getContainerId(state),
     }),
     mode: 'add',
     name: 'WindowSideBarCitationButton',
@@ -38,13 +38,13 @@ export default [
         return dispatch(updateWindow(windowId, { openPanel }));
       },
     }),
+    companionWindowKey: WindowSideBarCitationButton.value,
     mapStateToProps: (state, { windowId }) => ({
+      config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
       manifestId: getManifestUrl(state, { windowId }),
-      config: getPluginConfig(state, { windowId }),
     }),
     // see mirador/dist/es/src/extend/pluginMapping.js
-    companionWindowKey: WindowSideBarCitationButton.value,
     name: 'WindowSideBarCitationPanel',
   },
 ];

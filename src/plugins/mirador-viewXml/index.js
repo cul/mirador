@@ -22,8 +22,8 @@ export default [
       },
     }),
     mapStateToProps: (state, { windowId }) => ({
-      containerId: getContainerId(state),
       config: getPluginConfig(state, { windowId }),
+      containerId: getContainerId(state),
     }),
     mode: 'add',
     name: 'MiradorViewXmlPlugin',
@@ -39,10 +39,10 @@ export default [
       },
     }),
     mapStateToProps: (state, { windowId }) => ({
+      config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
       manifestId: getManifestUrl(state, { windowId }),
       seeAlso: getManifestSeeAlso(state, { windowId }),
-      config: getPluginConfig(state, { windowId }),
     }),
     mode: 'add',
     name: 'MiradorViewXmlDialog',

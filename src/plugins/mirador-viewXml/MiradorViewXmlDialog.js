@@ -102,9 +102,9 @@ MiradorViewXmlDialog.propTypes = {
     PropTypes.shape({
       format: PropTypes.string,
       label: PropTypes.string,
-      value: PropTypes.string,
-      schema: PropTypes.string,
       profile: PropTypes.string,
+      schema: PropTypes.string,
+      value: PropTypes.string,
     }),
   ),
   updateConfig: PropTypes.func.isRequired,

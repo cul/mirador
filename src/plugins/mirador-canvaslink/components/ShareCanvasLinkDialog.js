@@ -18,12 +18,12 @@ import RightsInformation from './dialog/RightsInformation';
 import ShareButton from './dialog/ShareButton';
 
 const useStyles = createTheme((theme) => ({
-  actions: {
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
   actionButtons: {
     flexWrap: 'wrap',
+  },
+  actions: {
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   alert: {
     marginBottom: theme.spacing(1),
@@ -133,21 +133,19 @@ const ShareCanvasLinkDialog = (props) => {
 };
 
 ShareCanvasLinkDialog.defaultProps = {
+  containerId: (0, _selectors.getContainerId)(state),
   label: '',
   rights: [],
   visibleCanvases: [],
-  config: {
-    providers: ['envelope', 'facebook', 'pinterest', 'twitter', 'whatsapp'],
-  },
 };
 
 ShareCanvasLinkDialog.propTypes = {
   config: PropTypes.shape({
     dialogOpen: PropTypes.bool.isRequired,
     enabled: PropTypes.bool.isRequired,
-    showRightsInformation: PropTypes.bool.isRequired,
     getCanvasLink: PropTypes.func.isRequired,
     providers: PropTypes.arrayOf(PropTypes.string),
+    showRightsInformation: PropTypes.bool.isRequired,
   }).isRequired,
   containerId: PropTypes.string.isRequired,
   label: PropTypes.string,

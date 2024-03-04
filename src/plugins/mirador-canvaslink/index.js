@@ -30,10 +30,10 @@ const _default = [{
   mapStateToProps: function mapStateToProps(state, _ref2) {
     const { windowId } = _ref2;
     return {
-      containerId: (0, _selectors.getContainerId)(state),
       config: (0, _selectors2.getPluginConfig)(state, {
         windowId,
       }),
+      containerId: (0, _selectors.getContainerId)(state),
       windowViewType: (0, _selectors.getWindowViewType)(state, {
         windowId,
       }),
@@ -62,17 +62,17 @@ const _default = [{
   mapStateToProps: function mapStateToProps(state, _ref4) {
     const { windowId } = _ref4;
     return {
+      config: (0, _selectors2.getPluginConfig)(state, {
+        windowId,
+      }),
       containerId: (0, _selectors.getContainerId)(state),
       manifestId: (0, _selectors.getWindowManifests)(state, {
         windowId,
       })[0],
-      visibleCanvases: (0, _selectors.getVisibleCanvases)(state, {
-        windowId,
-      }),
-      config: (0, _selectors2.getPluginConfig)(state, {
-        windowId,
-      }),
       rights: (0, _selectors.getRights)(state, {
+        windowId,
+      }),
+      visibleCanvases: (0, _selectors.getVisibleCanvases)(state, {
         windowId,
       }),
     };

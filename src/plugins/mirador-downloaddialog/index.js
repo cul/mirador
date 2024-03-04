@@ -25,8 +25,8 @@ export default [
       updateConfig: (downloadDialog) => dispatch(updateWindow(windowId, { downloadDialog })),
     }),
     mapStateToProps: (state, { windowId }) => ({
-      containerId: getContainerId(state),
       config: getPluginConfig(state, { windowId }),
+      containerId: getContainerId(state),
     }),
     mode: 'add',
     name: 'DownloadButton',
