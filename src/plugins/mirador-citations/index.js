@@ -30,6 +30,7 @@ export default [
     target: 'WindowSideBarButtons',
   },
   {
+    companionWindowKey: WindowSideBarCitationButton.value,
     component: WindowSideBarCitationPanel,
     config: {},
     mapDispatchToProps: (dispatch, { windowId }) => ({
@@ -38,7 +39,6 @@ export default [
         return dispatch(updateWindow(windowId, { openPanel }));
       },
     }),
-    companionWindowKey: WindowSideBarCitationButton.value,
     mapStateToProps: (state, { windowId }) => ({
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),

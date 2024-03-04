@@ -38,7 +38,7 @@ const MiradorViewXmlDialog = ({
 
   const xmlLink = (function (relateds) {
     if (!relateds) return null;
-    return relateds.find(ref => ref.schema == 'http://www.loc.gov/mods/v3')?.id;
+    return relateds.find(ref => ref.schema === 'http://www.loc.gov/mods/v3')?.id;
   }(seeAlso));
 
   if (!xmlLink) return null;

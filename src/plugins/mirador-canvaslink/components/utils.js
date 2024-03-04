@@ -1,3 +1,4 @@
+/** */
 export const getShareLink = (attribution, canvasLink, label, provider, thumbnailUrl) => {
   let text = label;
   if (attribution) {

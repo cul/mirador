@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next';
 import { VideoViewer } from '../../../components/VideoViewer';
 import { getConfig, getVisibleCanvasCaptions, getVisibleCanvasVideoResources } from '../../../state/selectors';
 
-import VideoJS from './VideoJS';
+import { VideoJS } from './VideoJS';
 import ForbiddenComponent from '../../ForbiddenComponent';
 
 /** */
@@ -44,7 +44,7 @@ class VideoJSViewerBase extends VideoViewer {
     };
 
     console.log({ state: this.state, videoJsOptions });
-    if (videoJsOptions.sources.length == 0) return <ForbiddenComponent id="this content" />;
+    if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
     return (
       <div className="video-js w-100" data-vjs-player>
         <VideoJS options={videoJsOptions} />
