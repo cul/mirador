@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getCurrentCanvas, getManifestLocale } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
+import { getCurrentCanvas, getManifestLocale } from '../../../state/selectors';
 
 /** */
 function getProperty(property) {

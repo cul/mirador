@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import CodeIcon from '@mui/icons-material/Code';
-import MiradorMenuButton from '@columbia-libraries/mirador/dist/es/src/containers/MiradorMenuButton';
-import { getManifestoInstance } from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
+import MiradorMenuButton from '../../containers/MiradorMenuButton';
+import { getManifestoInstance } from '../../state/selectors/manifests';
 
 self.$RefreshReg$ = () => {};
 self.$RefreshSig$ = () => () => {};

@@ -3,7 +3,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import PinterestIcon from '@mui/icons-material/Pinterest';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import { MiradorMenuButton } from '../../../../components/MiradorMenuButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 

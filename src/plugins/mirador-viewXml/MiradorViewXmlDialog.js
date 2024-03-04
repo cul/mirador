@@ -12,10 +12,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import XMLViewer from 'react-xml-viewer';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
-import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
-import ScrollIndicatedDialogContent from '@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent';
-import { getManifestoInstance } from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
-import { getContainerId } from '@columbia-libraries/mirador/dist/es/src/state/selectors/config';
+import ns from '../../config/css-ns';
+import ScrollIndicatedDialogContent from '../../containers/ScrollIndicatedDialogContent';
+import { getManifestoInstance } from '../../state/selectors/manifests';
+import { getContainerId } from '../../state/selectors/config';
 
 self.$RefreshReg$ = () => {};
 self.$RefreshSig$ = () => () => {};

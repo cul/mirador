@@ -10,8 +10,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
-import ScrollIndicatedDialogContent from '@columbia-libraries/mirador/dist/es/src/containers/ScrollIndicatedDialogContent';
+import ns from '../../../config/css-ns';
+import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 import PropTypes from 'prop-types';
 import React from 'react';
 

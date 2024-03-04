@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { withPlugins } from '@columbia-libraries/mirador/dist/es/src/extend/withPlugins';
+import { withPlugins } from '../../../extend/withPlugins';
 import {
   getCanvasRelated,
   getCanvasRenderings,

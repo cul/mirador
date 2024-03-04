@@ -2,10 +2,10 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Badge from '@mui/material/Badge';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import LocalePicker from '@columbia-libraries/mirador/dist/es/src/containers/LocalePicker';
-import ManifestInfo from '@columbia-libraries/mirador/dist/es/src/containers/ManifestInfo';
-import CollectionInfo from '@columbia-libraries/mirador/dist/es/src/containers/CollectionInfo';
-import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
+import LocalePicker from '../../containers/LocalePicker';
+import ManifestInfo from '../../containers/ManifestInfo';
+import CollectionInfo from '../../containers/CollectionInfo';
+import ns from '../../config/css-ns';
 
 /**
  * WindowSideBarCitationButton

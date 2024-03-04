@@ -1,6 +1,6 @@
 import InputAdornment from '@mui/material/InputAdornment';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import { MiradorMenuButton } from '../../../../components/MiradorMenuButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 

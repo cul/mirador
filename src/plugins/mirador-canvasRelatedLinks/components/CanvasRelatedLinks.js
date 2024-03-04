@@ -4,8 +4,8 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import classNames from 'classnames';
-import CollapsibleSection from '@columbia-libraries/mirador/dist/es/src/containers/CollapsibleSection';
-import ns from '@columbia-libraries/mirador/dist/es/src/config/css-ns';
+import CollapsibleSection from '../../../containers/CollapsibleSection';
+import ns from '../../../config/css-ns';
 
 const StyledDl = styled('dl')(({ theme }) => ({
   '& dd': {

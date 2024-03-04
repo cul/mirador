@@ -1,4 +1,4 @@
-import { withPlugins } from '@columbia-libraries/mirador/dist/es/src/extend/withPlugins';
+import { withPlugins } from '../../../../extend/withPlugins';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';

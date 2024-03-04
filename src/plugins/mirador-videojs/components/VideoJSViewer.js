@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
-import { VideoViewer } from '@columbia-libraries/mirador/dist/es/src/components/VideoViewer';
-import { getConfig, getVisibleCanvasCaptions, getVisibleCanvasVideoResources } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
+import { VideoViewer } from '../../../components/VideoViewer';
+import { getConfig, getVisibleCanvasCaptions, getVisibleCanvasVideoResources } from '../../../state/selectors';
 
 import VideoJS from './VideoJS';
 import ForbiddenComponent from '../../ForbiddenComponent';

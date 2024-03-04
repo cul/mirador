@@ -1,14 +1,14 @@
-import { updateWindow } from '@columbia-libraries/mirador/dist/es/src/state/actions';
-import { getContainerId } from '@columbia-libraries/mirador/dist/es/src/state/selectors';
+import { updateWindow } from '../../state/actions';
+import { getContainerId } from '../../state/selectors';
 import {
   getCanvasLabel,
   getVisibleCanvases,
   selectInfoResponse,
-} from '@columbia-libraries/mirador/dist/es/src/state/selectors/canvases';
+} from '../../state/selectors/canvases';
 import {
   getManifestRelatedContent,
   getManifestUrl,
-} from '@columbia-libraries/mirador/dist/es/src/state/selectors/manifests';
+} from '../../state/selectors/manifests';
 
 import DownloadButton from './components/DownloadButton';
 import DownloadDialog from './components/DownloadDialog';
