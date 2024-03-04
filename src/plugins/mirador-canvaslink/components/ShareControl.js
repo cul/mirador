@@ -1,5 +1,5 @@
 import ShareIcon from '@mui/icons-material/Share';
-import { MiradorMenuButton } from '@columbia-libraries/mirador/dist/es/src/components/MiradorMenuButton';
+import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 import PropTypes from 'prop-types';
 import React from 'react';
 

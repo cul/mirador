@@ -1,7 +1,7 @@
-import { withPlugins } from '../../../../extend/withPlugins';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { withPlugins } from '../../../../extend/withPlugins';
 
 import DownloadDialogPluginArea from '../../components/dialog/DownloadDialogPluginArea';
 

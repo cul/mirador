@@ -8,10 +8,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import ns from '../../../config/css-ns';
-import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import ns from '../../../config/css-ns';
+import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 
 import CopyToClipboard from './dialog/CopyToClipboard';
 import RightsInformation from './dialog/RightsInformation';

@@ -1,5 +1,5 @@
-import { getWindowConfig } from '../../../state/selectors';
 import { createSelector } from 'reselect';
+import { getWindowConfig } from '../../../state/selectors';
 
 const defaultConfig = {
   // Open the panel

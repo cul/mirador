@@ -1,7 +1,7 @@
 exports.__esModule = true;
 exports.default = void 0;
-const _actions = require('@columbia-libraries/mirador/dist/es/src/state/actions');
-const _selectors = require('@columbia-libraries/mirador/dist/es/src/state/selectors');
+const _actions = require('../../state/actions');
+const _selectors = require('../../state/selectors');
 const _ShareCanvasLinkDialog = _interopRequireDefault(require('./components/ShareCanvasLinkDialog'));
 const _ShareControl = _interopRequireDefault(require('./components/ShareControl'));
 const _locales = _interopRequireDefault(require('./locales'));
