@@ -12,7 +12,14 @@ export class WindowSideBarCitationButton extends React.Component {
    * @return
    */
   render() {
-    const { classes } = this.props;
+    const {
+      windowId,
+      id,
+      classes,
+      t,
+      locale,
+      value,
+    } = this.props;
 
     return (
       <Badge overlap="rectangular" classes={{ badge: classes.badge }} variant="dot">

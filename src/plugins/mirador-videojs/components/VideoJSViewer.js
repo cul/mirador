@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
@@ -39,7 +38,9 @@ class VideoJSViewerBase extends VideoViewer {
       fluid: true,
       playbackRates: [0.5, 1, 1.5, 2],
       responsive: true,
-      sources: videoResources.filter(video => video.id && video.getFormat()).map(video => ({ src: video.id, type: video.getFormat() })),
+      sources: videoResources.filter(video => video.id && video.getFormat()).map(
+        video => ({ src: video.id, type: video.getFormat() }),
+      ),
       tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
     };
 

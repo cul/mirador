@@ -14,7 +14,7 @@ const ShareControl = (props) => {
   const { dialogOpen, enabled, singleCanvasOnly } = config;
   if (!enabled
   // Only show in single canvas view if configured
-  || singleCanvasOnly && windowViewType !== 'single'
+  || (singleCanvasOnly && windowViewType !== 'single')
   // Never show in gallery view
   || windowViewType === 'gallery') {
     return null;

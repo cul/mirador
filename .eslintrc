@@ -15,6 +15,7 @@
     "import/prefer-default-export": "off",
     "no-console": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": "off",
     "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": true,

@@ -133,7 +133,6 @@ const ShareCanvasLinkDialog = (props) => {
 };
 
 ShareCanvasLinkDialog.defaultProps = {
-  containerId: (0, _selectors.getContainerId)(state),
   label: '',
   rights: [],
   visibleCanvases: [],

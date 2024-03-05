@@ -4,7 +4,22 @@ const _reselect = require('reselect');
 const _selectors = require('../../../state/selectors');
 
 /** */
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (let i = 1; i < arguments.length; i += 1) { const source = arguments[i]; for (const key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends(...outsideArgs) {
+  _extends = Object.assign ? Object.assign.bind() : function _ext(...args) {
+    const target = args[0];
+    for (let i = 1; i < args.length; i += 1) {
+      const source = args[i];
+      for (const key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, outsideArgs);
+}
+
 const defaultConfig = {
   // Open the settings dialog
   dialogOpen: false,

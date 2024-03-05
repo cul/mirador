@@ -24,10 +24,11 @@ export const VideoJS = (props) => {
       videoElement.classList.add('vjs-big-play-centered');
       videoRef.current.appendChild(videoElement);
 
-      const player = playerRef.current = videojs(videoElement, options, () => {
+      const player = videojs(videoElement, options, () => {
         videojs.log('player is ready');
         onReady && onReady(player);
       });
+      playerRef.current = player;
 
     // You could update an existing player in the `else` block here
     // on prop change, for example:
@@ -37,7 +38,7 @@ export const VideoJS = (props) => {
       player.autoplay(options.autoplay);
       player.src(options.sources);
     }
-  }, [options, videoRef]);
+  }, [options, videoRef, onReady]);
 
   // Dispose the Video.js player when the functional component unmounts
   React.useEffect(() => {
