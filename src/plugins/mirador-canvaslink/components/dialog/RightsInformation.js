@@ -2,7 +2,6 @@ import Link from '@mui/material/Link';
 import { makeStyles } from '@mui/styles';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {

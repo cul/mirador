@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 /** */
 const ImageLink = ({

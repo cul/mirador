@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import classNames from 'classnames';
-import CollapsibleSection from '../../../containers/CollapsibleSection';
 import ns from '../../../config/css-ns';
 
 const StyledDl = styled('dl')(({ theme }) => ({

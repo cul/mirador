@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -6,16 +5,11 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import Divider from '@mui/material/Divider';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import XMLViewer from 'react-xml-viewer';
 import { fetch as fetchPolyfill } from 'whatwg-fetch';
 import ns from '../../config/css-ns';
 import ScrollIndicatedDialogContent from '../../containers/ScrollIndicatedDialogContent';
-import { getManifestoInstance } from '../../state/selectors/manifests';
-import { getContainerId } from '../../state/selectors/config';
 
 self.$RefreshReg$ = () => {};
 self.$RefreshSig$ = () => () => {};

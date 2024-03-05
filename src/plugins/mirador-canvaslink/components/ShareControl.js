@@ -1,7 +1,6 @@
 import ShareIcon from '@mui/icons-material/Share';
-import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 
 /** */
 const ShareControl = (props) => {

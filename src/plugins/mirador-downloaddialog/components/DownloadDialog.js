@@ -11,7 +11,6 @@ import ListItem from '@mui/material/ListItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import React from 'react';
 import ns from '../../../config/css-ns';
 import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 

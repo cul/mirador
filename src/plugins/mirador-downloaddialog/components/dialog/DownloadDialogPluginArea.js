@@ -1,4 +1,3 @@
-import React from 'react';
 import { PluginHook } from '../../../../components/PluginHook';
 
 /** */

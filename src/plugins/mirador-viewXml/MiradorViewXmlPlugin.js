@@ -1,8 +1,6 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
 import CodeIcon from '@mui/icons-material/Code';
 import MiradorMenuButton from '../../containers/MiradorMenuButton';
-import { getManifestoInstance } from '../../state/selectors/manifests';
 
 self.$RefreshReg$ = () => {};
 self.$RefreshSig$ = () => () => {};
@@ -35,7 +33,7 @@ MiradorViewXml.propTypes = {
     dialogOpen: PropTypes.bool.isRequired,
     enabled: PropTypes.bool.isRequired,
   }).isRequired,
-  containerId: PropTypes.string.isRequired,
+  container: PropTypes.string.isRequired,
   updateConfig: PropTypes.func.isRequired,
 };
 

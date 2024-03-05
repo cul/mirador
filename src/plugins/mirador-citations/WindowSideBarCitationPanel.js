@@ -1,11 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import CompanionWindow from '../../containers/CompanionWindow';
-import CanvasInfo from '../../containers/CanvasInfo';
 import LocalePicker from '../../containers/LocalePicker';
-import ManifestInfo from '../../containers/ManifestInfo';
-import CollectionInfo from '../../containers/CollectionInfo';
-import ManifestRelatedLinks from '../../containers/ManifestRelatedLinks';
 import ns from '../../config/css-ns';
 
 /**

@@ -1,9 +1,9 @@
 import InputAdornment from '@mui/material/InputAdornment';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { MiradorMenuButton } from '../../../../components/MiradorMenuButton';
 
+/** */
 const CopyToClipboard = (props) => {
   const { onCopy, supported, t } = props;
   if (!supported) {

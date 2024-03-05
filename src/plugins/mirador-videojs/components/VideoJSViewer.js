@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
@@ -58,4 +57,9 @@ export const VideoJSViewer = enhance(VideoJSViewerBase);
 /** */
 export default function ({ _targetComponent, targetProps }) {
   return <VideoJSViewer {...targetProps} />;
+}
+
+VideoJSViewer.propTypes = {
+  targetProps: PropTypes.object.isRequired,
+  _targetComponent: PropTypes.func, 
 }

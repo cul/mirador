@@ -2,10 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Badge from '@mui/material/Badge';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import LocalePicker from '../../containers/LocalePicker';
-import ManifestInfo from '../../containers/ManifestInfo';
-import CollectionInfo from '../../containers/CollectionInfo';
-import ns from '../../config/css-ns';
 
 /**
  * WindowSideBarCitationButton

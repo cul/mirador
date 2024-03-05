@@ -1,4 +1,4 @@
-import VideoJSViewerComponent, { VideoJSViewer } from './components/VideoJSViewer';
+import VideoJSViewerComponent from './components/VideoJSViewer';
 
 export default [
   {
