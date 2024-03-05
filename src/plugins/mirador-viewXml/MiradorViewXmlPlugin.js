@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import CodeIcon from '@mui/icons-material/Code';
 import MiradorMenuButton from '../../containers/MiradorMenuButton';
 
-self.$RefreshReg$ = () => {};
-self.$RefreshSig$ = () => () => {};
+self.$RefreshReg$ = () => {}; /* eslint-disable-line no-restricted-globals */
+self.$RefreshSig$ = () => () => {}; /* eslint-disable-line no-restricted-globals */
 
 /** */
 const MiradorViewXml = ({ config, container, updateConfig }) => {

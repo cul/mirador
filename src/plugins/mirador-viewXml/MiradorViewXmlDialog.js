@@ -11,8 +11,8 @@ import { fetch as fetchPolyfill } from 'whatwg-fetch';
 import ns from '../../config/css-ns';
 import ScrollIndicatedDialogContent from '../../containers/ScrollIndicatedDialogContent';
 
-self.$RefreshReg$ = () => {};
-self.$RefreshSig$ = () => () => {};
+self.$RefreshReg$ = () => {}; /* eslint-disable-line no-restricted-globals */
+self.$RefreshSig$ = () => () => {}; /* eslint-disable-line no-restricted-globals */
 
 /**
  * MiradorViewXmlDialog ~
@@ -30,7 +30,7 @@ const MiradorViewXmlDialog = ({
     return null;
   }
 
-  const xmlLink = (function (relateds) {
+  const xmlLink = (function link(relateds) {
     if (!relateds) return null;
     return relateds.find(ref => ref.schema === 'http://www.loc.gov/mods/v3')?.id;
   }(seeAlso));

@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import asArray from '../../../lib/asArray';
 import { getCurrentCanvas, getManifestLocale } from '../../../state/selectors';
 
 /** */
