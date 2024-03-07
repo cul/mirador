@@ -1,5 +1,4 @@
 import MiradorViewer from './lib/MiradorViewer';
-
 /**
  * Default Mirador instantiation
  */

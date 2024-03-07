@@ -30,6 +30,7 @@ class VideoJSViewerBase extends VideoViewer {
     } = this.props;
 
     const videoJsOptions = {
+      ...videoOptions,
       autoplay: false,
       controlBar: {
         remainingTimeDisplay: false,
@@ -47,7 +48,7 @@ class VideoJSViewerBase extends VideoViewer {
     console.log({ state: this.state, videoJsOptions });
     if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
     return (
-      <div className="video-js w-100" data-vjs-player>
+      <div className="video-js vjs-fill" data-vjs-player>
         <VideoJS options={videoJsOptions} />
       </div>
     );

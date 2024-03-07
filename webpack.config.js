@@ -21,6 +21,20 @@ const baseConfig = mode => ({
         },
         test: /\.(js|mjs|jsx)$/,
       },
+      {
+        include: path.resolve(fs.realpathSync(process.cwd()), '.'), // CRL
+        test: /\.(css|scss|sass)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: (mode !== 'production'),
+            },
+          },
+        ],
+      },
     ],
   },
   optimization: {
