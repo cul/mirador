@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <title>Mirador</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+  </head>
+  <body>
+    <div id="mirador" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;" data-manifest="https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-bjct-g075/manifest"></div>
+    <script>document.write("<script type='text/javascript' src='../../../dist/mirador.min.js?v=" + Date.now() + "'><\/script>");</script>
+    <script type="text/javascript">
+     const manifestUrl = document.getElementById('mirador').dataset['manifest'];
+     const startCanvas = function(queryParams) {
+       if (queryParams.get("canvas")) {
+        const canvases = queryParams.get("canvas").split(',');
+        const canvas = canvases[0];
+        return canvas.startsWith('../') ? manifestUrl.replace('/manifest', canvas.slice(2)) : canvas;
+       } else return null;
+     }(new URL(document.location).searchParams);
+     var miradorInstance = Mirador.viewer({
+       id: 'mirador',
+       theme: {
+         transitions: window.location.port === '4488' ?  { create: () => 'none' } : {},
+       },
+       window: {
+         allowClose: false,
+         allowFullscreen: true,
+         panels: {
+           info: true,
+           canvas: true
+         },
+         canvasLink: {
+           active: true,
+           enabled: true,
+           singleCanvasOnly: false,
+           providers: [],
+           getCanvasLink: (manifestId, canvases) => {
+             const baseUri = window.location.href.replace(window.location.search, '');
+             const canvasIndices = canvases.map(
+               (canvas) => canvas.id.startsWith(manifestId.replace('/manifest', '')) ? '../canvas/' + canvas.id.split("/").slice(-2).join('/') : canvas.id,
+             );
+             return `${baseUri}?canvas=${canvasIndices.join(",",)}`;
+           }
+         },
+       },
+       workspace: {
+         showZoomControls: true,
+       },
+       workspaceControlPanel: {
+         enabled: false
+       },
+       windows: [{
+         manifestId: manifestUrl,
+         canvasId: startCanvas,
+         thumbnailNavigationPosition: 'far-bottom',
+       }],
+     },
+     [...Mirador.culPlugins.canvasLinkPlugin]);
+    </script>
+  </body>
+</html>
