@@ -85,7 +85,14 @@ module.exports = (env, options) => {
     ...config,
     devServer: {
       hot: true,
-      port: 4444,
+      host: 'dev.local',
+      server: {
+        type: 'https',
+        options: {
+          key: fs.readFileSync("./local/dev.local.key"),
+          cert: fs.readFileSync("./local/dev.local.crt")
+        }
+      },
       static: [
         './__tests__/integration/mirador',
         './__tests__/fixtures',
