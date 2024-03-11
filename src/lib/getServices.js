@@ -1,4 +1,5 @@
 import { Utils } from 'manifesto.js';
+import flatten from 'lodash/flatten';
 import { filterByTypes } from './typeFilters';
 
 /**
@@ -7,8 +8,7 @@ export function anyAuthServices(resource) {
   return resource
   && Utils.getServices(resource).filter(s => (s.getProfile()
     && s.getProfile().match(/http:\/\/iiif.io\/api\/auth\//))
-      || (s.getProperty('type')
-        && s.getProperty('type').match(/^Auth.*2$/)));
+      || (s.getProperty('type')?.match(/^Auth.*Service2$/)));
 }
 
 /**
@@ -28,13 +28,34 @@ export function getProbeService(resource) {
 
 /**
  */
-export function getTokenService(resource) {
+function auth1TokenService(resource) {
   return resource
   && (
     Utils.getService(resource, 'http://iiif.io/api/auth/1/token')
     || Utils.getService(resource, 'http://iiif.io/api/auth/0/token')
     || filterByTypes(Utils.getServices(resource), 'AuthAccessTokenService2')[0]
   );
+}
+
+/**
+ */
+export function anyTokenServices(resource) {
+  const v1TokenService = auth1TokenService(resource);
+  if (v1TokenService) return [v1TokenService];
+  const services = resource && filterByTypes(Utils.getServices(resource), 'AuthAccessTokenService2');
+  if (services && services[0]) return services;
+  if (resource) {
+    // probe services are separated from token services by access services
+    const authServices = anyAuthServices(resource);
+    if (authServices[0]) return flatten(authServices.map(authSvc => anyTokenServices(authSvc)));
+  }
+  return [];
+}
+
+/**
+ */
+export function getTokenService(resource) {
+  return anyTokenServices(resource)[0];
 }
 
 /**
