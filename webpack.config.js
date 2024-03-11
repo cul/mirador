@@ -21,6 +21,20 @@ const baseConfig = mode => ({
         },
         test: /\.(js|mjs|jsx)$/,
       },
+      {
+        include: path.resolve(fs.realpathSync(process.cwd()), '.'), // CRL
+        test: /\.(css|scss|sass)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: require.resolve('sass-loader'),
+            options: {
+              sourceMap: (mode !== 'production'),
+            },
+          },
+        ],
+      },
     ],
   },
   optimization: {
@@ -71,7 +85,14 @@ module.exports = (env, options) => {
     ...config,
     devServer: {
       hot: true,
-      port: 4444,
+      host: 'dev.local',
+      server: {
+        type: 'https',
+        options: {
+          key: fs.readFileSync("/Users/benjamin/local-ssl/dev.local.key"),
+          cert: fs.readFileSync("/Users/benjamin/local-ssl/dev.local.crt")
+        }
+      },
       static: [
         './__tests__/integration/mirador',
         './__tests__/fixtures',

@@ -5,7 +5,7 @@ import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
 import ActionTypes from '../actions/action-types';
 import MiradorCanvas from '../../lib/MiradorCanvas';
-import { getTokenService, getProbeService } from '../../lib/getServices';
+import { anyTokenServices, getTokenService, getProbeService } from '../../lib/getServices';
 import {
   addAuthenticationRequest,
   resolveAuthenticationRequest,
@@ -92,19 +92,22 @@ export function* refetchProbeResponses({ serviceId }) {
     Object.keys(windows).map(windowId => select(getVisibleCanvases, { windowId })),
   );
 
-  const visibleProbeServiceIds = flatten(flatten(canvases).map((canvas) => {
+  const visibleProbeServices = flatten(flatten(canvases).map((canvas) => {
     const miradorCanvas = new MiradorCanvas(canvas);
     return miradorCanvas.imageResources.filter((r) => getProbeService(r)).map((r) => getProbeService(r));
   }));
+  const probeTokenServices = {};
+  visibleProbeServices.reduce((acc, probeService) => {
+    acc[probeService.id] = anyTokenServices(probeService);
+    return acc;
+  }, probeTokenServices)
 
   const probeResponses = yield select(selectProbeResponses);
+
   /** */
   const haveThisTokenService = probeResponse => {
-    const services = Utils.getServices(probeResponse);
-    return services.some(e => {
-      const probeTokenService = getTokenService(e);
-      return probeTokenService && probeTokenService.id === serviceId;
-    });
+    const tokenServices = probeTokenServices[probeResponse.id];
+    return tokenServices && tokenServices.find(s => s.id === serviceId);
   };
 
   const obsoleteProbeResponses = Object.values(probeResponses).filter(
@@ -112,8 +115,9 @@ export function* refetchProbeResponses({ serviceId }) {
   );
 
   yield all(obsoleteProbeResponses.map(({ id: probeId }) => {
-    if (visibleProbeServiceIds.includes(probeId)) {
-      return call(fetchProbeResponse, { probeId });
+    const refetchableProbeService = visibleProbeServices.find(s=> s.id === probeId);
+    if (refetchableProbeService) {
+      return call(fetchProbeResponse, { probeId, resource: refetchableProbeService });
     }
     return put({ probeId, type: ActionTypes.REMOVE_PROBE_RESPONSE });
   }));

@@ -15,7 +15,6 @@ const DownloadButton = ({
       aria-expanded={dialogOpen}
       aria-haspopup
       aria-label={t('showDownloadOptions')}
-      containerId={containerId}
       onClick={() => updateConfig({
         ...config,
         dialogOpen: !dialogOpen,
