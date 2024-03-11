@@ -89,8 +89,8 @@ module.exports = (env, options) => {
       server: {
         type: 'https',
         options: {
-          key: fs.readFileSync("./local/dev.local.key"),
-          cert: fs.readFileSync("./local/dev.local.crt")
+          key: fs.readFileSync("/Users/benjamin/local-ssl/dev.local.key"),
+          cert: fs.readFileSync("/Users/benjamin/local-ssl/dev.local.crt")
         }
       },
       static: [
