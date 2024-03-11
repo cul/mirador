@@ -17,27 +17,23 @@
          transitions: window.location.port === '4488' ?  { create: () => 'none' } : {},
        },
        windows: [{
-         manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-346v-m088/manifest',
-         thumbnailNavigationPosition: 'far-bottom'
-       },
-       {
-         manifestId: 'https://iiifauth.digtest.co.uk/manifest/01_standard-login',
+         manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/d8-346v-m088/manifest',
          thumbnailNavigationPosition: 'far-bottom'
        }],
        catalog: [
         // a resource with an image canvas 
-         { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/D8F76D6D/manifest',
+         { manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/D8F76D6D/manifest',
            provider: 'Basic image examples' },
         // a resource with multiple paginated image canvases
-         { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-bjct-g075/manifest', provider: 'Paginated images examples' },
+         { manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/d8-bjct-g075/manifest', provider: 'Paginated images examples' },
         // a resource with a PDF canvas
-         { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/n8qs-6964/manifest', provider: 'Public PDF examples'},
+         { manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/manifest', provider: 'Public PDF examples'},
         // a resource with a limited-access PDF canvas
-         { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/D88D13C6/manifest', provider: 'Columbia community PDF examples'},
+         { manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/D88D13C6/manifest', provider: 'Columbia community PDF examples'},
         // a resource with an AV canvas
-         { manifestId: "https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/D8698MF9/manifest", provider: 'Public AV canvas examples'},
+         { manifestId: "https://www.dev.local:3000/iiif/3/presentation/10.7916/D8698MF9/manifest", provider: 'Public AV canvas examples'},
         // a resource with a limited-access AV canvas
-         { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-346v-m088/manifest', provider: 'Columbia community AV canvas examples'},
+         { manifestId: 'https://www.dev.local:3000/iiif/3/presentation/10.7916/d8-346v-m088/manifest', provider: 'Columbia community AV canvas examples'},
          { manifestId: 'https://iiif.harvardartmuseums.org/manifests/object/299843', provider: 'Other Organization' },
        ]
      },
