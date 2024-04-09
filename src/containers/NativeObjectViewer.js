@@ -3,16 +3,20 @@ import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
 import { withPlugins } from '../extend/withPlugins';
 import { NativeObjectViewer } from '../components/NativeObjectViewer';
-import { getConfig, getVisibleCanvasTextResources } from '../state/selectors';
+import * as actions from '../state/actions';
+import { getConfig, getCurrentCanvas, getFullScreenEnabled, getVisibleCanvasTextResources, getWindow } from '../state/selectors';
 
 /** */
-const mapStateToProps = (state, { windowId }) => (
-  {
+const mapStateToProps = (state, { windowId }) => {
+  const currentCanvas = getCurrentCanvas(state, { windowId });
+  const dimensions = (document.body.querySelector(`#${windowId} .mirador-primary-window`)?.getBoundingClientRect() || {});
+  return {
+    dimensions,
     nativeObjectOptions: getConfig(state).nativeObjectOptions,
     nativeObjectResources: getVisibleCanvasTextResources(state, { windowId }) || [],
     windowId,
   }
-);
+};
 
 const enhance = compose(
   withTranslation(),
