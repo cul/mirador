@@ -5,7 +5,6 @@ import { filterByTypes } from './typeFilters';
 /**
  */
 export function anyAuthServices(resource) {
-  console.log({ resource, services: Utils.getServices(resource) });
   return resource
   && Utils.getServices(resource).filter(s => (s.getProfile()
     && s.getProfile().match(/http:\/\/iiif.io\/api\/auth\//))

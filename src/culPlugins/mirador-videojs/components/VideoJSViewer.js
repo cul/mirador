@@ -45,7 +45,6 @@ class VideoJSViewerBase extends VideoViewer {
       tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
     };
 
-    console.log({ state: this.state, videoJsOptions });
     if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
     return (
       <div className="video-js vjs-fill" data-vjs-player>
