@@ -1,9 +1,7 @@
-import { Fragment, useContext, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { FullScreen } from 'react-full-screen';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import { getCurrentCanvasWorld } from '../state/selectors';
-import FullScreenContext from '../contexts/FullScreenContext';
 
 const StyledContainer = styled('div')({
   alignItems: 'center',
@@ -20,24 +18,48 @@ export function NativeObjectViewer(props) {
   /* eslint-disable jsx-a11y/media-has-caption */
   /** */
   const {
-    dimensions, nativeObjectOptions, nativeObjectResources, windowId,
+    nativeObjectOptions, nativeObjectResources, windowId,
   } = props;
 
-  const fullscreenHandle = useContext(FullScreenContext);
+  const defaultDimensions = (originalDimensions) => {
+    return originalDimensions || document.body.querySelector(`#${windowId} .mirador-primary-window`)?.getBoundingClientRect();
+  };
+
   const eleRef = useRef(null);
-  const [fullscreen, setFullscreen] = useState(false);
 
-  if (fullscreenHandle.active != fullscreen) setFullscreen(fullscreenHandle.active);
+  const [currentDimensions, setCurrentDimensions] = useState({
+    original: defaultDimensions(null),
+    current: eleRef.current?.getBoundingClientRect(),
+  });
 
-  const boundingRect = (fullscreen && eleRef.current) ? eleRef.current.closest(`.mirador-primary-window`).getBoundingClientRect() : dimensions;
+  useEffect(() => {
+    const element = eleRef.current;
 
+    if (!element) return;
 
+    const originalDimensions = element.getBoundingClientRect();
+    const observer = new ResizeObserver((entries) => {
+      if (entries.length == 0) return;
+      console.log(entries[0]);
+      const current = (document.fullscreenElement) ? entries[0].contentRect : originalDimensions;
+
+      setCurrentDimensions({original: originalDimensions, current: current});
+    });
+
+    observer.observe(element);
+    return () => {
+      // Cleanup the observer like any event handlers
+      observer.disconnect();
+    };
+  }, [eleRef]);
+
+  const dimensions = currentDimensions.current || currentDimensions.original;
   return (
     <StyledContainer ref={eleRef}>
       <StyledObject {...nativeObjectOptions}>
         {nativeObjectResources.map((nativeObject) => (
           <Fragment key={nativeObject.id}>
-            <object data={`${nativeObject.id}`} type={nativeObject.getFormat()} width={`${boundingRect.width}px`} height={`${boundingRect.height}px`} />
+            <object data={`${nativeObject.id}`} type={nativeObject.getFormat()} width={`${dimensions?.width}px`} height={`${dimensions?.height}px`} />
           </Fragment>
         ))}
       </StyledObject>

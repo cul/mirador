@@ -9,9 +9,8 @@ import { getConfig, getCurrentCanvas, getFullScreenEnabled, getVisibleCanvasText
 /** */
 const mapStateToProps = (state, { windowId }) => {
   const currentCanvas = getCurrentCanvas(state, { windowId });
-  const dimensions = (document.body.querySelector(`#${windowId} .mirador-primary-window`)?.getBoundingClientRect() || {});
+  const hold = `#${windowId} .mirador-primary-window`;
   return {
-    dimensions,
     nativeObjectOptions: getConfig(state).nativeObjectOptions,
     nativeObjectResources: getVisibleCanvasTextResources(state, { windowId }) || [],
     windowId,
