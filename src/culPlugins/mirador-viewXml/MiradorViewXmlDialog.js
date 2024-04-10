@@ -46,6 +46,7 @@ const MiradorViewXmlDialog = ({
         },
       );
     });
+    return null;
   }
 
   /** */
