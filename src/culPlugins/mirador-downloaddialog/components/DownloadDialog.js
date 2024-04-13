@@ -50,8 +50,8 @@ const DownloadDialog = ({
       open={dialogOpen}
       scroll="paper"
     >
-      <DialogTitle disableTypography>
-        <Typography variant="h4">
+      <DialogTitle>
+        <Typography variant="h4" component="span">
           <Box fontWeight="fontWeightBold">{t('downloadOptions')}</Box>
         </Typography>
       </DialogTitle>
