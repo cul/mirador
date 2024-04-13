@@ -1,5 +1,6 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { FullScreen } from 'react-full-screen';
+import {
+  Fragment, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 
@@ -16,34 +17,32 @@ const StyledObject = styled('object')({
 /** */
 export function NativeObjectViewer(props) {
   /* eslint-disable jsx-a11y/media-has-caption */
-  /** */
   const {
     nativeObjectOptions, nativeObjectResources, windowId,
   } = props;
 
-  const defaultDimensions = (originalDimensions) => {
-    return originalDimensions || document.body.querySelector(`#${windowId} .mirador-primary-window`)?.getBoundingClientRect();
-  };
+  /** */
+  const defaultDimensions = (originalDimensions) => (originalDimensions || document.body.querySelector(`#${windowId} .mirador-primary-window`)?.getBoundingClientRect());
 
   const eleRef = useRef(null);
 
   const [currentDimensions, setCurrentDimensions] = useState({
-    original: defaultDimensions(null),
     current: eleRef.current?.getBoundingClientRect(),
+    original: defaultDimensions(null),
   });
 
   useEffect(() => {
     const element = eleRef.current;
 
-    if (!element) return;
+    if (!element) return () => {};
 
     const originalDimensions = element.getBoundingClientRect();
     const observer = new ResizeObserver((entries) => {
-      if (entries.length == 0) return;
+      if (entries.length === 0) return;
       console.log(entries[0]);
       const current = (document.fullscreenElement) ? entries[0].contentRect : originalDimensions;
 
-      setCurrentDimensions({original: originalDimensions, current: current});
+      setCurrentDimensions({ current, original: originalDimensions });
     });
 
     observer.observe(element);
