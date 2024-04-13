@@ -2,7 +2,6 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withTranslation } from 'react-i18next';
-import { AudioViewer } from '../../../components/AudioViewer';
 import { getConfig, getVisibleCanvasCaptions, getVisibleCanvasAudioResources } from '../../../state/selectors';
 
 import { VideoJS } from './VideoJS';
@@ -30,9 +29,6 @@ class VideoJSAudioViewerBase extends Component {
       captions, audioOptions, audioResources,
     } = this.props;
 
-    const debugResources = audioResources.filter(audio => audio.id && audio.getFormat()).map(
-      audio => ({ src: audio.id, type: audio.getFormat() }),
-    );
     const videoJsOptions = {
       ...audioOptions,
       autoplay: false,
@@ -61,6 +57,4 @@ class VideoJSAudioViewerBase extends Component {
 export const VideoJSAudioViewer = enhance(VideoJSAudioViewerBase);
 
 /** */
-export default function ({ _targetComponent, targetProps }) {
-  return <VideoJSAudioViewer {...targetProps} />;
-}
+export default ({ _targetComponent, targetProps }) => (<VideoJSAudioViewer {...targetProps} />);
