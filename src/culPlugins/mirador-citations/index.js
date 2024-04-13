@@ -1,10 +1,12 @@
 import { updateWindow } from '../../state/actions';
-import { getContainerId } from '../../state/selectors';
+import {
+  getConfig, getContainerId, getManifestLocale, getManifestTitle,
+} from '../../state/selectors';
 import { getManifestUrl } from '../../state/selectors/manifests';
 
 import { WindowSideBarCitationButton } from './WindowSideBarCitationButton';
 import { WindowSideBarCitationPanel } from './WindowSideBarCitationPanel';
-import { getPluginConfig } from './state/selectors';
+import { getManifestDoi, getManifestProviderNames, getPluginConfig } from './state/selectors';
 
 export {
   WindowSideBarCitationButton,
@@ -24,6 +26,7 @@ export default [
     mapStateToProps: (state, { windowId }) => ({
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
+      translations: getConfig(state).translations,
     }),
     mode: 'add',
     name: 'WindowSideBarCitationButton',
@@ -40,9 +43,17 @@ export default [
       },
     }),
     mapStateToProps: (state, { windowId }) => ({
+      citationData: ((config) => Object.getOwnPropertyNames(config.dataSelectors).reduce((acc, key) => {
+        acc[key] = config.dataSelectors[key](state, { windowId });
+        return acc;
+      }, {}))(getPluginConfig(state, { windowId })),
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
+      manifestDoi: getManifestDoi(state, { windowId }),
       manifestId: getManifestUrl(state, { windowId }),
+      manifestLocale: getManifestLocale(state, { windowId }),
+      manifestProviderNames: getManifestProviderNames(state, { windowId }),
+      manifestTitle: getManifestTitle(state, { windowId }),
     }),
     // see mirador/dist/es/src/extend/pluginMapping.js
     name: 'WindowSideBarCitationPanel',

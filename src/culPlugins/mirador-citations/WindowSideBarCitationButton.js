@@ -13,38 +13,24 @@ export class WindowSideBarCitationButton extends React.Component {
    */
   render() {
     const {
-      windowId,
-      id,
       classes,
-      t,
-      locale,
-      value,
     } = this.props;
 
+    const { badge } = classes;
     return (
-      <Badge overlap="rectangular" classes={{ badge: classes.badge }} variant="dot">
+      <Badge overlap="rectangular" classes={{ badge }} variant="dot">
         <CollectionsBookmarkIcon />
       </Badge>
     );
   }
 }
 
-/**
-TODO: Where are translations registered? Mouseover currently 'openCompanionWindow'
-* */
-
 WindowSideBarCitationButton.value = 'citation';
 
 WindowSideBarCitationButton.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string),
-  id: PropTypes.string.isRequired,
-  locale: PropTypes.string,
-  t: PropTypes.func,
-  windowId: PropTypes.string.isRequired,
 };
 
 WindowSideBarCitationButton.defaultProps = {
   classes: {},
-  locale: '',
-  t: key => key,
 };
