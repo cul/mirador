@@ -1,13 +1,6 @@
 import React from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import { styled } from '@mui/material/styles';
-
-const StyledContainer = styled('div')(() => ({
-  alignItems: 'center',
-  display: 'flex',
-  width: '100%',
-}));
 
 /** */
 export const VideoJS = (props) => {
