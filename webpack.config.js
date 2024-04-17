@@ -63,23 +63,24 @@ const baseConfig = mode => ({
   },
 });
 
+/** parse additional local configuration for webpack dev server */
 const additionalDevServerConfig = () => {
   if (!process.env.DEV_SERVER_CONFIG) return {};
   const devServerConfigPath = path.resolve(fs.realpathSync(process.cwd()), process.env.DEV_SERVER_CONFIG);
 
   try {
-    return JSON.parse(fs.readFileSync(devServerConfigPath, "utf8"));
+    return JSON.parse(fs.readFileSync(devServerConfigPath, 'utf8'));
   } catch (error) {
     console.warn(`Problem with additional devServer config at: ${devServerConfigPath}`);
     if (error.code === 'ENOENT') {
-      console.warn(`Configured additional devServer config path does not exist!`);
+      console.warn('Configured additional devServer config path does not exist!');
     } else {
       console.error(`Unexpected error code ${error.code} trying to read additional devServer config`);
-      console.debug({error});
+      console.debug({ error });
     }
     return {};
   }
-}
+};
 
 module.exports = (env, options) => {
   const isProduction = options.mode === 'production';
