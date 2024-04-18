@@ -39,7 +39,6 @@ export function NativeObjectViewer(props) {
     const originalDimensions = element.getBoundingClientRect();
     const observer = new ResizeObserver((entries) => {
       if (entries.length === 0) return;
-      console.log(entries[0]);
       const current = (document.fullscreenElement) ? entries[0].contentRect : originalDimensions;
 
       setCurrentDimensions({ current, original: originalDimensions });
