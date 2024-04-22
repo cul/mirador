@@ -1,9 +1,9 @@
 import { PropertyValue } from 'manifesto.js';
 import { createSelector } from 'reselect';
-import * as CitationProperties from './selectors/citationProperties';
+import * as CitationProperties from './citationProperties';
 import {
   getManifestoInstance, getManifestLocale, getWindowConfig,
-} from '../../../state/selectors';
+} from '../../../../state/selectors';
 
 const defaultConfig = {
   dataSelectors: {
@@ -51,11 +51,6 @@ export const getPluginConfig = createSelector(
     ...defaultConfig,
     ...openPanel,
   }),
-);
-
-export const getManifestDoi = createSelector(
-  [getManifestoInstance],
-  manifest => manifest?.getProperty('doi'),
 );
 
 export const getManifestProviderNames = createSelector(
