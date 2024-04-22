@@ -1,12 +1,12 @@
 import { updateWindow } from '../../state/actions';
 import {
-  getConfig, getContainerId, getManifestLocale, getManifestTitle,
+  getConfig, getContainerId, getManifestLocale, getManifestTitle, getManifestUrl,
 } from '../../state/selectors';
-import { getManifestUrl } from '../../state/selectors/manifests';
+import { getManifestDoi } from '../state/selectors';
 
 import { WindowSideBarCitationButton } from './WindowSideBarCitationButton';
 import { WindowSideBarCitationPanel } from './WindowSideBarCitationPanel';
-import { getManifestDoi, getManifestProviderNames, getPluginConfig } from './state/selectors';
+import { getManifestProviderNames, getPluginConfig } from './state/selectors';
 
 export {
   WindowSideBarCitationButton,

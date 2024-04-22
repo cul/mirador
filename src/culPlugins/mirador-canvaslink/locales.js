@@ -1,6 +1,4 @@
-exports.__esModule = true;
-exports.default = undefined;
-const _default = {
+export default {
   de: {
     canvasLink: {
       close: 'Schließen',
@@ -36,5 +34,3 @@ const _default = {
     },
   },
 };
-exports.default = _default;
-module.exports = exports.default;
