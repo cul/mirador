@@ -40,15 +40,15 @@ export class CanvasRelatedLinks extends Component {
         <Typography
           aria-labelledby={`${id}-related ${id}-related-heading`}
           id={`${id}-related-heading`}
-          variant="h6"
-          component="h5"
+          variant="h5"
+          component="h6"
         >
           {t('links')}
         </Typography>
         <StyledDl className={classNames(ns('label-value-metadata'))}>
           { renderings && renderings.length > 0 && (
             <>
-              <Typography variant="subtitle3" component="dt">{t('iiif_renderings')}</Typography>
+              <Typography variant="subtitle2" component="dt">{t('iiif_renderings')}</Typography>
               {
                 renderings.map(rendering => (
                   <Typography key={rendering.value} variant="body1" component="dd">
@@ -62,7 +62,7 @@ export class CanvasRelatedLinks extends Component {
           )}
           { related && (
             <>
-              <Typography variant="subtitle3" component="dt">{t('iiif_related')}</Typography>
+              <Typography variant="subtitle2" component="dt">{t('iiif_related')}</Typography>
               {
                 related.map(relatedItem => (
                   <Typography key={relatedItem.value} variant="body1" component="dd">
@@ -79,7 +79,7 @@ export class CanvasRelatedLinks extends Component {
           )}
           { seeAlso && (
             <>
-              <Typography variant="subtitle3" component="dt">{t('iiif_seeAlso')}</Typography>
+              <Typography variant="subtitle2" component="dt">{t('iiif_seeAlso')}</Typography>
               {
                 seeAlso.map(seeAlsoItem => (
                   <Typography key={seeAlsoItem.value} variant="body1" component="dd">

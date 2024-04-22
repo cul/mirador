@@ -5,9 +5,8 @@ import { WindowSideBarCitationPanel } from '../../../../src/culPlugins/mirador-c
 import {
   getManifestTitle,
 } from '../../../../src/state/selectors/manifests';
-import {
-  getManifestDoi, getManifestProviderNames,
-} from '../../../../src/culPlugins/mirador-citations/state/selectors';
+import { getManifestDoi } from '../../../../src/culPlugins/state/selectors';
+import { getManifestProviderNames } from '../../../../src/culPlugins/mirador-citations/state/selectors';
 
 import * as CitationProperties from '../../../../src/culPlugins/mirador-citations/state/selectors/citationProperties';
 
