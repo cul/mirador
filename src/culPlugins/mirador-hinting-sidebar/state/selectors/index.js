@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
-import { getCanvasesContentTypes, getCanvasSeeAlso } from '../../state/selectors';
-import { getWindow } from '../../../state/selectors';
+import { getCanvasesContentTypes, getCanvasSeeAlso } from '../../../state/selectors';
+import { getWindow } from '../../../../state/selectors';
 
 const getHasOpenSideBar = createSelector(
   [getWindow],
