@@ -20,12 +20,13 @@ import CanvasDownloadLinks from './dialog/CanvasDownloadLinks';
 /** */
 const DownloadDialog = ({
   canvasLabel,
+  canvasRenderings,
   children,
   config,
   containerId,
   infoResponse,
+  manifestRenderings,
   manifestUrl,
-  seeAlso,
   t,
   updateConfig,
   visibleCanvases,
@@ -59,6 +60,7 @@ const DownloadDialog = ({
         {visibleCanvases.map((canvas) => (
           <CanvasDownloadLinks
             canvas={canvas}
+            canvasRenderings={canvasRenderings}
             key={canvas.id}
             label={canvasLabel(canvas.id)}
             sizes={infoResponse(canvas.id).json?.sizes}
@@ -90,8 +92,7 @@ const DownloadDialog = ({
                     </Link>
                   </Box>
                 </ListItem>
-                {seeAlso
-                  .filter(({ format }) => format !== 'text/html')
+                {manifestRenderings?.filter(({ format }) => format !== 'text/html')
                   .map(({ label, value }) => (
                     <ListItem dense key={value}>
                       <Box
@@ -119,13 +120,21 @@ const DownloadDialog = ({
 };
 
 DownloadDialog.defaultProps = {
+  canvasRenderings: [],
   children: undefined,
+  manifestRenderings: [],
   manifestUrl: undefined,
-  seeAlso: [],
 };
 
 DownloadDialog.propTypes = {
   canvasLabel: PropTypes.func.isRequired,
+  canvasRenderings: PropTypes.arrayOf(
+    PropTypes.shape({
+      format: PropTypes.string,
+      label: PropTypes.string,
+      value: PropTypes.string,
+    }),
+  ),
   children: PropTypes.element,
   config: PropTypes.shape({
     dialogOpen: PropTypes.bool.isRequired,
@@ -133,14 +142,14 @@ DownloadDialog.propTypes = {
   }).isRequired,
   containerId: PropTypes.string.isRequired,
   infoResponse: PropTypes.func.isRequired,
-  manifestUrl: PropTypes.string,
-  seeAlso: PropTypes.arrayOf(
+  manifestRenderings: PropTypes.arrayOf(
     PropTypes.shape({
       format: PropTypes.string,
       label: PropTypes.string,
       value: PropTypes.string,
     }),
   ),
+  manifestUrl: PropTypes.string,
   t: PropTypes.func.isRequired,
   updateConfig: PropTypes.func.isRequired,
   visibleCanvases: PropTypes.arrayOf(

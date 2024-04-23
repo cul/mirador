@@ -1,10 +1,10 @@
 import { updateWindow } from '../../state/actions';
 import { getContainerId } from '../../state/selectors';
 import { getManifestUrl } from '../../state/selectors/manifests';
-
+import { getManifestRelatedLinks } from '../state/selectors';
 import MiradorViewXmlPlugin from './MiradorViewXmlPlugin';
 import MiradorViewXmlDialog from './MiradorViewXmlDialog';
-import { getManifestSeeAlso, getPluginConfig } from './state/selectors';
+import { getPluginConfig } from './state/selectors';
 
 export {
   MiradorViewXmlPlugin,
@@ -42,7 +42,7 @@ export default [
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
       manifestId: getManifestUrl(state, { windowId }),
-      seeAlso: getManifestSeeAlso(state, { windowId }),
+      relatedLinks: getManifestRelatedLinks(state, { windowId }),
     }),
     mode: 'add',
     name: 'MiradorViewXmlDialog',
