@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { PropertyValue } from 'manifesto.js';
-import asArray from '../../../lib/asArray';
-import { getCurrentCanvas, getManifestLocale } from '../../../state/selectors';
+import asArray from '../../../../lib/asArray';
+import { getCurrentCanvas, getManifestLocale } from '../../../../state/selectors';
 
 /** */
 function getProperty(property) {

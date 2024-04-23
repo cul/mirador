@@ -21,7 +21,7 @@ const MiradorViewXmlDialog = ({
   config,
   containerId,
   manifestId,
-  seeAlso,
+  relatedLinks,
   updateConfig,
   windowId,
 }) => {
@@ -33,7 +33,7 @@ const MiradorViewXmlDialog = ({
   const xmlLink = (function link(relateds) {
     if (!relateds) return null;
     return relateds.find(ref => ref.schema === 'http://www.loc.gov/mods/v3')?.id;
-  }(seeAlso));
+  }(relatedLinks));
 
   if (!xmlLink) return null;
 
@@ -93,7 +93,7 @@ MiradorViewXmlDialog.propTypes = {
   }).isRequired,
   containerId: PropTypes.string.isRequired,
   manifestId: PropTypes.string,
-  seeAlso: PropTypes.arrayOf(
+  relatedLinks: PropTypes.arrayOf(
     PropTypes.shape({
       format: PropTypes.string,
       label: PropTypes.string,
@@ -108,7 +108,7 @@ MiradorViewXmlDialog.propTypes = {
 
 MiradorViewXmlDialog.defaultProps = {
   manifestId: '',
-  seeAlso: [],
+  relatedLinks: [],
 };
 
 export default MiradorViewXmlDialog;
