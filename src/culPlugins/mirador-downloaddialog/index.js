@@ -6,9 +6,11 @@ import {
   selectInfoResponse,
 } from '../../state/selectors/canvases';
 import {
-  getManifestRelatedContent,
   getManifestUrl,
 } from '../../state/selectors/manifests';
+import {
+  getCanvasRenderings, getManifestRenderings,
+} from '../state/selectors';
 
 import DownloadButton from './components/DownloadButton';
 import DownloadDialog from './components/DownloadDialog';
@@ -42,11 +44,12 @@ export default [
     }),
     mapStateToProps: (state, { windowId }) => ({
       canvasLabel: (canvasId) => getCanvasLabel(state, { canvasId, windowId }),
+      canvasRenderings: getCanvasRenderings(state, { windowId }),
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
       infoResponse: (canvasId) => selectInfoResponse(state, { canvasId, windowId }) ?? {},
+      manifestRenderings: getManifestRenderings(state, { windowId }),
       manifestUrl: getManifestUrl(state, { windowId }),
-      seeAlso: getManifestRelatedContent(state, { windowId }),
       visibleCanvases: getVisibleCanvases(state, { windowId }),
     }),
     mode: 'add',

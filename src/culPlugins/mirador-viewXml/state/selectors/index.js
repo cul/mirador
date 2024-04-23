@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { getWindowConfig } from '../../../state/selectors';
+import { getWindowConfig } from '../../../../state/selectors';
 
 const defaultConfig = {
-  // Open the download dialog
+  // Open the view dialog
   dialogOpen: false,
   // Enable the plugin
   enabled: true,
@@ -11,9 +11,9 @@ const defaultConfig = {
 /** Selector to get the plugin config for a given window */
 const getPluginConfig = createSelector(
   [getWindowConfig],
-  ({ downloadDialog = {} }) => ({
+  ({ viewXmlDialog = {} }) => ({
     ...defaultConfig,
-    ...downloadDialog,
+    ...viewXmlDialog,
   }),
 );
 
