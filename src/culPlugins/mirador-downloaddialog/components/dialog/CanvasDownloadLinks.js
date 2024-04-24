@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { anyImageServices } from '../../../../lib/typeFilters';
 
 import ImageDownloadLinks from './ImageDownloadLinks';
+import SuppressedDownload from './SuppressedDownload';
 
 /**
  * Filter the misnamed imageResources property to actual imageResources
@@ -19,11 +20,15 @@ const anyImageResources = (imageResources) => (imageResources || []).filter((r) 
 
 /** */
 const CanvasDownloadLinks = ({
-  canvas, canvasRenderings, label, sizes, t,
+  canvas, canvasRenderings, label, sizes, suppressDownload, t,
 }) => {
   const theme = useTheme();
-  const behaviors = canvas?.behaviors || [];
-  if (behaviors.includes('no-download')) return null;
+
+  if (suppressDownload) {
+    return (
+      <SuppressedDownload label={label} t={t} />
+    );
+  }
 
   if (anyImageResources(canvas?.imageResources).length > 0) {
     return (
@@ -32,6 +37,7 @@ const CanvasDownloadLinks = ({
         key={canvas.id}
         label={label}
         sizes={sizes}
+        suppressDownload={suppressDownload}
         t={t}
       />
     );

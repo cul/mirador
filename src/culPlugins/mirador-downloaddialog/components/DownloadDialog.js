@@ -27,6 +27,7 @@ const DownloadDialog = ({
   infoResponse,
   manifestRenderings,
   manifestUrl,
+  suppressDownload,
   t,
   updateConfig,
   visibleCanvases,
@@ -64,6 +65,7 @@ const DownloadDialog = ({
             key={canvas.id}
             label={canvasLabel(canvas.id)}
             sizes={infoResponse(canvas.id).json?.sizes}
+            suppressDownload={suppressDownload}
             t={t}
           />
         ))}

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getWindowConfig } from '../../../../state/selectors';
+import { getCurrentCanvas, getWindowConfig } from '../../../../state/selectors';
 
 const defaultConfig = {
   // Open the download dialog
@@ -17,4 +17,10 @@ const getPluginConfig = createSelector(
   }),
 );
 
-export { getPluginConfig };
+/** Check the behaviors for no-download */
+const getSuppressDownload = createSelector(
+  [getCurrentCanvas],
+  (canvas) => ((canvas?.getProperty('behavior') || []).includes('no-download')),
+);
+
+export { getPluginConfig, getSuppressDownload };

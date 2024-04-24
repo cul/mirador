@@ -7,13 +7,18 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
 import ImageLink from './ImageLink';
+import SuppressedDownload from './SuppressedDownload';
 
 /** */
 const ImageDownloadLinks = ({
-  canvas, label, sizes, t,
+  canvas, label, sizes, suppressDownload, t,
 }) => {
-  const behaviors = canvas?.behaviors || [];
-  if (behaviors.includes('no-download')) return null;
+  if (suppressDownload) {
+    return (
+      <SuppressedDownload label={label} t={t} />
+    );
+  }
+
   return (
     <Card className="mb-3" raised>
       <CardContent>
