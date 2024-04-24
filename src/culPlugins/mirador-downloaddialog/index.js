@@ -15,7 +15,7 @@ import {
 import DownloadButton from './components/DownloadButton';
 import DownloadDialog from './components/DownloadDialog';
 import translations from './locales';
-import { getPluginConfig } from './state/selectors';
+import { getPluginConfig, getSuppressDownload } from './state/selectors';
 
 export default [
   {
@@ -29,6 +29,7 @@ export default [
     mapStateToProps: (state, { windowId }) => ({
       config: getPluginConfig(state, { windowId }),
       containerId: getContainerId(state),
+      suppressDownload: getSuppressDownload(state, { windowId }),
     }),
     mode: 'add',
     name: 'DownloadButton',
@@ -50,6 +51,7 @@ export default [
       infoResponse: (canvasId) => selectInfoResponse(state, { canvasId, windowId }) ?? {},
       manifestRenderings: getManifestRenderings(state, { windowId }),
       manifestUrl: getManifestUrl(state, { windowId }),
+      suppressDownload: getSuppressDownload(state, { windowId }),
       visibleCanvases: getVisibleCanvases(state, { windowId }),
     }),
     mode: 'add',
