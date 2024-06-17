@@ -36,7 +36,7 @@ class VideoJSViewerBase extends VideoViewer {
         remainingTimeDisplay: false,
       },
       controls: true,
-      fluid: true,
+      fill: true,
       playbackRates: [0.5, 1, 1.5, 2],
       responsive: true,
       sources: videoResources.filter(video => video.id && video.getFormat()).map(
@@ -46,11 +46,7 @@ class VideoJSViewerBase extends VideoViewer {
     };
 
     if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
-    return (
-      <div className="video-js vjs-fill" data-vjs-player>
-        <VideoJS options={videoJsOptions} />
-      </div>
-    );
+    return <VideoJS options={videoJsOptions} />;
   }
 }
 
