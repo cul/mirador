@@ -46,7 +46,7 @@ export const VideoJS = (props) => {
   }, [playerRef]);
 
   return (
-    <div ref={videoRef} />
+    <div ref={videoRef} data-vjs-player style={{ width: '100%' }} />
   );
 };
 
