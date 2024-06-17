@@ -1,6 +1,5 @@
 import React from 'react';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import videojs from '!video.js';
+import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 /** */
