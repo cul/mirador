@@ -1,6 +1,7 @@
 import manifestFixture001 from '../../fixtures/version-2/001.json';
 import manifestFixture019 from '../../fixtures/version-2/019.json';
 import manifestFixtureAuth2ActiveVideo from '../../fixtures/version-3/auth2-active.json';
+import manifestFixtureAuth2ExternalVideo from '../../fixtures/version-3/auth2-external.json';
 import settings from '../../../src/config/settings';
 import {
   getAccessTokens,
@@ -65,6 +66,9 @@ describe('selectCurrentAuthServices', () => {
       c: {
         json: manifestFixtureAuth2ActiveVideo,
       },
+      d: {
+        json: manifestFixtureAuth2ExternalVideo,
+      },
     },
     windows: {
       noCanvas: {
@@ -94,6 +98,12 @@ describe('selectCurrentAuthServices', () => {
           'https://auth.example.org/my-video1',
         ],
       },
+      zz: {
+        manifestId: 'd',
+        visibleCanvases: [
+          'https://auth.example.org/external/my-video1',
+        ],
+      },
     },
   };
 
@@ -104,6 +114,8 @@ describe('selectCurrentAuthServices', () => {
   it('returns the next auth service to try', () => {
     expect(selectCurrentAuthServices(state, { windowId: 'w' })[0].id).toEqual('external');
     expect(selectCurrentAuthServices(state, { windowId: 'z' })[0].id).toEqual('https://auth.example.org/login');
+    expect(selectCurrentAuthServices(state, { windowId: 'zz' })[0].id).toBeUndefined();
+    expect(selectCurrentAuthServices(state, { windowId: 'zz' })[0].getProfile()).toEqual('external');
   });
 
   it('returns the service if the next auth service is interactive', () => {
@@ -119,6 +131,9 @@ describe('selectCurrentAuthServices', () => {
     expect(selectCurrentAuthServices({ ...state, auth }, { windowId: 'w' })[0].id).toEqual('login');
     expect(selectCurrentAuthServices({ ...state, auth }, { windowId: 'x' })[0].id).toEqual('external');
     expect(selectCurrentAuthServices({ ...state, auth }, { windowId: 'y' })[0]).toBeUndefined();
+    expect(selectCurrentAuthServices({ ...state, auth }, { windowId: 'z' })[0].id).toEqual('https://auth.example.org/login');
+    expect(selectCurrentAuthServices(state, { windowId: 'zz' })[0].id).toBeUndefined();
+    expect(selectCurrentAuthServices(state, { windowId: 'zz' })[0].getProfile()).toEqual('external');
   });
 
   describe('proscribed order', () => {

@@ -1,0 +1,59 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://auth.example.org/external/my-video1/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "An externally authorized video"
+    ]
+  },
+  "items": [
+    {
+      "id": "https://auth.example.org/external/my-video1",
+      "type": "Canvas",
+      "label": {
+        "en": [
+          "Canvas with a single IIIF video"
+        ]
+      },
+      "height": 3024,
+      "width": 4032,
+      "items": [
+        {
+          "id": "https://auth.example.org/my-video/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://auth.example.org/my-video/annotation",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://auth.example.org/my-video.mp4",
+                "type": "Video",
+                "service": [
+                  {
+                    "id": "https://auth.example.org/probe/my-video",
+                    "type": "AuthProbeService2",
+                    "service" : [
+                      {
+                        "type": "AuthAccessService2",
+                        "profile": "external",
+                        "label": { "en": [ "External Authentication" ] },
+                        "service" : [
+                          {
+                            "id": "https://auth.example.org/token",
+                            "type": "AuthAccessTokenService2"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
