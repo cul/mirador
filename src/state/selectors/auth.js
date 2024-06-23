@@ -8,7 +8,7 @@ import {
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { miradorSlice, EMPTY_ARRAY, EMPTY_OBJECT } from './utils';
 import { getConfig } from './config';
-import { getVisibleCanvases, selectInfoResponses, selectProbeResponses } from './canvases';
+import { getVisibleCanvases, selectInfoResponses } from './canvases';
 import { getMiradorCanvasWrapper } from './wrappers';
 
 /**
@@ -47,13 +47,16 @@ export const selectCurrentAuthServices = createSelector(
   [
     getVisibleCanvases,
     selectInfoResponses,
-    selectProbeResponses,
     getAuthProfiles,
     getAuth,
     getMiradorCanvasWrapper,
     (state, { iiifResources }) => iiifResources,
   ],
+<<<<<<< HEAD
   (canvases, infoResponses = {}, probeResponses = {}, serviceProfiles, auth, getMiradorCanvas, iiifResources) => {
+=======
+  (canvases, infoResponses = {}, serviceProfiles, auth, iiifResources) => {
+>>>>>>> 4e32924c (COLUMBIA: Support auth2 style external authentication)
     let currentAuthResources = iiifResources;
 
     if ((!currentAuthResources || currentAuthResources.length === 0) && !canvases) return EMPTY_ARRAY;
@@ -92,10 +95,11 @@ export const selectCurrentAuthServices = createSelector(
 
         for (const service of profiledAuthServices) {
           lastAttemptedService = service;
-          if (service.getProfile() !== 'external') { // external service has no id to track by
-            if (!auth[service.id] || auth[service.id].isFetching || auth[service.id].ok) {
-              return service;
-            }
+          // external service may have no id to track by (auth1 vs auth2)
+          const serviceKey = (authProfile.external) ? (service?.id || 'external') : service?.id;
+
+          if (!auth[serviceKey] || auth[serviceKey].isFetching || auth[serviceKey].ok) {
+            return service;
           }
         }
       }
@@ -104,8 +108,11 @@ export const selectCurrentAuthServices = createSelector(
     });
 
     return Object.values(currentAuthServices.reduce((h, service) => {
-      if (service && !h[service.id]) {
-        h[service.id] = service; // eslint-disable-line no-param-reassign
+      if (!service) return h;
+      const external = serviceProfiles.filter(x => x.external).find(s => (s.profile === service.getProfile()));
+      const serviceKey = (external) ? (service.id || 'external') : service.id;
+      if (!h[serviceKey]) {
+        h[serviceKey] = service; // eslint-disable-line no-param-reassign
       }
       return h;
     }, {}));

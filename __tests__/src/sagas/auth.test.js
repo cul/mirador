@@ -20,7 +20,7 @@ import {
   selectInfoResponses,
   getVisibleCanvases,
   getAuth,
-  getConfig,
+  getAuthProfiles,
 } from '../../../src/state/selectors';
 
 describe('IIIF Authentication sagas', () => {
@@ -191,15 +191,50 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getAuthProfiles), settings.auth.serviceProfiles],
         ])
         .put({
           id: 'https://authentication.example.com/external',
+          ok: true,
           tokenServiceId: 'https://authentication.example.com/token',
           type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST,
         })
         .put({
           authId: 'https://authentication.example.com/external',
+          serviceId: 'https://authentication.example.com/token',
+          type: ActionTypes.REQUEST_ACCESS_TOKEN,
+        })
+        .run();
+    });
+    it('kicks off the first external auth from a probe response', () => {
+      const probeJson = {
+        id: 'https://authentication.example.com/probe',
+        service: [{
+          profile: 'external',
+          service: [
+            {
+              id: 'https://authentication.example.com/token',
+              type: 'AuthAccessTokenService2',
+            },
+          ],
+          type: 'AuthAccessService2',
+        }],
+        type: 'AuthProbeService2',
+      };
+      const windowId = 'window';
+      return expectSaga(doAuthWorkflow, { probeJson, windowId })
+        .provide([
+          [select(getAuth), {}],
+          [select(getAuthProfiles), settings.auth.serviceProfiles],
+        ])
+        .put({
+          id: 'external',
+          ok: true,
+          tokenServiceId: 'https://authentication.example.com/token',
+          type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST,
+        })
+        .put({
+          authId: 'external',
           serviceId: 'https://authentication.example.com/token',
           type: ActionTypes.REQUEST_ACCESS_TOKEN,
         })
@@ -224,7 +259,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), { 'https://authentication.example.com/external': { ok: false } }],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getAuthProfiles), settings.auth.serviceProfiles],
         ])
         .not.put.like({ type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST })
         .not.put.like({ type: ActionTypes.REQUEST_ACCESS_TOKEN })
@@ -249,7 +284,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getAuthProfiles), settings.auth.serviceProfiles],
         ])
         .not.put.like({ type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST })
         .not.put.like({ type: ActionTypes.REQUEST_ACCESS_TOKEN })
@@ -274,7 +309,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getAuthProfiles), settings.auth.serviceProfiles],
         ])
         .put({
           id: 'https://authentication.example.com/kiosk',
@@ -360,7 +395,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(invalidateInvalidAuth, { serviceId })
         .provide([
           [select(getAccessTokens), { [serviceId]: { authId, id: serviceId, success: true } }],
-          [select(getAuth), { [authId]: { id: authId } }],
+          [select(getAuth), { [authId]: { getProfile: () => 'login', id: authId } }],
         ])
         .put({
           id: authId,
@@ -377,7 +412,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(invalidateInvalidAuth, { serviceId })
         .provide([
           [select(getAccessTokens), { [serviceId]: { authId, id: serviceId } }],
-          [select(getAuth), { [authId]: { id: authId } }],
+          [select(getAuth), { [authId]: { getProfile: () => 'login', id: authId } }],
         ])
         .put({
           id: authId,

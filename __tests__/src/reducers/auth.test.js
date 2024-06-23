@@ -17,25 +17,43 @@ describe('auth response reducer', () => {
       },
     });
   });
-  it('should handle RESOLVE_AUTHENTICATION_REQUEST', () => {
-    expect(authReducer(
-      {
+  describe('should handle RESOLVE_AUTHENTICATION_REQUEST', () => {
+    it('sets isFetching to false and passes ok attribute value', () => {
+      expect(authReducer(
+        {
+          abc123: {
+            id: 'abc123',
+            isFetching: true,
+          },
+        },
+        {
+          id: 'abc123',
+          ok: true,
+          type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST,
+        },
+      )).toMatchObject({
         abc123: {
           id: 'abc123',
-          isFetching: true,
+          isFetching: false,
+          ok: true,
         },
-      },
-      {
-        id: 'abc123',
-        ok: true,
-        type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST,
-      },
-    )).toMatchObject({
-      abc123: {
-        id: 'abc123',
-        isFetching: false,
-        ok: true,
-      },
+      });
+    });
+    it('sets id if absent from skipping ADD_AUTHENTICATION_REQUEST', () => {
+      expect(authReducer(
+        {},
+        {
+          id: 'abc123',
+          ok: true,
+          type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST,
+        },
+      )).toMatchObject({
+        abc123: {
+          id: 'abc123',
+          isFetching: false,
+          ok: true,
+        },
+      });
     });
   });
   describe('should handle RECEIVE_ACCESS_TOKEN', () => {
