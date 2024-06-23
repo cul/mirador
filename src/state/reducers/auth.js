@@ -20,6 +20,7 @@ export const authReducer = (state = {}, action) => {
       return {
         ...state,
         [action.id]: {
+          id: action.id, // external services skip ADD_AUTHENTICATION_REQUEST and need id
           ...state[action.id],
           isFetching: false,
           ok: action.ok,

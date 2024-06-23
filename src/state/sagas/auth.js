@@ -17,8 +17,8 @@ import {
   selectProbeResponses,
   getVisibleCanvases,
   getWindows,
-  getConfig,
   getAuth,
+  getAuthProfiles,
   getAccessTokens,
 } from '../selectors';
 import { fetchInfoResponse, fetchProbeResponse } from './iiif';
@@ -123,42 +123,56 @@ export function* refetchProbeResponses({ serviceId }) {
   }));
 }
 
+/** @private */
+export function serviceKey(service, profile) {
+  return (profile?.external) ? (service.id || 'external') : service.id;
+}
+
+/** @private */
+/** pluck an auth service profile matching the filter */
+export function serviceProfile(service, serviceProfiles, filter = (x => x)) {
+  if (!service.getProfile) return null;
+  return serviceProfiles.find(p => (p.profile === service.getProfile() && filter(p)));
+}
+
 /** try to start any non-interactive auth flows */
-export function* doAuthWorkflow({ infoJson, windowId }) {
+export function* doAuthWorkflow({ infoJson, probeJson, windowId }) {
   const auths = yield select(getAuth);
-  const { auth: { serviceProfiles = [] } = {} } = yield select(getConfig);
-  const nonInteractiveAuthFlowProfiles = serviceProfiles.filter(p => p.external || p.kiosk);
+  const serviceProfiles = yield select(getAuthProfiles);
+
+  /** nonInteractive profile filter */
+  const nonInteractive = p => (p.external || p.kiosk);
 
   // try to get an untried, non-interactive auth service
-  const authService = Utils.getServices(infoJson)
-    .filter(s => !auths[s.id])
-    .find(e => nonInteractiveAuthFlowProfiles.some(p => p.profile === e.getProfile()));
+  const authService = Utils.getServices(infoJson || probeJson)
+    .filter(s => !auths[serviceKey(s)])
+    .find(e => serviceProfile(e, serviceProfiles, nonInteractive));
   if (!authService) return;
 
-  const profileConfig = nonInteractiveAuthFlowProfiles.find(
-    p => p.profile === authService.getProfile(),
-  );
+  const profileConfig = serviceProfile(authService, serviceProfiles);
 
   if (profileConfig.kiosk) {
     // start the auth
-    yield put(addAuthenticationRequest(windowId, authService.id, authService.getProfile()));
+    yield put(addAuthenticationRequest(windowId, serviceKey(authService, profileConfig), authService.getProfile()));
   } else if (profileConfig.external) {
     const tokenService = getTokenService(authService);
 
     if (!tokenService) return;
     // resolve the auth
-    yield put(resolveAuthenticationRequest(authService.id, tokenService.id));
+    yield put(resolveAuthenticationRequest(serviceKey(authService, profileConfig), tokenService.id, { ok: true }));
     // start access tokens
-    yield put(requestAccessToken(tokenService.id, authService.id));
+    yield put(requestAccessToken(tokenService.id, serviceKey(authService, profileConfig)));
   }
 }
 
 /** */
-export function* rerequestOnAccessTokenFailure({ infoJson, windowId, tokenServiceId }) {
+export function* rerequestOnAccessTokenFailure({
+  infoJson, probeJson, windowId, tokenServiceId,
+}) {
   if (!tokenServiceId) return;
 
   // make sure we have an auth service to try
-  const authService = Utils.getServices(infoJson).find(service => {
+  const authService = Utils.getServices(infoJson || probeJson).find(service => {
     const tokenService = getTokenService(service);
 
     return tokenService && tokenService.id === tokenServiceId;
