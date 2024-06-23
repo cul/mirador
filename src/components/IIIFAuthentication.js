@@ -138,11 +138,10 @@ export class IIIFAuthentication extends Component {
 
   /** */
   render() {
-    const { authServiceId, status } = this.props;
-
+    const { authServiceExternal, authServiceId, status } = this.props;
     if (!authServiceId) return null;
 
-    if (status === null) return this.renderLogin();
+    if (status === null) return (authServiceExternal) ? this.renderLoggingInToken() : this.renderLogin();
     if (status === 'cookie') return this.renderLoggingInCookie();
     if (status === 'token') return this.renderLoggingInToken();
     if (status === 'failed') return this.renderFailure();
@@ -154,6 +153,7 @@ export class IIIFAuthentication extends Component {
 
 IIIFAuthentication.propTypes = {
   accessTokenServiceId: PropTypes.string.isRequired,
+  authServiceExternal: PropTypes.bool,
   authServiceId: PropTypes.string.isRequired,
   confirm: PropTypes.string,
   description: PropTypes.string,
@@ -176,6 +176,7 @@ IIIFAuthentication.propTypes = {
 };
 
 IIIFAuthentication.defaultProps = {
+  authServiceExternal: false,
   confirm: undefined,
   description: undefined,
   failureDescription: undefined,

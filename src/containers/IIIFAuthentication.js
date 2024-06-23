@@ -20,14 +20,22 @@ import { IIIFAuthentication } from '../components/IIIFAuthentication';
 const mapStateToProps = (state, { windowId }) => {
   const services = selectCurrentAuthServices(state, { windowId });
 
+  const authProfiles = getAuthProfiles(state);
+
   // TODO: get the most actionable auth service...
   const service = services[0];
+  if (!service) return {};
+  /** get the auth service profile */
+  const serviceProfile = (s) => authProfiles.find(p => p.profile === s.getProfile());
+  const authServiceExternal = (serviceProfile(service)?.external);
+  /** get the key to track an auth service by */
+  const serviceKey = (authServiceExternal) ? (service.id || 'external') : (service.id);
 
   const accessTokenService = getTokenService(service);
   const logoutService = getLogoutService(service);
 
   const authStatuses = getAuth(state);
-  const authStatus = service && authStatuses[service.id];
+  const authStatus = service && authStatuses[serviceKey];
   const accessTokens = getAccessTokens(state);
   const accessTokenStatus = accessTokenService && accessTokens[accessTokenService.id];
 
@@ -45,17 +53,16 @@ const mapStateToProps = (state, { windowId }) => {
     status = 'failed';
   }
 
-  const authProfiles = getAuthProfiles(state);
-
-  const profile = service && service.getProfile();
+  const profile = service.getProfile();
 
   const isInteractive = authProfiles.some(
-    config => config.profile === profile && !(config.external || config.kiosk),
+    config => (config.profile === profile) && !(config.external || config.kiosk),
   );
 
   return {
     accessTokenServiceId: accessTokenService && accessTokenService.id,
-    authServiceId: service && service.id,
+    authServiceExternal,
+    authServiceId: serviceKey,
     confirm: service && service.getConfirmLabel(),
     description: service && service.getDescription(),
     failureDescription: service && service.getFailureDescription(),
