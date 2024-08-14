@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import CodeIcon from '@mui/icons-material/Code';
+import DataObject from '@mui/icons-material/DataObject';
 import MiradorMenuButton from '../../containers/MiradorMenuButton';
 
 self.$RefreshReg$ = () => {}; /* eslint-disable-line no-restricted-globals */
@@ -23,7 +23,7 @@ const MiradorViewXml = ({ config, container, updateConfig }) => {
         dialogOpen: !dialogOpen,
       })}
     >
-      <CodeIcon />
+      <DataObject />
     </MiradorMenuButton>
   );
 };
