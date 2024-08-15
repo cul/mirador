@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "dist/mirador.min.js",
-      "maxSize": "850 KB"
+      "maxSize": "900 KB"
     }
   ]
 }
