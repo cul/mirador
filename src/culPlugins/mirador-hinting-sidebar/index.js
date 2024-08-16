@@ -1,6 +1,6 @@
 import { updateWindow } from '../../state/actions';
 import {
-  getConfig, getContainerId,
+  getConfig, getContainerId, getWindowConfig,
 } from '../../state/selectors';
 import {
   getCanvasesContentTypes, getCanvasSeeAlso,
@@ -27,14 +27,18 @@ export default [
         return dispatch(updateWindow(windowId, { openPanel }));
       },
     }),
-    mapStateToProps: (state, { windowId }) => ({
-      canvasContentTypes: getCanvasesContentTypes(state, { windowId }),
-      containerId: getContainerId(state),
-      hasOpenSideBar: getHasOpenSideBar(state, { windowId }),
-      hintSideBar: getHintSideBar(state, { windowId }),
-      translations: getConfig(state).translations,
-      windowId,
-    }),
+    mapStateToProps: (state, { windowId }) => {
+      const windowConfig = getWindowConfig(state, { windowId });
+      return {
+        allowTopCollectionButton: windowConfig.allowTopCollectionButton,
+        canvasContentTypes: getCanvasesContentTypes(state, { windowId }),
+        containerId: getContainerId(state),
+        hasOpenSideBar: getHasOpenSideBar(state, { windowId }),
+        hintSideBar: getHintSideBar(state, { windowId }),
+        translations: getConfig(state).translations,
+        windowId,
+      };
+    },
     mode: 'wrap',
     name: 'HintingTopBar',
     target: 'WindowTopBar',

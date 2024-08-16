@@ -16,8 +16,9 @@
        theme: {
          transitions: window.location.port === '4488' ?  { create: () => 'none' } : {},
        },
-       windows: [{
-         manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-346v-m088/manifest',
+       windows: [
+       {
+         manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/72a8-rn85/collection',
          thumbnailNavigationPosition: 'far-bottom',
        }],
        catalog: [
@@ -36,8 +37,11 @@
          { manifestId: 'https://dlc-staging.library.columbia.edu/iiif/3/presentation/10.7916/d8-346v-m088/manifest', provider: 'Columbia community AV canvas examples'},
          { manifestId: 'https://iiif.harvardartmuseums.org/manifests/object/299843', provider: 'Other Organization' },
        ],
+       window: {
+        allowTopCollectionButton: true,
+       }
      },
-     [...Mirador.culPlugins.downloadDialogPlugin].concat([...Mirador.culPlugins.viewXmlPlugin]).concat([...Mirador.culPlugins.citationsSidebarPlugin]).concat([...Mirador.culPlugins.videojsPlugin]).concat([...Mirador.culPlugins.canvasRelatedLinksPlugin]).concat([...Mirador.culPlugins.hintingSideBar]).concat([...Mirador.culPlugins.viewerNavigation])
+     [...Mirador.culPlugins.downloadDialogPlugin].concat([...Mirador.culPlugins.viewXmlPlugin]).concat([...Mirador.culPlugins.citationsSidebarPlugin]).concat([...Mirador.culPlugins.videojsPlugin]).concat([...Mirador.culPlugins.canvasRelatedLinksPlugin]).concat([...Mirador.culPlugins.hintingSideBar]).concat([...Mirador.culPlugins.viewerNavigation]).concat([...Mirador.culPlugins.collectionFoldersPlugin])
      );
     </script>
   </body>

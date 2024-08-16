@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/CloseSharp';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import classNames from 'classnames';
+import { TopCollectionButton } from './TopCollectionButton';
 import { WindowTopBarHeavyTitle } from './WindowTopBarHeavyTitle';
 import WindowTopMenuButton from '../../../containers/WindowTopMenuButton';
 import WindowTopBarPluginArea from '../../../containers/WindowTopBarPluginArea';
@@ -40,7 +41,7 @@ export const HintingTopBar = (props) => {
     removeWindow, windowId, toggleWindowSideBar, t,
     maximizeWindow, maximized, minimizeWindow, allowClose, allowMaximize,
     focusWindow, allowFullscreen, allowTopMenuButton, allowWindowSideBar,
-    component, hasOpenSideBar, hintSideBar,
+    component, hasOpenSideBar, allowTopCollectionButton, hintSideBar,
   } = props;
 
   const BadgeProps = {
@@ -79,6 +80,9 @@ export const HintingTopBar = (props) => {
         )}
         <WindowTopBarPluginArea windowId={windowId} />
         <WindowTopBarPluginMenu windowId={windowId} />
+        {allowTopCollectionButton && (
+          <TopCollectionButton className={ns('window-menu-btn')} color={hintingButtonColor} windowId={windowId} />
+        )}
         {allowMaximize && (
           <MiradorMenuButton
             aria-label={(maximized ? t('minimizeWindow') : t('maximizeWindow'))}
@@ -109,6 +113,7 @@ HintingTopBar.propTypes = {
   allowClose: PropTypes.bool,
   allowFullscreen: PropTypes.bool,
   allowMaximize: PropTypes.bool,
+  allowTopCollectionButton: PropTypes.bool,
   allowTopMenuButton: PropTypes.bool,
   allowWindowSideBar: PropTypes.bool,
   component: PropTypes.elementType,
@@ -128,6 +133,7 @@ HintingTopBar.defaultProps = {
   allowClose: true,
   allowFullscreen: false,
   allowMaximize: true,
+  allowTopCollectionButton: false,
   allowTopMenuButton: true,
   allowWindowSideBar: true,
   component: 'nav',
