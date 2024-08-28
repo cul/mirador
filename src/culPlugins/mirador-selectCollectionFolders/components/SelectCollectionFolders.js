@@ -2,9 +2,10 @@ import { Component, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackSharp';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import ArrowBackIcon from '@mui/icons-material/ArrowBackSharp';
+import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
 import { CollectionDialog } from '../../../components/CollectionDialog';
 import { getCollectionData } from '../state/selectors';
@@ -119,6 +120,8 @@ export const SelectCollectionFolders = (props) => {
           </Button>
         ))
       }
+      <CollectionListHeaders collectionId={collectionId} />
+
       {
         items && items.map(item => (
           <CollectionListItem
