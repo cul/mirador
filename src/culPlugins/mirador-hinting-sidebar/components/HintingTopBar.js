@@ -6,10 +6,10 @@ import CloseIcon from '@mui/icons-material/CloseSharp';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import classNames from 'classnames';
+import { WindowTopBarHeavyTitle } from './WindowTopBarHeavyTitle';
 import WindowTopMenuButton from '../../../containers/WindowTopMenuButton';
 import WindowTopBarPluginArea from '../../../containers/WindowTopBarPluginArea';
 import WindowTopBarPluginMenu from '../../../containers/WindowTopBarPluginMenu';
-import WindowTopBarTitle from '../../../containers/WindowTopBarTitle';
 import MiradorMenuButton from '../../../containers/MiradorMenuButton';
 import FullScreenButton from '../../../containers/FullScreenButton';
 import WindowMaxIcon from '../../../components/icons/WindowMaxIcon';
@@ -71,7 +71,7 @@ export const HintingTopBar = (props) => {
             <MenuIcon />
           </MiradorMenuButton>
         )}
-        <WindowTopBarTitle
+        <WindowTopBarHeavyTitle
           windowId={windowId}
         />
         {allowTopMenuButton && (
