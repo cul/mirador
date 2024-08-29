@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackSharp';
 import Button from '@mui/material/Button';
+import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
@@ -28,21 +29,16 @@ export const SelectCollectionFolders = (props) => {
     fetchCollection,
     getCollection,
     getCollectionManifesto,
-    getManifests,
     updateWindow,
     windowId,
   } = props;
 
-  const windowManifests = useSelector((state) => getManifests(state));
   const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }));
-
-  /** */
-  const cachedManifest = (manifestId) => windowManifests[manifestId] && windowManifests[manifestId].json;
 
   const [collectionData, setCollectionData] = useState({
     collectionId: originalCollectionId,
     collectionPath: windowCollectionData.collectionPath,
-    collectionResource: (cachedManifest(originalCollectionId) || getCollection(originalCollectionId)),
+    collectionResource: getCollection(originalCollectionId),
     rootManifestId: windowCollectionData.manifestId,
   });
 
@@ -55,8 +51,7 @@ export const SelectCollectionFolders = (props) => {
     setCollectionData({
       collectionId: windowCollectionData.manifestId,
       collectionPath: windowCollectionData.collectionPath,
-      collectionResource: (cachedManifest(windowCollectionData.manifestId)
-        || getCollection(windowCollectionData.manifestId)),
+      collectionResource: getCollection(windowCollectionData.manifestId),
       rootManifestId: windowCollectionData.manifestId,
     });
   }
@@ -67,10 +62,10 @@ export const SelectCollectionFolders = (props) => {
       collectionResource: fetchCollection(collectionId),
     });
   }
-  if (collectionResource?.isFetching && cachedManifest(collectionId)) {
+  if (collectionResource?.isFetching && getCollection(collectionId)) {
     setCollectionData({
       ...collectionData,
-      collectionResource: cachedManifest(collectionId),
+      collectionResource: getCollection(collectionId),
     });
   }
 
@@ -79,7 +74,7 @@ export const SelectCollectionFolders = (props) => {
     const pathIndex = oldCollectionPath.indexOf(newCollection.id);
     const newCollectionPath = (pathIndex > 0) ? oldCollectionPath.slice(0, pathIndex) : [];
     const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
-    update.collectionResource = cachedManifest(newCollection.id);
+    update.collectionResource = getCollection(newCollection.id);
     if (!update.collectionResource) {
       fetchCollection(newCollection.id);
       update.collectionResource = { ...newCollection, isFetching: true };
@@ -90,7 +85,7 @@ export const SelectCollectionFolders = (props) => {
   /** */
   const setCollection = ({ collection: newCollection, collectionPath: newCollectionPath }) => {
     const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
-    update.collectionResource = cachedManifest(newCollection.id);
+    update.collectionResource = getCollection(newCollection.id);
     if (!update.collectionResource) {
       fetchCollection(newCollection.id);
       update.collectionResource = { ...newCollection, isFetching: true };
@@ -109,34 +104,37 @@ export const SelectCollectionFolders = (props) => {
       elevation={0}
       id={`${windowId}-gallery`}
     >
-      {
-        collectionPath?.map(ancestor => (
-          <Button
-            key={ancestor}
-            startIcon={<ArrowBackIcon />}
-            onClick={() => backToCollection({ collection: getCollectionManifesto(ancestor), collectionPath })}
-          >
-            {CollectionDialog.getUseableLabel(getCollectionManifesto(ancestor), 0)}
-          </Button>
-        ))
-      }
-      <CollectionListHeaders collectionId={collectionId} />
+      <List sx={{ bgcolor: 'background.paper', width: '100%' }}>
+        {
+          collectionPath?.map(ancestor => (
+            <Button
+              key={ancestor}
+              startIcon={<ArrowBackIcon />}
+              onClick={() => backToCollection({ collection: getCollectionManifesto(ancestor), collectionPath })}
+            >
+              {CollectionDialog.getUseableLabel(getCollectionManifesto(ancestor), 0)}
+            </Button>
+          ))
+        }
+        <CollectionListHeaders collectionId={collectionId} />
 
-      {
-        items && items.map(item => (
-          <CollectionListItem
-            key={item.id}
-            title={CollectionDialog.getUseableLabel(item, 0)}
-            manifest={getCollectionManifesto(item.id) || item}
-            manifestId={item.id}
-            collectionPath={[...collectionPath, collection.id]}
-            setCollection={setCollection}
-            updateWindow={updateWindow}
-            windowId={windowId}
-            handleClose={() => {}}
-          />
-        ))
-      }
+        {
+          items && items.map(item => (
+            <CollectionListItem
+              key={item.id}
+              title={CollectionDialog.getUseableLabel(item, 0)}
+              manifest={getCollectionManifesto(item.id) || item}
+              manifestId={item.id}
+              fetchCollection={fetchCollection}
+              collectionPath={[...collectionPath, collection.id]}
+              setCollection={setCollection}
+              updateWindow={updateWindow}
+              windowId={windowId}
+              handleClose={() => {}}
+            />
+          ))
+        }
+      </List>
     </Root>
   );
 };
