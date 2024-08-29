@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { Component, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Folder from '@mui/icons-material/Folder';
 import { styled } from '@mui/material/styles';
@@ -8,6 +9,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import { Img } from 'react-image';
+import { getManifest, getManifestoInstance } from '../../../state/selectors';
+import IIIFThumbnail from '../../../containers/IIIFThumbnail';
 import ManifestListItemError from '../../../containers/ManifestListItemError';
 import ns from '../../../config/css-ns';
 import getBestThumbnail from '../../../lib/ThumbnailFactory';
@@ -25,11 +28,6 @@ const Root = styled(ListItem, { name: 'CollectionListItem', slot: 'root' })(({ o
     paddingLeft: theme.spacing(3),
     paddingRight: theme.spacing(3),
   },
-}));
-
-const StyledThumbnail = styled(Img, { name: 'CollectionListItem', slot: 'thumbnail' })(({ theme }) => ({
-  maxWidth: '100%',
-  objectFit: 'contain',
 }));
 
 const StyledLogo = styled(Img, { name: 'CollectionListItem', slot: 'logo' })(({ theme }) => ({
@@ -57,12 +55,18 @@ export const CollectionListItem = (props) => {
     manifestLogo,
     t,
     error,
+    fetchCollection,
     isCollection,
     isMultipart,
     updateWindow,
     windowId,
   } = props;
 
+  const manifesto = useSelector((state) => manifestId && getManifestoInstance(state, { manifestId }), shallowEqual);
+  const [isLoading, setIsLoading] = useState(false);
+  if (!manifesto && !isLoading && manifest.isCollection) {
+    fetchCollection(manifestId) && setIsLoading(true);
+  }
   /**
    * Handling open button click
    */
@@ -121,12 +125,15 @@ export const CollectionListItem = (props) => {
     }
     const { url: thumbnail } = getBestThumbnail(manifestoResource);
     return thumbnail ? (
-      <StyledThumbnail
-        className={[ns('manifest-list-item-thumb')]}
-        src={thumbnail}
+      <IIIFThumbnail
+        resource={manifestoResource}
         alt=""
-        height="80"
-        unloader={unloader}
+        style={{
+          maxWidth: '100%',
+          objectFit: 'contain',
+        }}
+        variant="inside"
+        imagePlaceholder={unloader}
       />
     ) : unloader;
   };
@@ -145,6 +152,7 @@ export const CollectionListItem = (props) => {
     );
   }
 
+  const numItems = (manifesto || manifest).items?.length;
   return (
     <Root
       divider
@@ -167,6 +175,9 @@ export const CollectionListItem = (props) => {
                   textTransform: 'initial',
                 }}
                 component="span"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
               >
                 <Grid item xs={4} sm={3} component="span">
                   { thumbnailFor(manifest) }
@@ -184,8 +195,8 @@ export const CollectionListItem = (props) => {
               </Grid>
             </ButtonBase>
           </Grid>
-          <Grid item xs={8} sm={4}>
-            <Typography>{manifest.items?.at(0) ? `${manifest.items.length} Items` : ''}</Typography>
+          <Grid item xs={8} sm={4} display="flex" justifyContent="left" alignItems="center">
+            <Typography>{numItems ? `${numItems} Items` : ''}</Typography>
           </Grid>
 
           <Grid item xs={4} sm={2}>
