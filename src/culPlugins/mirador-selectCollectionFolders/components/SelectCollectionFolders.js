@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
 import { CollectionDialog } from '../../../components/CollectionDialog';
-import { getCollectionData } from '../state/selectors';
+import { collectionDataEqual, getCollectionData } from '../state/selectors';
 
 const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) => ({
   alignItems: 'flex-start',
@@ -26,14 +26,14 @@ const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) =>
 export const SelectCollectionFolders = (props) => {
   const {
     collectionId: originalCollectionId,
-    fetchCollection,
+    fetchManifest,
     getCollection,
     getCollectionManifesto,
     updateWindow,
     windowId,
   } = props;
 
-  const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }));
+  const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }), collectionDataEqual);
 
   const [collectionData, setCollectionData] = useState({
     collectionId: originalCollectionId,
@@ -59,7 +59,7 @@ export const SelectCollectionFolders = (props) => {
   if (!collection && !collectionResource?.isFetching) {
     setCollectionData({
       ...collectionData,
-      collectionResource: fetchCollection(collectionId),
+      collectionResource: fetchManifest(collectionId),
     });
   }
   if (collectionResource?.isFetching && getCollection(collectionId)) {
@@ -76,7 +76,7 @@ export const SelectCollectionFolders = (props) => {
     const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
     update.collectionResource = getCollection(newCollection.id);
     if (!update.collectionResource) {
-      fetchCollection(newCollection.id);
+      fetchManifest(newCollection.id);
       update.collectionResource = { ...newCollection, isFetching: true };
     }
     setCollectionData(update);
@@ -87,7 +87,7 @@ export const SelectCollectionFolders = (props) => {
     const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
     update.collectionResource = getCollection(newCollection.id);
     if (!update.collectionResource) {
-      fetchCollection(newCollection.id);
+      fetchManifest(newCollection.id);
       update.collectionResource = { ...newCollection, isFetching: true };
     }
     setCollectionData(update);
@@ -98,11 +98,11 @@ export const SelectCollectionFolders = (props) => {
   return (
     <Root
       component="section"
-      aria-label="gallery section"
+      aria-label="collection navigation section"
       dir="ltr"
       square
       elevation={0}
-      id={`${windowId}-gallery`}
+      id={`${windowId}-collections`}
     >
       <List sx={{ bgcolor: 'background.paper', width: '100%' }}>
         {
@@ -125,7 +125,8 @@ export const SelectCollectionFolders = (props) => {
               title={CollectionDialog.getUseableLabel(item, 0)}
               manifest={getCollectionManifesto(item.id) || item}
               manifestId={item.id}
-              fetchCollection={fetchCollection}
+              fetchManifest={fetchManifest}
+              getCollectionManifesto={getCollectionManifesto}
               collectionPath={[...collectionPath, collection.id]}
               setCollection={setCollection}
               updateWindow={updateWindow}
