@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Folder from '@mui/icons-material/Folder';
@@ -18,10 +18,10 @@ import getBestThumbnail from '../../../lib/ThumbnailFactory';
 const Root = styled(ListItem, { name: 'CollectionListItem', slot: 'root' })(({ ownerState, theme }) => ({
   '&:hover,&:focus-within': {
     backgroundColor: theme.palette.action.hover,
-    borderLeftColor: ownerState?.active ? theme.palette.primary.main : theme.palette.action.hover,
+    borderLeftColor: theme.palette.action.hover,
   },
   borderLeft: '4px solid',
-  borderLeftColor: ownerState?.active ? theme.palette.primary.main : 'transparent',
+  borderLeftColor: 'transparent',
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
   [theme.breakpoints.up('sm')]: {
@@ -46,27 +46,31 @@ const StyledLogo = styled(Img, { name: 'CollectionListItem', slot: 'logo' })(({ 
 /** */
 export const CollectionListItem = (props) => {
   const {
-    active,
     buttonRef,
     handleClose,
-    manifest,
     manifestId,
     title,
     manifestLogo,
     t,
-    error,
-    fetchCollection,
+    fetchManifest,
+    getCollectionManifesto,
     isCollection,
     isMultipart,
     updateWindow,
     windowId,
   } = props;
 
-  const manifesto = useSelector((state) => manifestId && getManifestoInstance(state, { manifestId }), shallowEqual);
-  const [isLoading, setIsLoading] = useState(false);
-  if (!manifesto && !isLoading && manifest.isCollection) {
-    fetchCollection(manifestId) && setIsLoading(true);
-  }
+  const manifest = useSelector((state) => manifestId && getManifest(state, { manifestId, windowId }), shallowEqual);
+
+  useEffect(() => {
+    const { error, isFetching } = (manifest || {});
+    const ready = manifest && !!manifest.json;
+    if (!ready && !error && !isFetching) {
+      fetchManifest(manifestId);
+    }
+  }, [fetchManifest, manifest, manifestId]);
+
+  const manifesto = getCollectionManifesto(manifestId);
   /**
    * Handling open button click
    */
@@ -118,13 +122,16 @@ export const CollectionListItem = (props) => {
 
   /** */
   const thumbnailFor = (manifestoResource) => {
+    if (!manifestoResource) return unloader;
+
     if (manifestoResource.isCollection()) {
       return (
         <Folder fontSize="large" color="primary" />
       );
     }
     const { url: thumbnail } = getBestThumbnail(manifestoResource);
-    return thumbnail ? (
+
+    return (manifestoResource && thumbnail) ? (
       <IIIFThumbnail
         resource={manifestoResource}
         alt=""
@@ -133,18 +140,26 @@ export const CollectionListItem = (props) => {
           objectFit: 'contain',
         }}
         variant="inside"
-        imagePlaceholder={unloader}
       />
     ) : unloader;
   };
 
-  if (error) {
+  if (!manifesto) {
     return (
       <Root
         ownerState={props}
         divider
-        selected={active}
-        className={active ? 'active' : ''}
+        data-manifestid={manifestId}
+      >
+        {placeholder}
+      </Root>
+    );
+  }
+  if (manifest.error) {
+    return (
+      <Root
+        ownerState={props}
+        divider
         data-manifestid={manifestId}
       >
         <ManifestListItemError manifestId={manifestId} />
@@ -152,84 +167,78 @@ export const CollectionListItem = (props) => {
     );
   }
 
-  const numItems = (manifesto || manifest).items?.length;
+  const numItems = (manifesto && manifesto.isCollection() && manifesto.items)?.length;
   return (
     <Root
       divider
       data-manifestid={manifest?.id}
     >
-      {manifest ? (
-        <Grid container className={ns('manifest-list-item')} spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <ButtonBase
-              ref={buttonRef}
-              className={ns('manifest-list-item-title')}
-              style={{ width: '100%' }}
-              onClick={manifest.isCollection() ? handleCollectionClick : handleManifestClick}
+      <Grid container className={ns('manifest-list-item')} spacing={2}>
+        <Grid item xs={12} sm={6}>
+          <ButtonBase
+            ref={buttonRef}
+            className={ns('manifest-list-item-title')}
+            style={{ width: '100%' }}
+            onClick={manifesto.isCollection() ? handleCollectionClick : handleManifestClick}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                textAlign: 'left',
+                textTransform: 'initial',
+              }}
+              component="span"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
             >
-              <Grid
-                container
-                spacing={2}
-                sx={{
-                  textAlign: 'left',
-                  textTransform: 'initial',
-                }}
-                component="span"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Grid item xs={4} sm={3} component="span">
-                  { thumbnailFor(manifest) }
-                </Grid>
-                <Grid item xs={8} sm={9} component="span">
-                  { isCollection && (
-                    <Typography component="div" variant="overline">
-                      { t(isMultipart ? 'multipartCollection' : 'collection') }
-                    </Typography>
-                  )}
-                  <Typography component="span" variant="h6">
-                    {title || manifestId}
-                  </Typography>
-                </Grid>
+              <Grid item xs={4} sm={3} component="span">
+                { thumbnailFor(manifesto) }
               </Grid>
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={8} sm={4} display="flex" justifyContent="left" alignItems="center">
-            <Typography>{numItems ? `${numItems} Items` : ''}</Typography>
-          </Grid>
-
-          <Grid item xs={4} sm={2}>
-            { manifestLogo
-              && (
-              <StyledLogo
-                src={[manifestLogo]}
-                alt=""
-                role="presentation"
-                unloader={(
-                  <Skeleton
-                    variant="rectangular"
-                    animation={false}
-                    sx={{ bgcolor: 'grey[300]' }}
-                    height={60}
-                    width={60}
-                  />
+              <Grid item xs={8} sm={9} component="span">
+                { isCollection && (
+                  <Typography component="div" variant="overline">
+                    { t(isMultipart ? 'multipartCollection' : 'collection') }
+                  </Typography>
                 )}
-              />
-              )}
-          </Grid>
+                <Typography component="span" variant="h6">
+                  {title || manifestId}
+                </Typography>
+              </Grid>
+            </Grid>
+          </ButtonBase>
         </Grid>
-      ) : (
-        placeholder
-      )}
+        <Grid item xs={8} sm={4} display="flex" justifyContent="left" alignItems="center">
+          <Typography>{numItems ? `${numItems} Items` : ''}</Typography>
+        </Grid>
+
+        <Grid item xs={4} sm={2}>
+          { manifestLogo
+            && (
+            <StyledLogo
+              src={[manifestLogo]}
+              alt=""
+              role="presentation"
+              unloader={(
+                <Skeleton
+                  variant="rectangular"
+                  animation={false}
+                  sx={{ bgcolor: 'grey[300]' }}
+                  height={60}
+                  width={60}
+                />
+              )}
+            />
+            )}
+        </Grid>
+      </Grid>
     </Root>
   );
 };
 
 CollectionListItem.propTypes = {
-  active: PropTypes.bool,
   buttonRef: PropTypes.elementType,
-  error: PropTypes.string,
   handleClose: PropTypes.func,
   isCollection: PropTypes.bool,
   isMultipart: PropTypes.bool,
@@ -241,9 +250,7 @@ CollectionListItem.propTypes = {
 };
 
 CollectionListItem.defaultProps = {
-  active: false,
   buttonRef: undefined,
-  error: null,
   handleClose: () => {},
   isCollection: false,
   isMultipart: false,

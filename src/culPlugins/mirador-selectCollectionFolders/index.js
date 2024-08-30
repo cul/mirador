@@ -20,7 +20,7 @@ export default [
     component: SelectCollectionFolders,
     config: {},
     mapDispatchToProps: (dispatch, { canvas, id, windowId }) => ({
-      fetchCollection: (...args) => dispatch(fetchManifest(...args)),
+      fetchManifest: (...args) => dispatch(fetchManifest(...args)),
       requestItemAnnotations: () => [],
       updateWindow: (...args) => dispatch(updateWindow(...args)),
     }),
