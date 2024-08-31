@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from 'react';
+import { Component, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Folder from '@mui/icons-material/Folder';
@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import { Img } from 'react-image';
-import { getManifest, getManifestoInstance } from '../../../state/selectors';
+import { getManifest } from '../../../state/selectors';
 import IIIFThumbnail from '../../../containers/IIIFThumbnail';
 import ManifestListItemError from '../../../containers/ManifestListItemError';
 import ns from '../../../config/css-ns';
