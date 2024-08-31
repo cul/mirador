@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
 import { CollectionDialog } from '../../../components/CollectionDialog';
-import { collectionDataEqual, getCollectionData } from '../state/selectors';
+import { collectionPathEqual, getCollectionPath } from '../../state/selectors';
 import { getManifest } from '../../../state/selectors';
 
 const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) => ({
@@ -33,8 +33,7 @@ export const SelectCollectionFolders = (props) => {
     windowId,
   } = props;
 
-  const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }), collectionDataEqual);
-  const { collectionPath } = windowCollectionData;
+  const collectionPath = useSelector((state) => getCollectionPath(state, { windowId }), collectionPathEqual);
 
   const collectionResource = useSelector((state) => getManifest(state, { manifestId: collectionId }), shallowEqual);
 
