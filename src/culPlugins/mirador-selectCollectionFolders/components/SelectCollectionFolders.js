@@ -1,5 +1,5 @@
-import { Component, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { Component, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackSharp';
@@ -10,6 +10,7 @@ import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
 import { CollectionDialog } from '../../../components/CollectionDialog';
 import { collectionDataEqual, getCollectionData } from '../state/selectors';
+import { getManifest } from '../../../state/selectors';
 
 const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) => ({
   alignItems: 'flex-start',
@@ -25,72 +26,38 @@ const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) =>
 /** SelectCollections slot that displays navigable icons of folders and thumbnails */
 export const SelectCollectionFolders = (props) => {
   const {
-    collectionId: originalCollectionId,
+    collectionId,
     fetchManifest,
-    getCollection,
     getCollectionManifesto,
     updateWindow,
     windowId,
   } = props;
 
   const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }), collectionDataEqual);
+  const { collectionPath } = windowCollectionData;
 
-  const [collectionData, setCollectionData] = useState({
-    collectionId: originalCollectionId,
-    collectionPath: windowCollectionData.collectionPath,
-    collectionResource: getCollection(originalCollectionId),
-    rootManifestId: windowCollectionData.manifestId,
-  });
-
-  const { collectionId, collectionPath, collectionResource } = collectionData;
+  const collectionResource = useSelector((state) => getManifest(state, { manifestId: collectionId }), shallowEqual);
 
   const collection = collectionResource && getCollectionManifesto(collectionId);
 
-  if (collectionData.rootManifestId !== windowCollectionData.manifestId) {
-    // the collection manifest has been changed by another widget
-    setCollectionData({
-      collectionId: windowCollectionData.manifestId,
-      collectionPath: windowCollectionData.collectionPath,
-      collectionResource: getCollection(windowCollectionData.manifestId),
-      rootManifestId: windowCollectionData.manifestId,
-    });
-  }
-
-  if (!collection && !collectionResource?.isFetching) {
-    setCollectionData({
-      ...collectionData,
-      collectionResource: fetchManifest(collectionId),
-    });
-  }
-  if (collectionResource?.isFetching && getCollection(collectionId)) {
-    setCollectionData({
-      ...collectionData,
-      collectionResource: getCollection(collectionId),
-    });
-  }
+  useEffect(() => {
+    if (!collection && !collectionResource?.isFetching) {
+      fetchManifest(collectionId);
+    }
+  }, [collection, collectionId, collectionResource, fetchManifest]);
 
   /** */
   const backToCollection = ({ collection: newCollection, collectionPath: oldCollectionPath }) => {
     const pathIndex = oldCollectionPath.indexOf(newCollection.id);
     const newCollectionPath = (pathIndex > 0) ? oldCollectionPath.slice(0, pathIndex) : [];
-    const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
-    update.collectionResource = getCollection(newCollection.id);
-    if (!update.collectionResource) {
-      fetchManifest(newCollection.id);
-      update.collectionResource = { ...newCollection, isFetching: true };
-    }
-    setCollectionData(update);
+    const update = { collectionPath: newCollectionPath, manifestId: newCollection.id };
+    updateWindow(windowId, update);
   };
 
   /** */
   const setCollection = ({ collection: newCollection, collectionPath: newCollectionPath }) => {
-    const update = { ...collectionData, collectionId: newCollection.id, collectionPath: newCollectionPath };
-    update.collectionResource = getCollection(newCollection.id);
-    if (!update.collectionResource) {
-      fetchManifest(newCollection.id);
-      update.collectionResource = { ...newCollection, isFetching: true };
-    }
-    setCollectionData(update);
+    const update = { collectionPath: newCollectionPath, manifestId: newCollection.id };
+    updateWindow(windowId, update);
   };
 
   const items = collection?.items;
