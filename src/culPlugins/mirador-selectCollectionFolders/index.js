@@ -60,6 +60,7 @@ export default [
       return {
         collectionLabel: getManifestTitle(state, { manifestId: collectionId }),
         collectionPath,
+        id: collectionId,
         manifestId,
         windowId,
       };

@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import { Img } from 'react-image';
 import { getManifest } from '../../../state/selectors';
+import { IIIFResourceLabel } from '../../../components/IIIFResourceLabel';
 import IIIFThumbnail from '../../../containers/IIIFThumbnail';
 import ManifestListItemError from '../../../containers/ManifestListItemError';
 import ns from '../../../config/css-ns';
@@ -44,22 +45,21 @@ const StyledLogo = styled(Img, { name: 'CollectionListItem', slot: 'logo' })(({ 
  */
 
 /** */
-export const CollectionListItem = (props) => {
-  const {
-    buttonRef,
-    handleClose,
-    manifestId,
-    title,
-    manifestLogo,
-    t,
-    fetchManifest,
-    getCollectionManifesto,
-    isCollection,
-    isMultipart,
-    updateWindow,
-    windowId,
-  } = props;
-
+export function CollectionListItem({
+  buttonRef = undefined,
+  handleClose = () => {},
+  manifestId,
+  title = null,
+  manifestLogo = null,
+  t = key => key,
+  fetchManifest,
+  getCollectionManifesto,
+  isCollection = false,
+  isMultipart = false,
+  updateWindow,
+  windowId,
+}) {
+  const ownerState = arguments[0]; // eslint-disable-line prefer-rest-params
   const manifest = useSelector((state) => manifestId && getManifest(state, { manifestId, windowId }), shallowEqual);
 
   useEffect(() => {
@@ -77,8 +77,7 @@ export const CollectionListItem = (props) => {
   const handleCollectionClick = () => {
     const {
       collectionPath, setCollection,
-    } = props;
-
+    } = ownerState;
     setCollection({ collection: manifest, collectionPath });
     handleClose();
   };
@@ -87,7 +86,7 @@ export const CollectionListItem = (props) => {
   const handleManifestClick = () => {
     const {
       collectionPath,
-    } = props;
+    } = ownerState;
     updateWindow(windowId, { collectionPath, manifestId });
     handleClose();
   };
@@ -147,7 +146,7 @@ export const CollectionListItem = (props) => {
   if (!manifesto) {
     return (
       <Root
-        ownerState={props}
+        ownerState={ownerState}
         divider
         data-manifestid={manifestId}
       >
@@ -158,7 +157,7 @@ export const CollectionListItem = (props) => {
   if (manifest.error) {
     return (
       <Root
-        ownerState={props}
+        ownerState={ownerState}
         divider
         data-manifestid={manifestId}
       >
@@ -235,10 +234,12 @@ export const CollectionListItem = (props) => {
       </Grid>
     </Root>
   );
-};
+}
 
 CollectionListItem.propTypes = {
   buttonRef: PropTypes.elementType,
+  fetchManifest: PropTypes.func.isRequired,
+  getCollectionManifesto: PropTypes.func.isRequired,
   handleClose: PropTypes.func,
   isCollection: PropTypes.bool,
   isMultipart: PropTypes.bool,
@@ -247,14 +248,5 @@ CollectionListItem.propTypes = {
   t: PropTypes.func,
   title: PropTypes.string,
   updateWindow: PropTypes.func.isRequired,
-};
-
-CollectionListItem.defaultProps = {
-  buttonRef: undefined,
-  handleClose: () => {},
-  isCollection: false,
-  isMultipart: false,
-  manifestLogo: null,
-  t: key => key,
-  title: null,
+  windowId: PropTypes.string.isRequired,
 };

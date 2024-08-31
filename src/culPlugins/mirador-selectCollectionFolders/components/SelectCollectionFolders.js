@@ -1,16 +1,19 @@
-import { Component, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBackSharp';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
+import { CollectionAncestorButton } from './CollectionAncestorButton';
 import { CollectionListHeaders } from './CollectionListHeaders';
 import { CollectionListItem } from './CollectionListItem';
-import { CollectionDialog } from '../../../components/CollectionDialog';
-import { collectionDataEqual, getCollectionData } from '../state/selectors';
-import { getManifest } from '../../../state/selectors';
+import { IIIFResourceLabel } from '../../../components/IIIFResourceLabel';
+import LocaleContext from '../../../contexts/LocaleContext';
+import { collectionPathEqual, getCollectionPath } from '../../state/selectors';
+import { getLocale, getManifest } from '../../../state/selectors';
 
 const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) => ({
   alignItems: 'flex-start',
@@ -23,22 +26,36 @@ const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) =>
   width: '100%',
 }));
 
-/** SelectCollections slot that displays navigable icons of folders and thumbnails */
-export const SelectCollectionFolders = (props) => {
-  const {
-    collectionId,
-    fetchManifest,
-    getCollectionManifesto,
-    updateWindow,
-    windowId,
-  } = props;
+/** Using IIIFResourceLabel results in mismatched hook invocations */
+const getLabel = ({ fallback, locale, resource }) => {
+  if (!resource) return fallback;
 
-  const windowCollectionData = useSelector((state) => getCollectionData(state, { windowId }), collectionDataEqual);
-  const { collectionPath } = windowCollectionData;
+  const label = resource.getLabel();
+
+  if (!label) return fallback;
+
+  return label.getValue(locale) ?? (fallback || resource.id);
+};
+
+/** SelectCollections slot that displays navigable icons of folders and thumbnails */
+export const SelectCollectionFolders = ({
+  collectionId,
+  fetchManifest,
+  getCollectionManifesto,
+  updateWindow,
+  windowId = null,
+}) => {
+  const { t } = useTranslation();
+
+  const collectionPath = useSelector((state) => getCollectionPath(state, { windowId }), collectionPathEqual);
 
   const collectionResource = useSelector((state) => getManifest(state, { manifestId: collectionId }), shallowEqual);
 
   const collection = collectionResource && getCollectionManifesto(collectionId);
+
+  const contextLocale = useContext(LocaleContext);
+  const fallbackLocale = useSelector(state => getLocale(state, {}));
+  const locale = (contextLocale || fallbackLocale || '');
 
   useEffect(() => {
     if (!collection && !collectionResource?.isFetching) {
@@ -73,24 +90,25 @@ export const SelectCollectionFolders = (props) => {
     >
       <List sx={{ bgcolor: 'background.paper', width: '100%' }}>
         {
-          collectionPath?.map(ancestor => (
-            <Button
-              key={ancestor}
-              startIcon={<ArrowBackIcon />}
-              onClick={() => backToCollection({ collection: getCollectionManifesto(ancestor), collectionPath })}
-            >
-              {CollectionDialog.getUseableLabel(getCollectionManifesto(ancestor), 0)}
-            </Button>
+          collectionPath?.map((ancestorId, ix) => (
+            <CollectionAncestorButton
+              key={ancestorId}
+              backToCollection={backToCollection}
+              collectionId={ancestorId}
+              collectionPath={collectionPath}
+              getCollectionManifesto={getCollectionManifesto}
+              getLabel={getLabel}
+              locale={locale}
+            />
           ))
         }
         <CollectionListHeaders collectionId={collectionId} />
 
         {
-          items && items.map(item => (
+          items && items.map((item, ix) => (
             <CollectionListItem
               key={item.id}
-              title={CollectionDialog.getUseableLabel(item, 0)}
-              manifest={getCollectionManifesto(item.id) || item}
+              title={getLabel({ fallback: (ix + 1).toString(), locale, resource: item })}
               manifestId={item.id}
               fetchManifest={fetchManifest}
               getCollectionManifesto={getCollectionManifesto}
@@ -108,9 +126,9 @@ export const SelectCollectionFolders = (props) => {
 };
 
 SelectCollectionFolders.propTypes = {
+  collectionId: PropTypes.string.isRequired,
+  fetchManifest: PropTypes.func.isRequired,
+  getCollectionManifesto: PropTypes.func.isRequired,
+  updateWindow: PropTypes.func.isRequired,
   windowId: PropTypes.string,
-};
-
-SelectCollectionFolders.defaultProps = {
-  windowId: null,
 };

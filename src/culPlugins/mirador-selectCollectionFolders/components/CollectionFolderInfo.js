@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ViewListIcon from '@mui/icons-material/ViewListSharp';
@@ -8,16 +9,14 @@ import CollapsibleSection from '../../../containers/CollapsibleSection';
 /**
  * CollectionFolderInfo
  */
-export const CollectionFolderInfo = (props) => {
-  const {
-    collectionLabel,
-    collectionPath,
-    id,
-    t,
-    updateWindow,
-    windowId,
-  } = props;
-
+export const CollectionFolderInfo = ({
+  collectionLabel = null,
+  collectionPath = [],
+  id,
+  updateWindow,
+  windowId = null,
+}) => {
+  const { t } = useTranslation();
   /** */
   const showCollectionFolder = () => {
     const update = {
@@ -59,14 +58,6 @@ CollectionFolderInfo.propTypes = {
   collectionLabel: PropTypes.string,
   collectionPath: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.string.isRequired,
-  t: PropTypes.func,
   updateWindow: PropTypes.func.isRequired,
   windowId: PropTypes.string,
-};
-
-CollectionFolderInfo.defaultProps = {
-  collectionLabel: null,
-  collectionPath: [],
-  t: key => key,
-  windowId: null,
 };
