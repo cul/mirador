@@ -28,43 +28,37 @@ const Root = styled(ListItem, { name: 'CollectionListHeaders', slot: 'root' })((
  */
 
 /** */
-export const CollectionListHeaders = (props) => {
-  const { collectionId } = props;
-  return (
-    <Root
-      divider
-      data-manifestid={collectionId}
-    >
-      <Grid container className={ns('collection-list-item')} spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              textAlign: 'left',
-              textTransform: 'initial',
-            }}
-            component="span"
-          >
-            <Grid item xs={4} sm={3} component="span" />
-            <Grid item xs={8} sm={9} component="span">
-              <Typography component="span" variant="h6" fontWeight="bold">Name</Typography>
-            </Grid>
+export const CollectionListHeaders = ({ collectionId }) => (
+  <Root
+    divider
+    data-manifestid={collectionId}
+  >
+    <Grid container className={ns('collection-list-item')} spacing={2}>
+      <Grid item xs={12} sm={6}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            textAlign: 'left',
+            textTransform: 'initial',
+          }}
+          component="span"
+        >
+          <Grid item xs={4} sm={3} component="span" />
+          <Grid item xs={8} sm={9} component="span">
+            <Typography component="span" variant="h6" fontWeight="bold">Name</Typography>
           </Grid>
         </Grid>
-        <Grid item xs={8} sm={4}>
-          <Typography component="span" variant="h6" fontWeight="bold">Number of Items</Typography>
-        </Grid>
-
-        <Grid item xs={4} sm={2} />
       </Grid>
-    </Root>
-  );
-};
+      <Grid item xs={8} sm={4}>
+        <Typography component="span" variant="h6" fontWeight="bold">Number of Items</Typography>
+      </Grid>
+
+      <Grid item xs={4} sm={2} />
+    </Grid>
+  </Root>
+);
 
 CollectionListHeaders.propTypes = {
   collectionId: PropTypes.string.isRequired,
-};
-
-CollectionListHeaders.defaultProps = {
 };
