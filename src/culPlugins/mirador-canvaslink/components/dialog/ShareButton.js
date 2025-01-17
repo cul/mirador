@@ -17,15 +17,14 @@ const iconMapping = {
 };
 
 /** Renders a button for sharing the given content on one of the supported providers */
-const ShareButton = (props) => {
-  const {
-    attribution,
-    canvasLink,
-    label,
-    provider,
-    thumbnailUrl,
-    title,
-  } = props;
+const ShareButton = ({
+  attribution = null,
+  canvasLink,
+  label,
+  provider,
+  thumbnailUrl,
+  title,
+}) => {
   const link = getShareLink(
     attribution,
     canvasLink,
@@ -44,10 +43,6 @@ const ShareButton = (props) => {
       <ProviderIcon />
     </MiradorMenuButton>
   );
-};
-
-ShareButton.defaultProps = {
-  attribution: undefined,
 };
 
 ShareButton.propTypes = {
