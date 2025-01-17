@@ -1,12 +1,14 @@
 import Badge from '@mui/material/Badge';
 import DownloadIcon from '@mui/icons-material/VerticalAlignBottomSharp';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 
 /** */
 const DownloadButton = ({
-  config, containerId, suppressDownload, t, updateConfig,
+  config, containerId, suppressDownload, updateConfig,
 }) => {
+  const { t } = useTranslation();
   const { dialogOpen, enabled } = config;
   if (!enabled) {
     return null;
@@ -35,7 +37,6 @@ DownloadButton.propTypes = {
     enabled: PropTypes.bool.isRequired,
   }).isRequired,
   containerId: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
   updateConfig: PropTypes.func.isRequired,
 };
 

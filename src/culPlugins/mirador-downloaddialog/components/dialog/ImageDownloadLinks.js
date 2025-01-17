@@ -5,14 +5,16 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import ImageLink from './ImageLink';
 import SuppressedDownload from './SuppressedDownload';
 
 /** */
 const ImageDownloadLinks = ({
-  canvas, label, sizes, suppressDownload, t,
+  canvas, label, sizes = [], suppressDownload,
 }) => {
+  const { t } = useTranslation();
   if (suppressDownload) {
     return (
       <SuppressedDownload label={label} t={t} />
@@ -61,24 +63,19 @@ const ImageDownloadLinks = ({
   );
 };
 
-ImageDownloadLinks.defaultProps = {
-  sizes: [],
-};
-
 ImageDownloadLinks.propTypes = {
   canvas: PropTypes.shape({
     getCanonicalImageUri: PropTypes.func.isRequired,
     getHeight: PropTypes.func.isRequired,
     getWidth: PropTypes.func.isRequired,
   }).isRequired,
-  label: PropTypes.oneOfType(PropTypes.number, PropTypes.string).isRequired,
+  label: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   sizes: PropTypes.arrayOf(
     PropTypes.shape({
       height: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
     }),
   ),
-  t: PropTypes.func.isRequired,
 };
 
 export default ImageDownloadLinks;

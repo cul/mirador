@@ -20,7 +20,7 @@ const anyImageResources = (imageResources) => (imageResources || []).filter((r) 
 
 /** */
 const CanvasDownloadLinks = ({
-  canvas, canvasRenderings, label, sizes, suppressDownload, t,
+  canvas, canvasRenderings, label, sizes = [], suppressDownload, t = (v) => v,
 }) => {
   const theme = useTheme();
 
@@ -73,24 +73,20 @@ const CanvasDownloadLinks = ({
   );
 };
 
-CanvasDownloadLinks.defaultProps = {
-  sizes: [],
-};
-
 CanvasDownloadLinks.propTypes = {
   canvas: PropTypes.shape({
     getCanonicalImageUri: PropTypes.func.isRequired,
     getHeight: PropTypes.func.isRequired,
     getWidth: PropTypes.func.isRequired,
   }).isRequired,
-  label: PropTypes.oneOfType(PropTypes.number, PropTypes.string).isRequired,
+  label: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   sizes: PropTypes.arrayOf(
     PropTypes.shape({
       height: PropTypes.number.isRequired,
       width: PropTypes.number.isRequired,
     }),
   ),
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func,
 };
 
 export default CanvasDownloadLinks;
