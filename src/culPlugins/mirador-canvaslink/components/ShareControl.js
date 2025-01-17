@@ -1,17 +1,17 @@
 import ShareIcon from '@mui/icons-material/Share';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { MiradorMenuButton } from '../../../components/MiradorMenuButton';
 
 /** */
-const ShareControl = (props) => {
-  const {
-    containerId,
-    config,
-    t,
-    updateConfig,
-    windowViewType,
-  } = props;
+const ShareControl = ({
+  containerId,
+  config,
+  updateConfig,
+  windowViewType,
+}) => {
   const { dialogOpen, enabled, singleCanvasOnly } = config;
+  const { t } = useTranslation();
   if (!enabled
   // Only show in single canvas view if configured
   || (singleCanvasOnly && windowViewType !== 'single')
@@ -19,6 +19,7 @@ const ShareControl = (props) => {
   || windowViewType === 'gallery') {
     return null;
   }
+
   return (
     <MiradorMenuButton
       aria-expanded={dialogOpen}
@@ -41,7 +42,6 @@ ShareControl.propTypes = {
     singleCanvasOnly: PropTypes.bool.isRequired,
   }).isRequired,
   containerId: PropTypes.string.isRequired,
-  t: PropTypes.func.isRequired,
   updateConfig: PropTypes.func.isRequired,
   windowViewType: PropTypes.string.isRequired,
 };
