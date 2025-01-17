@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
 import { withPlugins } from '../../../extend/withPlugins';
 import {
   getCanvasRelated,
@@ -15,13 +14,13 @@ import { CanvasRelatedLinks } from '../components/CanvasRelatedLinks';
  * @private
  */
 const mapStateToProps = (state, { id, windowId }) => ({
+  id,
   related: getCanvasRelated(state, { windowId }),
   renderings: getCanvasRenderings(state, { windowId }),
   seeAlso: getCanvasSeeAlso(state, { windowId }),
 });
 
 const enhance = compose(
-  withTranslation(),
   connect(mapStateToProps),
   withPlugins('CanvasRelatedLinks'),
 );
