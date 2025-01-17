@@ -11,6 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import ns from '../../../config/css-ns';
 import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 
@@ -20,22 +21,22 @@ import CanvasDownloadLinks from './dialog/CanvasDownloadLinks';
 /** */
 const DownloadDialog = ({
   canvasLabel,
-  canvasRenderings,
-  children,
+  canvasRenderings = [],
+  children = undefined,
   config,
   containerId,
   infoResponse,
-  manifestRenderings,
-  manifestUrl,
+  manifestRenderings = [],
+  manifestUrl = undefined,
   suppressDownload,
-  t,
   updateConfig,
-  visibleCanvases,
+  visibleCanvases = [],
   windowId,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { dialogOpen, enabled } = config;
-  if (!enabled || !dialogOpen) {
+  if (!enabled || !dialogOpen || !manifestUrl || !(visibleCanvases && visibleCanvases.length > 0)) {
     return null;
   }
   /** */
@@ -43,6 +44,7 @@ const DownloadDialog = ({
     ...config,
     dialogOpen: false,
   });
+
   return (
     <Dialog
       container={document.querySelector(`#${containerId} .${ns('viewer')}`)}
@@ -121,13 +123,6 @@ const DownloadDialog = ({
   );
 };
 
-DownloadDialog.defaultProps = {
-  canvasRenderings: [],
-  children: undefined,
-  manifestRenderings: [],
-  manifestUrl: undefined,
-};
-
 DownloadDialog.propTypes = {
   canvasLabel: PropTypes.func.isRequired,
   canvasRenderings: PropTypes.arrayOf(
@@ -152,11 +147,11 @@ DownloadDialog.propTypes = {
     }),
   ),
   manifestUrl: PropTypes.string,
-  t: PropTypes.func.isRequired,
+  suppressDownload: PropTypes.bool.isRequired,
   updateConfig: PropTypes.func.isRequired,
   visibleCanvases: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.string, index: PropTypes.number }),
-  ).isRequired,
+  ),
   windowId: PropTypes.string.isRequired,
 };
 
