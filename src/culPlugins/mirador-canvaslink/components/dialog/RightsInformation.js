@@ -1,13 +1,15 @@
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 /** Renders the rights information defined in the used manifest */
-const RightsInformation = (props) => {
-  const { rights, t } = props;
+const RightsInformation = ({ rights }) => {
+  const { t } = useTranslation();
   if (!rights.length) {
     return null;
   }
+
   return (
     <Alert severity="warning" sx={{ mt: 2 }}>
       <span>
@@ -22,7 +24,7 @@ const RightsInformation = (props) => {
       ) : (
         <ul>
           {rights.map((link) => (
-            <li>
+            <li key={rights}>
               <Link href={link} rel="noopener" target="_blank">
                 {link}
               </Link>
@@ -36,7 +38,6 @@ const RightsInformation = (props) => {
 
 RightsInformation.propTypes = {
   rights: PropTypes.arrayOf(PropTypes.string).isRequired,
-  t: PropTypes.func.isRequired,
 };
 
 export default RightsInformation;
