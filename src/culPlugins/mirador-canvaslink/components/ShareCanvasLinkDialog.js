@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ns from '../../../config/css-ns';
 import ScrollIndicatedDialogContent from '../../../containers/ScrollIndicatedDialogContent';
 
@@ -33,22 +34,21 @@ const useStyles = createTheme((theme) => ({
 const supportsClipboard = 'clipboard' in navigator;
 
 /** */
-const ShareCanvasLinkDialog = (props) => {
-  const {
-    config,
-    containerId,
-    manifestId,
-    visibleCanvases,
-    label,
-    rights,
-    t,
-    updateConfig,
-  } = props;
+const ShareCanvasLinkDialog = ({
+  config,
+  containerId,
+  manifestId,
+  visibleCanvases = [],
+  label = '',
+  rights = [],
+  updateConfig,
+}) => {
   const {
     dialogOpen, enabled, showRightsInformation, getCanvasLink, providers,
   } = config;
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const { actions, actionButtons, alert } = useStyles;
+  const { t } = useTranslation();
 
   if (!enabled || !dialogOpen || visibleCanvases.length === 0) {
     return null;
@@ -114,6 +114,7 @@ const ShareCanvasLinkDialog = (props) => {
           {providers.map(
             (p) => (
               <ShareButton
+                key={p}
                 canvasLink={canvasLink}
                 label={label}
                 provider={p}
@@ -132,12 +133,6 @@ const ShareCanvasLinkDialog = (props) => {
   );
 };
 
-ShareCanvasLinkDialog.defaultProps = {
-  label: '',
-  rights: [],
-  visibleCanvases: [],
-};
-
 ShareCanvasLinkDialog.propTypes = {
   config: PropTypes.shape({
     dialogOpen: PropTypes.bool.isRequired,
@@ -150,7 +145,6 @@ ShareCanvasLinkDialog.propTypes = {
   label: PropTypes.string,
   manifestId: PropTypes.string.isRequired,
   rights: PropTypes.arrayOf(PropTypes.string),
-  t: PropTypes.func.isRequired,
   updateConfig: PropTypes.func.isRequired,
   visibleCanvases: PropTypes.arrayOf(
     PropTypes.shape({
