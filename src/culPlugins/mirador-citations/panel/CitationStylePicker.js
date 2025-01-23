@@ -8,13 +8,11 @@ import Typography from '@mui/material/Typography';
 /**
  * Provide a citation style picker
  */
-export function CitationStylePicker(props) {
-  const {
-    availableCitationStyles,
-    citationStyle,
-    setCitationStyle,
-  } = props;
-
+export function CitationStylePicker({
+  availableCitationStyles = ['apa', 'chicago', 'mla'],
+  citationStyle = 'mla',
+  setCitationStyle = undefined,
+}) {
   if (!setCitationStyle || availableCitationStyles.length < 2) return null;
   return (
     <FormControl sx={{ m: 1, minWidth: 60 }} size="small">
@@ -44,10 +42,4 @@ CitationStylePicker.propTypes = {
   availableCitationStyles: PropTypes.arrayOf(PropTypes.string),
   citationStyle: PropTypes.string,
   setCitationStyle: PropTypes.func,
-};
-
-CitationStylePicker.defaultProps = {
-  availableCitationStyles: ['apa', 'chicago', 'mla'],
-  citationStyle: 'mla',
-  setCitationStyle: undefined,
 };
