@@ -6,7 +6,7 @@ self.$RefreshReg$ = () => {}; /* eslint-disable-line no-restricted-globals */
 self.$RefreshSig$ = () => () => {}; /* eslint-disable-line no-restricted-globals */
 
 /** */
-const MiradorViewXml = ({ config, container, updateConfig }) => {
+const MiradorViewXml = ({ config, updateConfig }) => {
   const { dialogOpen, enabled } = config;
   if (!enabled) {
     return null;
@@ -17,7 +17,6 @@ const MiradorViewXml = ({ config, container, updateConfig }) => {
       aria-expanded={dialogOpen}
       aria-haspopup
       aria-label="View MODS"
-      container={container}
       onClick={() => updateConfig({
         ...config,
         dialogOpen: !dialogOpen,
@@ -33,7 +32,6 @@ MiradorViewXml.propTypes = {
     dialogOpen: PropTypes.bool.isRequired,
     enabled: PropTypes.bool.isRequired,
   }).isRequired,
-  container: PropTypes.string.isRequired,
   updateConfig: PropTypes.func.isRequired,
 };
 
