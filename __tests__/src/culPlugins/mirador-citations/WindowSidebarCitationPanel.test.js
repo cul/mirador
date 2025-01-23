@@ -1,4 +1,4 @@
-import { render, screen } from 'test-utils';
+import { render, screen } from '../../../utils/test-utils';
 import manifestFixturePublicPdf from '../../../fixtures/culPlugins/public-pdf.json';
 
 import { WindowSideBarCitationPanel } from '../../../../src/culPlugins/mirador-citations/WindowSideBarCitationPanel';
@@ -10,7 +10,7 @@ import { getManifestProviderNames } from '../../../../src/culPlugins/mirador-cit
 
 import * as CitationProperties from '../../../../src/culPlugins/mirador-citations/state/selectors/citationProperties';
 
-jest.unmock('react-i18next');
+vi.unmock('react-i18next');
 
 /** create state */
 function preloadedStateWithManifest(manifestData) {
@@ -70,7 +70,7 @@ describe('WindowSideBarCitationPanel', () => {
     it('renders headers', () => {
       const preloadedState = preloadedStateWithManifest(manifestFixturePublicPdf);
       createWrapper(propsWithMetadata(preloadedState), preloadedState);
-      expect(screen.getByRole('heading', { name: 'citeThisItem' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Cite this item' })).toBeInTheDocument();
     });
 
     it('renders the title with a terminal dot', () => {
