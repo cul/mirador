@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/CloseSharp';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 import { TopCollectionButton } from './TopCollectionButton';
 import { WindowTopBarHeavyTitle } from './WindowTopBarHeavyTitle';
 import WindowTopMenuButton from '../../../containers/WindowTopMenuButton';
@@ -33,17 +34,21 @@ const StyledToolbar = styled(Toolbar, { name: 'WindowTopBar', slot: 'toolbar' })
   }),
 }));
 
+/** */
+const noOp = () => {};
+
 /**
  * HintingTopBar
  */
-export const HintingTopBar = (props) => {
-  const {
-    removeWindow, windowId, toggleWindowSideBar, t,
-    maximizeWindow, maximized, minimizeWindow, allowClose, allowMaximize,
-    focusWindow, allowFullscreen, allowTopMenuButton, allowWindowSideBar,
-    component, hasOpenSideBar, allowTopCollectionButton, hintSideBar,
-  } = props;
-
+export function HintingTopBar({
+  allowClose = true, allowFullscreen = true, allowMaximize = true,
+  allowTopCollectionButton = false, allowTopMenuButton = true, allowWindowSideBar = true,
+  component = 'nav', focused = false, focusWindow = noOp, hasOpenSideBar = false, hintSideBar = false,
+  maximized = false, maximizeWindow = noOp, minimizeWindow = noOp,
+  removeWindow, toggleWindowSideBar, windowDraggable = true, windowId,
+}) {
+  const { t } = useTranslation();
+  const ownerState = arguments[0]; // eslint-disable-line prefer-rest-params
   const BadgeProps = {
     color: (hintSideBar ? 'primary' : ''),
     invisible: (hasOpenSideBar || !hintSideBar),
@@ -56,7 +61,7 @@ export const HintingTopBar = (props) => {
       <StyledToolbar
         disableGutters
         onMouseDown={focusWindow}
-        ownerState={props}
+        ownerState={ownerState}
         className={classNames(ns('window-top-bar'))}
         variant="dense"
       >
@@ -107,7 +112,7 @@ export const HintingTopBar = (props) => {
       </StyledToolbar>
     </Root>
   );
-};
+}
 
 HintingTopBar.propTypes = {
   allowClose: PropTypes.bool,
@@ -119,29 +124,13 @@ HintingTopBar.propTypes = {
   component: PropTypes.elementType,
   focused: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
   focusWindow: PropTypes.func,
+  hasOpenSideBar: PropTypes.bool,
+  hintSideBar: PropTypes.bool,
   maximized: PropTypes.bool,
   maximizeWindow: PropTypes.func,
   minimizeWindow: PropTypes.func,
   removeWindow: PropTypes.func.isRequired,
-  t: PropTypes.func,
   toggleWindowSideBar: PropTypes.func.isRequired,
   windowDraggable: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
   windowId: PropTypes.string.isRequired,
-};
-
-HintingTopBar.defaultProps = {
-  allowClose: true,
-  allowFullscreen: false,
-  allowMaximize: true,
-  allowTopCollectionButton: false,
-  allowTopMenuButton: true,
-  allowWindowSideBar: true,
-  component: 'nav',
-  focused: false,
-  focusWindow: () => {},
-  maximized: false,
-  maximizeWindow: () => {},
-  minimizeWindow: () => {},
-  t: key => key,
-  windowDraggable: true,
 };
