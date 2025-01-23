@@ -22,35 +22,32 @@ const enhance = compose(
 );
 
 /** */
-class VideoJSAudioViewerBase extends Component {
-  /** */
-  render() {
-    const {
-      captions, audioOptions, audioResources,
-    } = this.props;
+const VideoJSAudioViewerBase = ({
+  captions, audioOptions, audioResources,
+}) => {
+  const videoJsOptions = {
+    ...audioOptions,
+    autoplay: false,
+    controlBar: {
+      remainingTimeDisplay: false,
+    },
+    controls: true,
+    fill: true,
+    playbackRates: [0.5, 1, 1.5, 2],
+    responsive: true,
+    sources: audioResources.filter(audio => audio.id && audio.getFormat()).map(
+      audio => ({ src: audio.id, type: audio.getFormat() }),
+    ),
+    tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
+  };
 
-    const videoJsOptions = {
-      ...audioOptions,
-      autoplay: false,
-      controlBar: {
-        remainingTimeDisplay: false,
-      },
-      controls: true,
-      fill: true,
-      playbackRates: [0.5, 1, 1.5, 2],
-      responsive: true,
-      sources: audioResources.filter(audio => audio.id && audio.getFormat()).map(
-        audio => ({ src: audio.id, type: audio.getFormat() }),
-      ),
-      tracks: captions.filter(caption => caption.id).map(caption => ({ kind: (caption.kind || 'captions'), src: caption.id })),
-    };
-
-    if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
-    return <VideoJS options={videoJsOptions} />;
-  }
-}
+  if (videoJsOptions.sources.length === 0) return <ForbiddenComponent id="this content" />;
+  return <VideoJS options={videoJsOptions} />;
+};
 
 export const VideoJSAudioViewer = enhance(VideoJSAudioViewerBase);
 
 /** */
-export default ({ _targetComponent, targetProps }) => (<VideoJSAudioViewer {...targetProps} />);
+const VideoJSAudioViewerPlugin = ({ targetProps }) => (<VideoJSAudioViewer {...targetProps} />);
+/** */
+export default VideoJSAudioViewerPlugin;

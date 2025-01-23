@@ -51,6 +51,7 @@ class VideoJSViewerBase extends VideoViewer {
 }
 
 export const VideoJSViewer = enhance(VideoJSViewerBase);
-
 /** */
-export default ({ _targetComponent, targetProps }) => (<VideoJSViewer {...targetProps} />);
+const VideoJSViewerPlugin = ({ targetProps }) => (<VideoJSViewer {...targetProps} />);
+/** */
+export default VideoJSViewerPlugin;
