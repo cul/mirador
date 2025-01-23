@@ -8,9 +8,9 @@ import WindowAuthenticationBar from '../containers/WindowAuthenticationBar';
  * Opens a new window for click
  */
 export function IIIFAuthentication({
-  accessTokenServiceId = undefined, authServiceExternal = undefined, authServiceId = undefined, confirm = undefined, description = undefined,
-  failureDescription = undefined, failureHeader = undefined, features = 'centerscreen',
-  handleAuthInteraction, header = undefined, isInteractive = true, label = undefined,
+  accessTokenServiceId = undefined, authServiceExternal = undefined, authServiceId = undefined,
+  confirm = undefined, description = undefined, failureDescription = undefined, failureHeader = undefined,
+  features = 'centerscreen', handleAuthInteraction, header = undefined, isInteractive = true, label = undefined,
   logoutConfirm = undefined, logoutServiceId = undefined, openWindow = window.open,
   resetAuthenticationState, resolveAccessTokenRequest, resolveAuthenticationRequest,
   status = null, windowId,
