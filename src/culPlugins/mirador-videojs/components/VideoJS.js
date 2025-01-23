@@ -1,12 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 /** */
-export const VideoJS = (props) => {
+export const VideoJS = ({ options = {}, onReady }) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const { options, onReady } = props;
 
   React.useEffect(() => {
     // Make sure Video.js player is only initialized once
@@ -51,3 +51,11 @@ export const VideoJS = (props) => {
 };
 
 export default VideoJS;
+
+VideoJS.propTypes = {
+  onReady: PropTypes.func.isRequired,
+  options: PropTypes.shape({
+    autoplay: PropTypes.bool,
+    sources: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  }),
+};
