@@ -8,6 +8,7 @@ import AnnotationIcon from '@mui/icons-material/CommentSharp';
 import AttributionIcon from '@mui/icons-material/CopyrightSharp';
 import LayersIcon from '@mui/icons-material/LayersSharp';
 import SearchIcon from '@mui/icons-material/SearchSharp';
+import { useTranslation } from 'react-i18next';
 import CanvasIndexIcon from '../../../components/icons/CanvasIndexIcon';
 import TabButton from './TabButton';
 
@@ -23,24 +24,22 @@ const Root = styled(Tabs, { name: 'WindowSideBarButtons', slot: 'root' })({
 /**
  * This is an override (mode = wrap) plugin targeting the WindowSidebarButtons area.
  */
-export const HintingSideBarButtons = (props) => {
-  const {
-    addCompanionWindow,
-    canvasContentTypes,
-    canvasSeeAlso,
-    hasAnnotations,
-    hasAnyAnnotations,
-    hasAnyLayers,
-    hasCurrentLayers,
-    hasSearchResults,
-    hasSearchService,
-    panels,
-    PluginComponents,
-    sideBarPanel,
-    t,
-    windowId,
-  } = props;
-
+export const HintingSideBarButtons = ({
+  addCompanionWindow,
+  canvasContentTypes = [],
+  canvasSeeAlso = [],
+  hasAnnotations = false,
+  hasAnyAnnotations = false,
+  hasAnyLayers = false,
+  hasCurrentLayers = false,
+  hasSearchResults = false,
+  hasSearchService = false,
+  panels = [],
+  PluginComponents = null,
+  sideBarPanel = 'closed',
+  windowId,
+}) => {
+  const { t } = useTranslation();
   /**
    * @param {object} event the change event
    * @param {string} value the tab's value
@@ -147,27 +146,23 @@ export const HintingSideBarButtons = (props) => {
 
 HintingSideBarButtons.propTypes = {
   addCompanionWindow: PropTypes.func.isRequired,
+  canvasContentTypes: PropTypes.arrayOf(PropTypes.string),
+  canvasSeeAlso: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   hasAnnotations: PropTypes.bool,
   hasAnyAnnotations: PropTypes.bool,
   hasAnyLayers: PropTypes.bool,
   hasCurrentLayers: PropTypes.bool,
   hasSearchResults: PropTypes.bool,
   hasSearchService: PropTypes.bool,
-  panels: PropTypes.arrayOf(PropTypes.bool),
+  panels: PropTypes.shape({
+    annotations: PropTypes.bool,
+    attribution: PropTypes.bool,
+    canvas: PropTypes.bool,
+    info: PropTypes.bool,
+    layers: PropTypes.bool,
+    search: PropTypes.bool,
+  }),
   PluginComponents: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   sideBarPanel: PropTypes.string,
-  t: PropTypes.func,
-};
-
-HintingSideBarButtons.defaultProps = {
-  hasAnnotations: false,
-  hasAnyAnnotations: false,
-  hasAnyLayers: false,
-  hasCurrentLayers: false,
-  hasSearchResults: false,
-  hasSearchService: false,
-  panels: [],
-  PluginComponents: null,
-  sideBarPanel: 'closed',
-  t: key => key,
+  windowId: PropTypes.string.isRequired,
 };

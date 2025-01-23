@@ -35,8 +35,7 @@ TitleTypography.propTypes = {
 /**
  * WindowTopBarHeavyTitle
  */
-export const WindowTopBarHeavyTitle = (props) => {
-  const { windowId } = props;
+export const WindowTopBarHeavyTitle = ({ windowId }) => {
   const error = useSelector((state) => getManifestStatus(state, { windowId }).error, shallowEqual);
   const hideWindowTitle = useSelector((state) => getWindowConfig(state, { windowId }).hideWindowTitle, shallowEqual);
   const isFetching = useSelector((state) => getManifestStatus(state, { windowId }).isFetching, shallowEqual);
@@ -44,11 +43,7 @@ export const WindowTopBarHeavyTitle = (props) => {
 
   let title = null;
   if (isFetching) {
-    title = (
-      <StyledTitleTypography>
-        <Skeleton variant="text" />
-      </StyledTitleTypography>
-    );
+    title = (<StyledTitle />);
   } else if (error) {
     title = (
       <>
@@ -63,7 +58,7 @@ export const WindowTopBarHeavyTitle = (props) => {
   } else {
     title = (
       <StyledTitleTypography>
-        {manifestTitle}
+        {manifestTitle || ''}
       </StyledTitleTypography>
     );
   }
@@ -71,15 +66,5 @@ export const WindowTopBarHeavyTitle = (props) => {
 };
 
 WindowTopBarHeavyTitle.propTypes = {
-  error: PropTypes.string,
-  hideWindowTitle: PropTypes.bool,
-  isFetching: PropTypes.bool,
-  manifestTitle: PropTypes.string,
-};
-
-WindowTopBarHeavyTitle.defaultProps = {
-  error: null,
-  hideWindowTitle: false,
-  isFetching: false,
-  manifestTitle: '',
+  windowId: PropTypes.string,
 };
