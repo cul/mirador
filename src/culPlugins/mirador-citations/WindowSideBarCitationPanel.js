@@ -8,17 +8,15 @@ import ns from '../../config/css-ns';
 /**
  * WindowSideBarCitationPanel
  */
-export function WindowSideBarCitationPanel(props) {
-  const {
-    citationData,
-    classes,
-    id,
-    manifestDoi,
-    manifestProviderNames,
-    manifestTitle,
-    windowId,
-  } = props;
-
+export function WindowSideBarCitationPanel({
+  citationData,
+  classes = {},
+  id,
+  manifestDoi,
+  manifestProviderNames = [],
+  manifestTitle = '',
+  windowId,
+}) {
   const { t } = useTranslation();
   const [citationStyle, setCitationStyle] = React.useState('mla');
 
@@ -50,10 +48,4 @@ WindowSideBarCitationPanel.propTypes = {
   manifestProviderNames: PropTypes.arrayOf(PropTypes.string),
   manifestTitle: PropTypes.string,
   windowId: PropTypes.string.isRequired,
-};
-
-WindowSideBarCitationPanel.defaultProps = {
-  classes: {},
-  manifestProviderNames: [],
-  manifestTitle: '',
 };
