@@ -20,8 +20,8 @@ self.$RefreshSig$ = () => () => {}; /* eslint-disable-line no-restricted-globals
 const MiradorViewXmlDialog = ({
   config,
   containerId,
-  manifestId,
-  relatedLinks,
+  manifestId = '',
+  relatedLinks = [],
   updateConfig,
   windowId,
 }) => {
@@ -104,11 +104,6 @@ MiradorViewXmlDialog.propTypes = {
   ),
   updateConfig: PropTypes.func.isRequired,
   windowId: PropTypes.string.isRequired,
-};
-
-MiradorViewXmlDialog.defaultProps = {
-  manifestId: '',
-  relatedLinks: [],
 };
 
 export default MiradorViewXmlDialog;
