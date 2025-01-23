@@ -1,6 +1,7 @@
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from 'manifesto.js';
+import PropTypes from 'prop-types';
 import { getCollectionPath } from '../../state/selectors';
 import { getManifest, getManifestoInstance } from '../../../state/selectors';
 import { updateWindow } from '../../../state/actions';
@@ -8,8 +9,7 @@ import MiradorMenuButton from '../../../containers/MiradorMenuButton';
 import ns from '../../../config/css-ns';
 
 /** render a topbar button that returns to a view of the containing collection */
-export const TopCollectionButton = (props) => {
-  const { className, color, windowId } = props;
+export const TopCollectionButton = ({ className = null, color = null, windowId }) => {
   const collectionPath = useSelector((state) => getCollectionPath(state, { windowId }));
 
   /** compare o(ld) manifest and n(ew) manifest to see if difference should update state */
@@ -47,4 +47,10 @@ export const TopCollectionButton = (props) => {
       <AccountTreeIcon />
     </MiradorMenuButton>
   );
+};
+
+TopCollectionButton.propTypes = {
+  className: PropTypes.string,
+  color: PropTypes.string,
+  windowId: PropTypes.string.isRequired,
 };
