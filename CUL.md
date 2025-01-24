@@ -33,14 +33,11 @@ An example configuration:
 {
   "allowedHosts": ["dev.local"],
   "host": "dev.local",
-  "hot": true,
-  "server": {
-    "options": {
-      "cert": "/path/to/self-signed/dev.local.crt",
-      "key": "/path/to/self-signed/dev.local.key"
-    },
-    "type": "https"
-  }
+  "https": {
+    "cert": "/path/to/self-signed/dev.local.crt",
+    "key": "/path/to/self-signed/dev.local.key"
+  },
+  "open": "/__tests__/integration/mirador/cul.html",
 }
 ```
 
