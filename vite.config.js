@@ -1,10 +1,32 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs/promises';
+import { readFileSync } from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import { globSync } from 'glob';
 import * as packageJson from './package.json';
+
+/** parse additional local configuration for dev server */
+const additionalDevServerConfig = () => {
+  if (!process.env.DEV_SERVER_CONFIG) return {};
+  const cwdPath = fileURLToPath(new URL(process.cwd(), import.meta.url));
+  const devServerConfigPath = path.resolve(cwdPath, process.env.DEV_SERVER_CONFIG);
+
+  try {
+    const config = readFileSync(devServerConfigPath, 'utf8');
+    return JSON.parse(config);
+  } catch (error) {
+    console.warn(`Problem with additional devServer config at: ${devServerConfigPath}`);
+    if (error.code === 'ENOENT') {
+      console.warn('Configured additional devServer config path does not exist!');
+    } else {
+      console.error(`Unexpected error code ${error.code} trying to read additional devServer config`);
+      console.debug({ error });
+    }
+    return {};
+  }
+};
 
 /**
 * Vite configuration
@@ -91,5 +113,6 @@ export default defineConfig({
   server: {
     open: '/__tests__/integration/mirador/index.html',
     port: '4444',
+    ...additionalDevServerConfig(),
   },
 });
