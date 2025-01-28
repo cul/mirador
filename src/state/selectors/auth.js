@@ -3,8 +3,8 @@ import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
 import { anyProbeServices } from '../../lib/getServices';
 import {
-  audioResourcesFrom, iiifImageResourcesFrom, textResourcesFrom, videoResourcesFrom,
-} from '../../lib/typeFilters';
+  audioResourcesFrom, iiifImageResourcesFrom, imageServicesFrom, textResourcesFrom, videoResourcesFrom,
+} from '../../lib/resourceFilters';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { miradorSlice } from './utils';
 import { getConfig } from './config';
@@ -58,7 +58,7 @@ export const selectCurrentAuthServices = createSelector(
         const miradorCanvas = new MiradorCanvas(c);
         const canvasResources = miradorCanvas.imageResources;
         const authResources = iiifImageResourcesFrom(canvasResources).map(i => {
-          const iiifImageService = i.getServices()[0];
+          const iiifImageService = imageServicesFrom(i.getServices())[0];
 
           const infoResponse = infoResponses[iiifImageService.id];
           if (infoResponse && infoResponse.json) {
@@ -67,12 +67,11 @@ export const selectCurrentAuthServices = createSelector(
 
           return iiifImageService;
         });
-        return authResources.concat(videoResourcesFrom(canvasResources))
-          .concat(audioResourcesFrom(canvasResources))
-          .concat(textResourcesFrom(canvasResources));
+        return authResources.concat(miradorCanvas.videoResources)
+          .concat(miradorCanvas.audioResources)
+          .concat(miradorCanvas.textResources);
       }));
     }
-
     if (!currentAuthResources) return [];
     if (currentAuthResources.length === 0) return [];
 

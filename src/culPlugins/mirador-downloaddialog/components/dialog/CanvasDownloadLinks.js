@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 
-import { anyImageServices } from '../../../../lib/typeFilters';
+import { imageServicesFrom } from '../../../../lib/resourceFilters';
 
 import ImageDownloadLinks from './ImageDownloadLinks';
 import SuppressedDownload from './SuppressedDownload';
@@ -16,7 +16,7 @@ import SuppressedDownload from './SuppressedDownload';
 /**
  * Filter the misnamed imageResources property to actual imageResources
  */
-const anyImageResources = (imageResources) => (imageResources || []).filter((r) => anyImageServices(r).length > 0);
+const anyImageResources = (imageResources) => (imageResources || []).filter((r) => imageServicesFrom(r).length > 0);
 
 /** */
 const CanvasDownloadLinks = ({
