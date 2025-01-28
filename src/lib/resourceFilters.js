@@ -5,7 +5,7 @@ import serviceProfiles from './serviceProfiles';
  * Filter resources by profile property in given profiles
  */
 export function filterByProfiles(resources, profiles) {
-  if (profiles === undefined || resources === undefined) return [];
+  if (!profiles || !resources) return [];
 
   if (!Array.isArray(profiles)) {
     return resources.filter((resource) => profiles === resource.getProperty('profile'));
@@ -18,7 +18,7 @@ export function filterByProfiles(resources, profiles) {
  * Filter resources by type property in given types
  */
 export function filterByTypes(resources, types) {
-  if (types === undefined || resources === undefined) return [];
+  if (!types || !resources) return [];
 
   if (!Array.isArray(types)) {
     return resources.filter((resource) => types === resource.getProperty('type'));
