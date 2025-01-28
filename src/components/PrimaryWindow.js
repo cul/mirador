@@ -44,21 +44,21 @@ const TypeSpecificViewer = ({
         />
       );
     }
-    if (videoResources.length > 0) {
+    if (videoResources && videoResources.length > 0) {
       return (
         <VideoViewer
           windowId={windowId}
         />
       );
     }
-    if (audioResources.length > 0) {
+    if (audioResources && audioResources.length > 0) {
       return (
         <AudioViewer
           windowId={windowId}
         />
       );
     }
-    if (textResources.length > 0) {
+    if (textResources && textResources.length > 0) {
       return (
         <TextViewer
           windowId={windowId}
