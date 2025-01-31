@@ -218,12 +218,13 @@ const probeReplacements = (resources, probeResponses) => {
     if (!probeResponse || probeResponse.isFetching) return r;
 
     const probeContentUrl = probeResponse.json && (probeResponse.json.location || probeResponse.json.substitute);
-    const probeReplacedProperties = {};
     if (probeContentUrl) {
+      const probeReplacedProperties = {};
       probeReplacedProperties.id = probeContentUrl;
       if (probeResponse.json.format) probeReplacedProperties.format = probeResponse.json.format;
+      return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
     }
-    return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
+    return r;
   });
 };
 
