@@ -24,8 +24,8 @@ import {
 function fetchWrapper(url, options, { success, degraded, failure }) {
   return fetch(url, options)
     .then(response => response.json().then((json) => {
-      if (response.status === 401) return (degraded || success)({ json, response });
-      if (response.ok) return success({ json, response });
+      if (response.status === 401 || json.status === 401) return (degraded || success)({ json, response });
+      if (response.ok && (!json.status || json.status < 400)) return success({ json, response });
       return failure({ error: response.statusText, json, response });
     }).catch(error => failure({ error, response })))
     .catch(error => failure({ error }));
@@ -81,7 +81,8 @@ function* fetchIiifResourceWithAuth(url, iiifResource, options, { degraded, fail
   }
 
   const id = json['@id'] || json.id;
-  if (response.ok) {
+
+  if (response.ok && (!json.status || json.status < 400)) {
     if (id && normalizeUrl(id, { stripAuthentication: false })
       === normalizeUrl(url.replace(/info\.json$/, ''), { stripAuthentication: false })) {
       if (!json.substitute) {
@@ -90,7 +91,7 @@ function* fetchIiifResourceWithAuth(url, iiifResource, options, { degraded, fail
         return;
       }
     }
-  } else if (response.status !== 401) {
+  } else if (response.status !== 401 && json.status !== 401) {
     yield put(failure({
       error, json, response, tokenServiceId,
     }));
