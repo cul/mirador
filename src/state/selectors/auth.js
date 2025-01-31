@@ -67,9 +67,9 @@ export const selectCurrentAuthServices = createSelector(
 
           return iiifImageService;
         });
-        return authResources.concat(videoResourcesFrom(canvasResources))
-          .concat(audioResourcesFrom(canvasResources))
-          .concat(textResourcesFrom(canvasResources));
+        return authResources.concat(miradorCanvas.videoResources)
+          .concat(miradorCanvas.audioResources)
+          .concat(miradorCanvas.textResources);
       }));
     }
 
