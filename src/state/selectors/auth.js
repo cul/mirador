@@ -81,15 +81,17 @@ export const selectCurrentAuthServices = createSelector(
       const probeServices = anyProbeServices(resource);
       const probeServiceServices = flatten(probeServices.map(p => Utils.getServices(p)));
 
+      const allAuthServices = resourceServices.concat(probeServiceServices);
+
       for (const authProfile of serviceProfiles) {
-        const profiledAuthServices = resourceServices.concat(probeServiceServices).filter(
+        const profiledAuthServices = allAuthServices.filter(
           p => authProfile.profile === p.getProfile(),
         );
 
         for (const service of profiledAuthServices) {
           lastAttemptedService = service;
           // external service may have no id to track by (auth1 vs auth2)
-          const serviceKey = (authProfile.external) ? (service?.id || 'external') : service?.id;
+          const serviceKey = (authProfile.external) ? 'external' : service?.id;
 
           if (!auth[serviceKey] || auth[serviceKey].isFetching || auth[serviceKey].ok) {
             return service;
@@ -103,10 +105,11 @@ export const selectCurrentAuthServices = createSelector(
     return Object.values(currentAuthServices.reduce((h, service) => {
       if (!service) return h;
       const external = serviceProfiles.filter(x => x.external).find(s => (s.profile === service.getProfile()));
-      const serviceKey = (external) ? (service.id || 'external') : service.id;
+      const serviceKey = (external) ? 'external' : service.id;
       if (!h[serviceKey]) {
         h[serviceKey] = service; // eslint-disable-line no-param-reassign
       }
+
       return h;
     }, {}));
   },
