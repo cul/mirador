@@ -94,7 +94,11 @@ export function* refetchProbeResponses({ serviceId }) {
 
   const visibleProbeServices = flatten(flatten(canvases).map((canvas) => {
     const miradorCanvas = new MiradorCanvas(canvas);
-    return miradorCanvas.imageResources.filter((r) => getProbeService(r)).map((r) => getProbeService(r));
+    const imageResourceProbeServices = miradorCanvas.imageResources.filter((r) => getProbeService(r))
+      .map((r) => getProbeService(r));
+    const contentBodyProbeServices = miradorCanvas.contentBodies.filter((r) => getProbeService(r))
+      .map((r) => getProbeService(r));
+    return imageResourceProbeServices.concat(contentBodyProbeServices);
   }));
   const probeTokenServices = {};
   visibleProbeServices.reduce((acc, probeService) => {
@@ -102,19 +106,12 @@ export function* refetchProbeResponses({ serviceId }) {
     return acc;
   }, probeTokenServices);
 
-  const probeResponses = yield select(selectProbeResponses);
-
-  /** */
-  const haveThisTokenService = probeResponse => {
-    const tokenServices = probeTokenServices[probeResponse.id];
+  const refetchableProbeServiceIds = Object.keys(probeTokenServices).filter((probeServiceId) => {
+    const tokenServices = probeTokenServices[probeServiceId];
     return tokenServices && tokenServices.find(s => s.id === serviceId);
-  };
+  });
 
-  const obsoleteProbeResponses = Object.values(probeResponses).filter(
-    i => i.json && haveThisTokenService(i.json),
-  );
-
-  yield all(obsoleteProbeResponses.map(({ id: probeId }) => {
+  yield all(refetchableProbeServiceIds.map((probeId) => {
     const refetchableProbeService = visibleProbeServices.find(s => s.id === probeId);
     if (refetchableProbeService) {
       return call(fetchProbeResponse, { probeId, resource: refetchableProbeService });
