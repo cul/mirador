@@ -77,18 +77,6 @@
     {
       "label": {
         "en": [
-          "Abstract"
-        ]
-      },
-      "value": {
-        "en": [
-          "In the interview's first session, former Prime Minister and Minister of Industry Mehdi Jomaa recalls watching the events of the Tunisian Revolution unfold from his home in Paris, France, describing it as a \"young and spontaneous\" movement. He details his family's historical involvement, his distancing from politics in his twenties, and his relationship with Tunisia after settling in France for his  \u003Cspan class=\"collapse\" id=\"cul_bk3j9kd78h-abstract_ssm-collapse-0\"\u003Estudies and career. Jomaa discusses the post-revolution management of the confiscated assets of the Ben Ali family with two ministers. He describes his chance meeting with Prime Minister Hamadi Jebali and failed negotiations to recruit him as Minister of Industry and Trade before he joined for an eleven-month tenure. He discusses the reaction of his wife and daughter. He describes joining the government as an outsider: he had not joined the professional opposition, did not know anyone in government prior to taking office, and laid very low, refusing media appearances, living within modest means and not announcing himself. He also comments on the search for prime minister and his abstinence from the search.\n\nIn the second session, Jomaa recalls the day of his hiring as prime minister and his plan for Tunisia. He describes the process of recruitment of his cabinet, which also involved getting to know the entire political landscape of Tunisia. He mentions members of an early group who helped him find the necessary individuals and gave him advice. He shares the story of presenting his list of ministers and how politically fraught this moment was. Jomaa addresses the importance of team building. He describes the dynamic he created and encouraged among the ministers. Jomaa frequently used the political strategy of measured risk, leaking ideas through various channels to generate a controllable reaction. He used this strategy when announcing cutting of salaries and to create uncertainty around whether he would run for election. Jomaa then describes his decision-making process, which involved all of the ministers. He describes how after the 2014 Chaambi Mountain attack, he leveraged his popularity to pressure the president to let him take the lead on security reforms. He also discusses strategy for negotiations with the UTTG when refusing to increase salaries or alter the appointments to his cabinet.\n\nIn the third session, Jomaa describes the recruitment process for his ministers. He speaks to succession problems once his mandate ended, which precipitated accusations against him. Jomaa enumerates the successes and failures of his mandate. The former include subsidies, while the latter includes other types of economic policy such as bank reform. Security was a more ambiguous matter. Using the 2014 Chaambi Mountains attack as an opportunity for reform, he bypassed President Moncef Marzouki&#39;s prerogative by creating a crisis cell and visiting the Algerian border\u003C/span\u003E \u003Cbutton class=\"btn btn-sm btn-link\" role=\"button\" data-toggle=\"collapse\" data-target=\"#cul_bk3j9kd78h-abstract_ssm-collapse-0\" aria-expanded=\"false\" aria-controls=\"cul_bk3j9kd78h-abstract_ssm-collapse-0\"\u003E\u003Cspan class=\"collapsed\"\u003E&raquo; Show more\u003C/span\u003E\u003Cspan class=\"expanded\"\u003E &laquo; Show less\u003C/span\u003E\u003C/button\u003E"
-        ]
-      }
-    },
-    {
-      "label": {
-        "en": [
           "Subjects"
         ]
       },
@@ -369,6 +357,66 @@
               "target": "https://dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/canvas/10.7916/9sse-m938"
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "Canvas",
+      "id": "https://dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/canvas/10.7916/9sse-m939",
+      "label": {
+        "en": [
+          "audio recording"
+        ]
+      },
+      "thumbnail": [
+        {
+          "width": 0,
+          "height": 0,
+          "type": "Image",
+          "format": "image/jpeg",
+          "id": "https://derivativo-1.library.columbia.edu/iiif/2/cul:zpc866t3ps/featured/!256,256/0/native.jpg",
+          "service": [
+            {
+              "id": "https://derivativo-4.library.columbia.edu/iiif/2/cul:zpc866t3ps",
+              "type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "height": 1,
+      "width": 1,
+      "items": [
+        {
+          "type": "AnnotationPage",
+          "id": "https://dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/annotationPage/10.7916/9sse-m939",
+          "items": [
+            {
+              "type": "Annotation",
+              "motivation": "painting",
+              "id": "https://dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/annotation/10.7916/9sse-m939/painting",
+              "body": {
+                "type": "Sound",
+                "format": "audio/mp4",
+                "id": "https://dev.local:3000/catalog/cul:zpc866t3ps/bytestreams/access/content?download=false&filename=content.mp4",
+                "service": [
+                  {
+                    "type": "AuthProbeService2",
+                    "service": [],
+                    "id": "https://dev.local:3000/catalog/cul:zpc866t3ps/bytestreams/content/probe"
+                  }
+                ]
+              },
+              "target": "https://dev.local:3000/iiif/3/presentation/10.7916/n8qs-6964/canvas/10.7916/9sse-m939"
+            }
+          ]
+        }
+      ],
+      "seeAlso": [
+        {
+          "id": "https://dev.local:3000/synchronized/transcript",
+          "label": { "en": ["View with Synchronized Transcript"] },
+          "type": "Text"
         }
       ]
     }
