@@ -10,7 +10,7 @@ export function accessTokensReducer(state = {}, action) {
         [action.tokenServiceId]: {
           authId: action.id,
           id: action.tokenServiceId,
-          isFetching: !Object.hasOwn(action, 'ok'), // do not attempt to refetch resolved actions that were rejected
+          isFetching: true,
         },
       };
     case ActionTypes.REQUEST_ACCESS_TOKEN:
