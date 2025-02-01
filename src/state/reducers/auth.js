@@ -36,6 +36,16 @@ export const authReducer = (state = {}, action) => {
           ok: true,
         },
       };
+    case ActionTypes.RECEIVE_ACCESS_TOKEN_FAILURE:
+      if (!action.authId || action.authId !== 'external') return state;
+      // mark external service failed
+      return {
+        ...state,
+        [action.authId]: {
+          ...state[action.authId],
+          ok: false,
+        },
+      };
     case ActionTypes.RESET_AUTHENTICATION_STATE:
       return omit(state, action.id);
     default: return state;
