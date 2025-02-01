@@ -1,0 +1,385 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "type": "Manifest",
+  "structures": [],
+  "provider": [
+    {
+      "type": "Agent",
+      "logo": {
+        "id": "http://cdn.cul.columbia.edu/ldpd-toolkit/img/crown-bts-24x24.png"
+      },
+      "partOf": {
+        "id": "https://library.columbia.edu",
+        "type": "Agent",
+        "label": {
+          "en": [
+            "Columbia University Libraries"
+          ]
+        }
+      },
+      "id": "https://dev.local:3000",
+      "label": {
+        "en": [
+          "Columbia Digital Library Collections"
+        ]
+      }
+    }
+  ],
+  "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/manifest",
+  "label": {
+    "en": [
+      "1 Adrian Avenue, Typical Floor Plan"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "More At"
+        ]
+      },
+      "value": {
+        "en": [
+          "\u003Ca href=\"https://dev.local:3000/resolve/10.7916/D8MP6FSG\" target=\"_blank\" rel=\"nofollow, noindex, noreferrer\"\u003EColumbia Digital Library Collections\u003C/a\u003E"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Name"
+        ]
+      },
+      "value": {
+        "en": [
+          "Candela, Rosario (Architect)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "1 Adrian Avenue, Typical Floor Plan"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Shelf Location"
+        ]
+      },
+      "value": {
+        "en": [
+          "Item no. 1, Call no. YR.0948.MH.001"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Subjects"
+        ]
+      },
+      "value": {
+        "en": [
+          "Buildings",
+          "Architecture",
+          "Candela, Rosario"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Format"
+        ]
+      },
+      "value": {
+        "en": [
+          "printed ephemera"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Genre"
+        ]
+      },
+      "value": {
+        "en": [
+          "printed ephemera"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date"
+        ]
+      },
+      "value": {
+        "en": [
+          "[192--197-]"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Note (Ownership)"
+        ]
+      },
+      "value": {
+        "en": [
+          "Donated by Yale Robbins, Henry Robbins and David Magier (1986)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Note (Date note)"
+        ]
+      },
+      "value": {
+        "en": [
+          "Dates based on collection date range."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Language"
+        ]
+      },
+      "value": {
+        "en": [
+          "English"
+        ]
+      }
+    },
+    {
+      "value": {
+        "en": [
+          "Avery Architectural & Fine Arts Library, Columbia University"
+        ]
+      },
+      "label": {
+        "en": [
+          "Location"
+        ]
+      },
+      "seeAlso": [
+        {
+          "id": "https://id.loc.gov/vocabulary/organizations/nnca",
+          "profile": "https://id.loc.gov/vocabulary/organizations",
+          "homepage": {
+            "id": "https://library.columbia.edu/locations/avery.html",
+            "label": "Avery Architectural & Fine Arts Library Homepage",
+            "type": "Text",
+            "format": "text/html"
+          }
+        }
+      ]
+    },
+    {
+      "profile": "http://purl.org/ontology/bibo/doi",
+      "seeAlso": [
+        {
+          "id": "https://doi.org/10.7916/D8MP6FSG"
+        }
+      ],
+      "label": {
+        "none": [
+          "DOI"
+        ]
+      },
+      "value": {
+        "none": [
+          "10.7916/D8MP6FSG"
+        ]
+      }
+    },
+    {
+      "seeAlso": [
+        {
+          "id": "https://findingaids.library.columbia.edu/ead/nnc-a/ldpd_8595802",
+          "profile": "https://clio.columbia.edu/archives"
+        }
+      ],
+      "value": {
+        "en": [
+          "New York Real Estate Brochure Collection"
+        ]
+      },
+      "label": {
+        "en": [
+          "Archival Collection"
+        ]
+      }
+    }
+  ],
+  "behavior": [
+    "paged"
+  ],
+  "viewingDirection": "left-to-right",
+  "seeAlso": [
+    {
+      "id": "https://dev.local:3000/catalog/cul:3j9kd51dhx/mods.xml",
+      "type": "Dataset",
+      "label": {
+        "en": [
+          "Bibliographic Description in MODS XML"
+        ]
+      },
+      "format": "text/xml",
+      "schema": "http://www.loc.gov/mods/v3",
+      "profile": "https://example.org/profiles/bibliographic"
+    },
+    {
+      "id": "https://findingaids.library.columbia.edu/ead/nnc-a/ldpd_8595802",
+      "profile": null,
+      "type": "Text",
+      "label": {
+        "en": [
+          "Finding Aid"
+        ]
+      },
+      "format": "text/html"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://derivatives.local/iiif/2/10.7916/D8CJ9T43/featured/!256,256/0/native.jpg",
+      "type": "Image",
+      "format": "image/jpeg",
+      "service": [
+        {
+          "id": "https://derivatives.local/iiif/2/10.7916/D8CJ9T43",
+          "type": "ImageService3",
+          "profile": "level2"
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "type": "Canvas",
+      "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/canvas/10.7916/D8CJ9T43",
+      "label": {
+        "en": [
+          "Page 1"
+        ]
+      },
+      "thumbnail": [
+        {
+          "width": 256,
+          "height": 207,
+          "type": "Image",
+          "format": "image/jpeg",
+          "id": "https://derivatives.local/iiif/2/10.7916/D8CJ9T43/featured/!256,256/0/native.jpg",
+          "service": [
+            {
+              "id": "https://derivatives.local/iiif/2/10.7916/D8CJ9T43",
+              "type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "height": 5322,
+      "width": 6562,
+      "items": [
+        {
+          "type": "AnnotationPage",
+          "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotationPage/10.7916/D8CJ9T43",
+          "items": [
+            {
+              "type": "Annotation",
+              "motivation": "painting",
+              "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotation/10.7916/D8CJ9T43/painting",
+              "body": {
+                "type": "Image",
+                "service": [
+                  {
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "@id": "https://derivatives.local/iiif/2/10.7916/D8CJ9T43"
+                  }
+                ],
+                "width": 6562,
+                "height": 5322,
+                "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotation/10.7916/D8CJ9T43/painting.jpg",
+                "format": "image/jpeg"
+              },
+              "target": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/canvas/10.7916/D8CJ9T43"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Canvas",
+      "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/canvas/10.7916/D8PV80RR",
+      "label": {
+        "en": [
+          "Page 2"
+        ]
+      },
+      "thumbnail": [
+        {
+          "width": 256,
+          "height": 207,
+          "type": "Image",
+          "format": "image/jpeg",
+          "id": "https://derivatives.local/iiif/2/10.7916/D8MP6FSG/featured/!256,256/0/native.jpg",
+          "service": [
+            {
+              "id": "https://derivatives.local/iiif/2/10.7916/D8MP6FSG",
+              "type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "height": 5322,
+      "width": 6562,
+      "items": [
+        {
+          "type": "AnnotationPage",
+          "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotationPage/10.7916/D8PV80RR",
+          "items": [
+            {
+              "type": "Annotation",
+              "motivation": "painting",
+              "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotation/10.7916/D8PV80RR/painting",
+              "body": {
+                "type": "Image",
+                "service": [
+                  {
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "@id": "https://derivatives.local/iiif/2/10.7916/D8PV80RR"
+                  }
+                ],
+                "width": 6562,
+                "height": 5322,
+                "id": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/annotation/10.7916/D8PV80RR/painting.jpg",
+                "format": "image/jpeg"
+              },
+              "target": "https://dev.local:3000/iiif/3/presentation/10.7916/D8MP6FSG/canvas/10.7916/D8PV80RR"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
