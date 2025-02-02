@@ -18,8 +18,8 @@ describe('PageIconViewerNavigation', () => {
   let setNextCanvas;
   let setPreviousCanvas;
   beforeEach(() => {
-    setNextCanvas = vi.fn();
-    setPreviousCanvas = vi.fn();
+    setNextCanvas = jest.fn();
+    setPreviousCanvas = jest.fn();
   });
   it('renders the component', () => {
     createWrapper({
