@@ -10,7 +10,7 @@ import { getManifestProviderNames } from '../../../../src/culPlugins/mirador-cit
 
 import * as CitationProperties from '../../../../src/culPlugins/mirador-citations/state/selectors/citationProperties';
 
-vi.unmock('react-i18next');
+jest.unmock('react-i18next');
 
 /** create state */
 function preloadedStateWithManifest(manifestData) {
