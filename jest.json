@@ -37,7 +37,7 @@
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!@react-dnd|react-dnd|dnd-core|react-dnd-html5-backend|dnd-multi-backend|rdndmb-html5-to-touch|react-mosaic-component2|lodash-es)"
     ],
-    "testEnvironment": "jsdom"
+    "testEnvironment": "<rootDir>/__tests__/utils/PatchedJSDOMEnvironment.js"
   }, {
     "displayName": "integration",
     "moduleDirectories": [
