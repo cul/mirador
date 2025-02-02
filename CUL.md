@@ -28,16 +28,19 @@ Then navigate to [http://127.0.0.1:4444/](http://127.0.0.1:4444/)
 To use against live manifests from a SSL host, the dev server should also be running over SSL.
 
 Create a JSON file of other [webpack-dev-server configurations](https://webpack.js.org/configuration/dev-server/)
-An example configuration:
+An example webpack configuration:
 ```json
 {
   "allowedHosts": ["dev.local"],
   "host": "dev.local",
-  "https": {
-    "cert": "/path/to/self-signed/dev.local.crt",
-    "key": "/path/to/self-signed/dev.local.key"
-  },
-  "open": "/__tests__/integration/mirador/cul.html",
+  "hot": true,
+  "server": {
+    "options": {
+      "cert": "/path/to/self-signed/dev.local.crt",
+      "key": "/path/to/self-signed/dev.local.key"
+    },
+    "type": "https"
+  }
 }
 ```
 
