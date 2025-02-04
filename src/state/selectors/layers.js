@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { getCanvas, getVisibleCanvasIds } from './canvases';
 import { miradorSlice } from './utils';
+import { getConfig } from './config';
 
 /**
  * Get the image layers from a canvas.
@@ -15,10 +16,11 @@ import { miradorSlice } from './utils';
 export const getCanvasLayers = createSelector(
   [
     getCanvas,
+    getConfig,
   ],
-  (canvas) => {
+  (canvas, miradorConfig) => {
     if (!canvas) return [];
-    const miradorCanvas = new MiradorCanvas(canvas);
+    const miradorCanvas = new MiradorCanvas(canvas, miradorConfig);
     return miradorCanvas.imageResources;
   },
 );

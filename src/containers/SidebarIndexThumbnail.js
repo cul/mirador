@@ -11,6 +11,7 @@ import { getConfig } from '../state/selectors';
  */
 const mapStateToProps = (state, { data }) => ({
   ...(getConfig(state).canvasNavigation || {}),
+  miradorConfig: getConfig(state),
 });
 
 const enhance = compose(

@@ -2,15 +2,16 @@ import {
   all, put, select, takeEvery,
 } from 'redux-saga/effects';
 import { requestCanvasAnnotations, receiveAnnotation, requestAnnotation } from '../actions';
-import { getAnnotations, getCanvas } from '../selectors';
+import { getAnnotations, getCanvas, getConfig } from '../selectors';
 import ActionTypes from '../actions/action-types';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 
 /** Fetch annotations for a given canvas */
 export function* fetchCanvasAnnotations({ canvasId, windowId }) {
   const canvas = yield select(getCanvas, { canvasId, windowId });
+  const miradorConfig = yield select(getConfig);
   const annotations = yield select(getAnnotations);
-  const miradorCanvas = new MiradorCanvas(canvas);
+  const miradorCanvas = new MiradorCanvas(canvas, miradorConfig);
 
   return yield all([
     // IIIF v2

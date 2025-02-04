@@ -51,9 +51,10 @@ function iiifImageService(resource) {
 /** */
 class ThumbnailFactory {
   /** */
-  constructor(resource, iiifOpts = {}) {
+  constructor(resource, iiifOpts = {}, { auth, canvas, image }) {
     this.resource = resource;
     this.iiifOpts = iiifOpts;
+    this.miradorConfig = { auth, canvas, image };
   }
 
   /** */
@@ -66,8 +67,8 @@ class ThumbnailFactory {
    * @param {Object} canvas A Manifesto Canvas
    * @return {Object} A Manifesto Image Resource
    */
-  static getPreferredImage(canvas) {
-    const miradorCanvas = new MiradorCanvas(canvas);
+  static getPreferredImage(canvasResource, { auth, canvas, image }) {
+    const miradorCanvas = new MiradorCanvas(canvasResource, { auth, canvas, image });
     return miradorCanvas.iiifImageResources[0] || miradorCanvas.imageResource;
   }
 
@@ -133,7 +134,7 @@ class ThumbnailFactory {
 
     const service = iiifImageService(resource);
 
-    if (!service) return ThumbnailFactory.staticImageUrl(resource);
+    if (!service) return ThumbnailFactory.staticImageUrl(resource, this.miradorConfig);
 
     const aspectRatio = resource.getWidth()
       && resource.getHeight()
@@ -264,7 +265,7 @@ class ThumbnailFactory {
     }
 
     if (resource.isManifest()) {
-      const miradorManifest = new MiradorManifest(resource);
+      const miradorManifest = new MiradorManifest(resource, this.miradorConfig);
       const canvas = miradorManifest.startCanvas || miradorManifest.canvasAt(0);
       if (canvas) return this.getSourceContentResource(canvas);
 
@@ -272,7 +273,7 @@ class ThumbnailFactory {
     }
 
     if (resource.isCanvas()) {
-      const image = ThumbnailFactory.getPreferredImage(resource);
+      const image = ThumbnailFactory.getPreferredImage(resource, this.miradorConfig);
       if (image) return this.getSourceContentResource(image);
 
       return undefined;
@@ -305,8 +306,8 @@ class ThumbnailFactory {
 }
 
 /** */
-function getBestThumbnail(resource, iiifOpts) {
-  return new ThumbnailFactory(resource, iiifOpts).get();
+function getBestThumbnail(resource, iiifOpts, miradorConfig = {}) {
+  return new ThumbnailFactory(resource, iiifOpts, miradorConfig).get();
 }
 
 export { ThumbnailFactory };

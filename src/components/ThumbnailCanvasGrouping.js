@@ -39,7 +39,7 @@ export class ThumbnailCanvasGrouping extends PureComponent {
   /** */
   render() {
     const {
-      index, style, data, currentCanvasId, showThumbnailLabels,
+      index, style, data, currentCanvasId, showThumbnailLabels, miradorConfig,
     } = this.props;
     const {
       canvasGroupings, position, height,
@@ -89,6 +89,7 @@ export class ThumbnailCanvasGrouping extends PureComponent {
               resource={canvas}
               labelled={showThumbnailLabels}
               maxHeight={(position === 'far-right') ? style.height - (1.5 * SPACING) : height - (1.5 * SPACING)}
+              miradorConfig={miradorConfig}
               variant="inside"
             />
           ))}
@@ -102,6 +103,7 @@ ThumbnailCanvasGrouping.propTypes = {
   currentCanvasId: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   index: PropTypes.number.isRequired,
+  miradorConfig: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   setCanvas: PropTypes.func.isRequired,
   showThumbnailLabels: PropTypes.bool.isRequired,
   style: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

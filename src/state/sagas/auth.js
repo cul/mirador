@@ -42,8 +42,10 @@ export function* refetchInfoResponses({ serviceId }) {
     Object.keys(windows).map(windowId => select(getVisibleCanvases, { windowId })),
   );
 
+  const config = yield select(getConfig);
+
   const visibleImageApiIds = flatten(flatten(canvases).map((canvas) => {
-    const miradorCanvas = new MiradorCanvas(canvas);
+    const miradorCanvas = new MiradorCanvas(canvas, config);
     return miradorCanvas.imageServiceIds;
   }));
 

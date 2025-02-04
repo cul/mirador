@@ -17,7 +17,9 @@ const Root = styled(Paper, { name: 'GalleryView', slot: 'root' })(({ theme }) =>
 /**
  * Renders a GalleryView overview of the manifest.
  */
-export function GalleryView({ canvases, viewingDirection = '', windowId }) {
+export function GalleryView({
+  canvases, miradorConfig, viewingDirection = '', windowId,
+}) {
   const htmlDir = viewingDirection === 'right-to-left' ? 'rtl' : 'ltr';
   return (
     <Root
@@ -34,6 +36,7 @@ export function GalleryView({ canvases, viewingDirection = '', windowId }) {
             key={canvas.id}
             windowId={windowId}
             canvas={canvas}
+            miradorConfig={miradorConfig}
           />
         ))
       }
@@ -43,6 +46,7 @@ export function GalleryView({ canvases, viewingDirection = '', windowId }) {
 
 GalleryView.propTypes = {
   canvases: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  miradorConfig: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   viewingDirection: PropTypes.string,
   windowId: PropTypes.string.isRequired,
 };

@@ -38,6 +38,7 @@ const mapStateToProps = (state, { canvas, windowId }) => {
       );
     })(),
     config: getConfig(state).galleryView,
+    miradorConfig: getConfig(state),
     searchAnnotationsCount: canvasAnnotations.length,
     selected: currentCanvas && currentCanvas.id === canvas.id,
   };

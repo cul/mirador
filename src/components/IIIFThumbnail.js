@@ -24,7 +24,7 @@ const Image = styled('img', { name: 'IIIFThumbnail', slot: 'image' })(() => ({
  */
 const LazyLoadedImage = ({
   border = false, placeholder, style = {}, thumbnail = null,
-  resource, maxHeight = null, maxWidth = null, thumbnailsConfig = {}, ...props
+  resource, maxHeight = null, maxWidth = null, thumbnailsConfig = {}, miradorConfig = {}, ...props
 }) => {
   const { ref, inView } = useInView();
   const [loaded, setLoaded] = useState(false);
@@ -42,12 +42,12 @@ const LazyLoadedImage = ({
   const image = useMemo(() => {
     if (thumbnail) return thumbnail;
 
-    const i = getThumbnail(resource, { ...thumbnailsConfig, maxHeight, maxWidth });
+    const i = getThumbnail(resource, { ...thumbnailsConfig, maxHeight, maxWidth }, miradorConfig);
 
     if (i && i.url) return i;
 
     return undefined;
-  }, [resource, thumbnail, maxWidth, maxHeight, thumbnailsConfig]);
+  }, [resource, thumbnail, maxWidth, maxHeight, thumbnailsConfig, miradorConfig]);
 
   const imageStyles = useMemo(() => {
     const styleProps = {
@@ -120,6 +120,7 @@ LazyLoadedImage.propTypes = {
   border: PropTypes.bool,
   maxHeight: PropTypes.number,
   maxWidth: PropTypes.number,
+  miradorConfig: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   placeholder: PropTypes.string.isRequired,
   resource: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
@@ -144,6 +145,7 @@ export function IIIFThumbnail({
   labelled = false,
   maxHeight = null,
   maxWidth = null,
+  miradorConfig = {},
   resource,
   style = {},
   thumbnail = null,
@@ -159,6 +161,7 @@ export function IIIFThumbnail({
         resource={resource}
         maxHeight={maxHeight}
         maxWidth={maxWidth}
+        miradorConfig={miradorConfig}
         thumbnailsConfig={thumbnailsConfig}
         style={style}
         border={border}
@@ -182,6 +185,7 @@ IIIFThumbnail.propTypes = {
   labelled: PropTypes.bool,
   maxHeight: PropTypes.number,
   maxWidth: PropTypes.number,
+  miradorConfig: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   resource: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   thumbnail: PropTypes.shape({

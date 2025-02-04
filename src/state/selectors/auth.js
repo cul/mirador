@@ -44,14 +44,15 @@ export const selectCurrentAuthServices = createSelector(
     selectInfoResponses,
     getAuthProfiles,
     getAuth,
+    getConfig,
     (state, { iiifResources }) => iiifResources,
   ],
-  (canvases, infoResponses = {}, serviceProfiles, auth, iiifResources) => {
+  (canvases, infoResponses = {}, serviceProfiles, auth, miradorConfig, iiifResources) => {
     let currentAuthResources = iiifResources;
 
     if (!currentAuthResources && canvases) {
       currentAuthResources = flatten(canvases.map(c => {
-        const miradorCanvas = new MiradorCanvas(c);
+        const miradorCanvas = new MiradorCanvas(c, miradorConfig);
         const images = miradorCanvas.iiifImageResources;
 
         return images.map(i => {

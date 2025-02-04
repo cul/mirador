@@ -25,8 +25,8 @@ export const getLocale = createSelector(
     getConfig,
     (state, { locale }) => locale,
   ],
-  (companionWindowLocale, config = {}, locale) => (
-    locale || companionWindowLocale || config.language || config.fallbackLanguages
+  (companionWindowLocale, miradorConfig = {}, locale) => (
+    locale || companionWindowLocale || miradorConfig.language || miradorConfig.fallbackLanguages
   ),
 );
 
@@ -115,11 +115,14 @@ export const getManifestProviderName = createSelector(
  * @returns {string|null}
  */
 export const getProviderLogo = createSelector(
-  [getProperty('provider')],
-  (provider) => {
+  [
+    getProperty('provider'),
+    getConfig,
+  ],
+  (provider, miradorConfig) => {
     const logo = provider && provider[0] && provider[0].logo && provider[0].logo[0];
     if (!logo) return null;
-    return getThumbnail(new Resource(logo))?.url;
+    return getThumbnail(new Resource(logo), miradorConfig)?.url;
   },
 );
 
@@ -290,13 +293,18 @@ export const getRights = createSelector(
  */
 export function getManifestThumbnail(state, props) {
   const manifest = getManifestoInstance(state, props);
-  const { thumbnails = {} } = getConfig(state);
+  const miradorConfig = getConfig(state);
+  const { thumbnails = {} } = miradorConfig;
 
   if (!manifest) return undefined;
 
-  const thumbnail = getThumbnail(manifest, {
-    maxHeight: 80, maxWidth: 120, preferredFormats: thumbnails.preferredFormats,
-  });
+  const thumbnail = getThumbnail(
+    manifest,
+    {
+      maxHeight: 80, maxWidth: 120, preferredFormats: thumbnails.preferredFormats,
+    },
+    miradorConfig,
+  );
 
   return thumbnail && thumbnail.url;
 }

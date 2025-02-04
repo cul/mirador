@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch, { data }) => ({
  */
 const mapStateToProps = (state, { data }) => ({
   currentCanvasId: (getCurrentCanvas(state, { windowId: data.windowId }) || {}).id,
+  miradorConfig: getConfig(state),
   showThumbnailLabels: getConfig(state).thumbnailNavigation.showThumbnailLabels,
 });
 

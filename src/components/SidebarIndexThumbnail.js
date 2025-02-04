@@ -4,7 +4,7 @@ import IIIFThumbnail from '../containers/IIIFThumbnail';
 
 /** */
 export function SidebarIndexThumbnail({
-  canvas, height = undefined, label, width = undefined,
+  canvas, height = undefined, label, miradorConfig, width = undefined,
 }) {
   return (
     <>
@@ -14,6 +14,7 @@ export function SidebarIndexThumbnail({
           resource={canvas}
           maxHeight={height}
           maxWidth={width}
+          miradorConfig={miradorConfig}
         />
       </div>
       <Typography>
@@ -27,5 +28,6 @@ SidebarIndexThumbnail.propTypes = {
   canvas: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   height: PropTypes.number,
   label: PropTypes.string.isRequired,
+  miradorConfig: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   width: PropTypes.number,
 };

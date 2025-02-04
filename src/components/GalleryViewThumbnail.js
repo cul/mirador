@@ -54,7 +54,7 @@ const AnnotationChip = styled(Chip, { name: 'GalleryView', slot: 'chip' })(({ th
 export function GalleryViewThumbnail({
   canvas, selected = false, setCanvas, focusOnCanvas, annotationsCount = undefined, requestCanvasAnnotations = () => {},
   searchAnnotationsCount = 0,
-  config = { height: 100, width: null },
+  config = { height: 100, width: null }, miradorConfig,
 }) {
   const myRef = useRef();
   const [requestedAnnotations, setRequestedAnnotations] = useState(false);
@@ -134,6 +134,7 @@ export function GalleryViewThumbnail({
           variant="outside"
           maxHeight={config.height}
           maxWidth={config.width}
+          miradorConfig={miradorConfig}
         >
           <StyledChipsContainer>
             {searchAnnotationsCount > 0 && (
@@ -165,6 +166,7 @@ GalleryViewThumbnail.propTypes = {
     width: PropTypes.number,
   }),
   focusOnCanvas: PropTypes.func.isRequired,
+  miradorConfig: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   requestCanvasAnnotations: PropTypes.func,
   searchAnnotationsCount: PropTypes.number,
   selected: PropTypes.bool,

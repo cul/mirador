@@ -6,6 +6,9 @@ import {
   selectCurrentAuthServices,
 } from '../../../src/state/selectors/auth';
 
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
+
 describe('getAccessTokens', () => {
   const state = {
     accessTokens: {
@@ -45,7 +48,7 @@ describe('selectCurrentAuthServices', () => {
 
   const state = {
     auth: {},
-    config: { auth: settings.auth },
+    config: miradorConfigSlice(),
     infoResponses: {
       'https://iiif.bodleian.ox.ac.uk/iiif/image/9cca8fdd-4a61-4429-8ac1-f648764b4d6d': {
         json: resource,
@@ -113,7 +116,7 @@ describe('selectCurrentAuthServices', () => {
   describe('proscribed order', () => {
     let auth = {};
     const orderedState = {
-      config: { auth: settings.auth },
+      config: miradorConfigSlice(),
       infoResponses: {
         'https://iiif.bodleian.ox.ac.uk/iiif/image/9cca8fdd-4a61-4429-8ac1-f648764b4d6d': {
           json: {

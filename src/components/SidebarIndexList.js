@@ -20,7 +20,7 @@ const StyledItem = styled(MenuItem, { name: 'SidebarIndexList', slot: 'item' })(
 function getIdAndLabelOfCanvases(canvases) {
   return canvases.map((canvas) => ({
     id: canvas.id,
-    label: new MiradorCanvas(canvas).getLabel(),
+    label: new MiradorCanvas(canvas, { canvas: {}, image: {} }).getLabel(),
   }));
 }
 

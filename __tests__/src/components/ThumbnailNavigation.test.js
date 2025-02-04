@@ -4,8 +4,12 @@ import { Utils } from 'manifesto.js';
 
 import { ThumbnailNavigation } from '../../../src/components/ThumbnailNavigation';
 import CanvasGroupings from '../../../src/lib/CanvasGroupings';
+import settings from '../../../src/config/settings';
 import manifestJson from '../../fixtures/version-2/019.json';
 import zeroWidthFixture from '../../fixtures/version-2/zeroWidthCanvas.json';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /**
  * create a simple wrapper for rendering our component
@@ -18,6 +22,7 @@ function Subject({ fixture = manifestJson, ...props }) {
       ).groupings()}
       canvasIndex={1}
       classes={{}}
+      miradorConfig={miradorConfigSlice()}
       windowId="foobar"
       thumbnailNavigation={{ height: 150, width: 100 }}
       position="far-bottom"

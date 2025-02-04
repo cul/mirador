@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withPlugins } from '../extend/withPlugins';
 import { GalleryView } from '../components/GalleryView';
-import { getCanvases, getSequenceViewingDirection } from '../state/selectors';
+import { getCanvases, getConfig, getSequenceViewingDirection } from '../state/selectors';
 
 /**
  * mapStateToProps - to hook up connect
@@ -12,6 +12,7 @@ import { getCanvases, getSequenceViewingDirection } from '../state/selectors';
 const mapStateToProps = (state, { windowId }) => (
   {
     canvases: getCanvases(state, { windowId }),
+    miradorConfig: getConfig(state),
     viewingDirection: getSequenceViewingDirection(state, { windowId }),
   }
 );

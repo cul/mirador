@@ -6,9 +6,13 @@ import { AnnotationsOverlay } from '../../../src/components/AnnotationsOverlay';
 import OpenSeadragonCanvasOverlay from '../../../src/lib/OpenSeadragonCanvasOverlay';
 import AnnotationList from '../../../src/lib/AnnotationList';
 import CanvasWorld from '../../../src/lib/CanvasWorld';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 
 const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases();
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 vi.mock('../../../src/lib/OpenSeadragonCanvasOverlay');
 
@@ -25,7 +29,7 @@ const createWrapper = (props) => {
       windowId="base"
       config={{}}
       updateViewport={vi.fn()}
-      canvasWorld={new CanvasWorld(canvases)}
+      canvasWorld={new CanvasWorld(canvases, { miradorConfig: miradorConfigSlice() })}
       {...props}
     />
   );

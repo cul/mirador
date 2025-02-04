@@ -23,6 +23,9 @@ import {
   getConfig,
 } from '../../../src/state/selectors';
 
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
+
 describe('IIIF Authentication sagas', () => {
   describe('refetchInfoResponsesOnLogout', () => {
     it('delays and then refetches info responses', () => {
@@ -163,6 +166,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(refetchInfoResponses, { serviceId })
         .provide([
           [select(getAccessTokens), { [serviceId]: tokenService }],
+          [select(getConfig), miradorConfigSlice()],
           [select(getWindows), { window }],
           [select(getVisibleCanvases, { windowId: 'window' }), canvases],
           [select(selectInfoResponses), { [iiifInfoId]: infoResponse }],
@@ -191,7 +195,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getConfig), miradorConfigSlice()],
         ])
         .put({
           id: 'https://authentication.example.com/external',
@@ -224,7 +228,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), { 'https://authentication.example.com/external': { ok: false } }],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getConfig), miradorConfigSlice()],
         ])
         .not.put.like({ type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST })
         .not.put.like({ type: ActionTypes.REQUEST_ACCESS_TOKEN })
@@ -249,7 +253,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getConfig), miradorConfigSlice()],
         ])
         .not.put.like({ type: ActionTypes.RESOLVE_AUTHENTICATION_REQUEST })
         .not.put.like({ type: ActionTypes.REQUEST_ACCESS_TOKEN })
@@ -274,7 +278,7 @@ describe('IIIF Authentication sagas', () => {
       return expectSaga(doAuthWorkflow, { infoJson, windowId })
         .provide([
           [select(getAuth), {}],
-          [select(getConfig), { auth: settings.auth }],
+          [select(getConfig), miradorConfigSlice()],
         ])
         .put({
           id: 'https://authentication.example.com/kiosk',

@@ -1,6 +1,3 @@
-import canvasTypes from './canvasTypes';
-import serviceProfiles from './serviceProfiles';
-
 /**
  * Filter resources by profile property in given profiles
  */
@@ -28,43 +25,17 @@ export function filterByTypes(resources, types) {
 }
 
 /** */
-export function audioResourcesFrom(resources) {
-  return filterByTypes(resources, canvasTypes.audioTypes);
+export function imageServicesFrom(services, iiifImageProfiles) {
+  return filterByProfiles(services, iiifImageProfiles);
 }
 
 /** */
-export function choiceResourcesFrom(resources) {
-  return filterByTypes(resources, canvasTypes.choiceTypes);
-}
-
-/**
- */
-export function imageServicesFrom(services) {
-  return filterByProfiles(services, serviceProfiles.iiifImageProfiles);
-}
-
-/** */
-export function hasImageService(resource) {
-  const imageServices = imageServicesFrom(resource ? resource.getServices() : []);
+export function hasImageService(resource, iiifImageProfiles = []) {
+  const imageServices = imageServicesFrom(resource ? resource.getServices() : [], iiifImageProfiles);
   return imageServices[0] && imageServices[0].id;
 }
 
 /** */
-export function iiifImageResourcesFrom(resources) {
-  return imageResourcesFrom(resources).filter((r) => hasImageService(r));
-}
-
-/** */
-export function imageResourcesFrom(resources) {
-  return filterByTypes(resources, canvasTypes.imageTypes);
-}
-
-/** */
-export function textResourcesFrom(resources) {
-  return filterByTypes(resources, canvasTypes.textTypes);
-}
-
-/** */
-export function videoResourcesFrom(resources) {
-  return filterByTypes(resources, canvasTypes.videoTypes);
+export function iiifImageResourcesFrom(resources, iiifImageProfiles = []) {
+  return resources.filter((r) => hasImageService(r, iiifImageProfiles));
 }

@@ -20,6 +20,7 @@ const mapStateToProps = (state, { windowId }) => ({
   canvasIndex: getCanvasIndex(state, { windowId }),
   hasNextCanvas: !!getNextCanvasGrouping(state, { windowId }),
   hasPreviousCanvas: !!getPreviousCanvasGrouping(state, { windowId }),
+  miradorConfig: getConfig(state),
   position: getCompanionWindow(state, {
     companionWindowId: getWindow(state, { windowId }).thumbnailNavigationId,
   }).position,

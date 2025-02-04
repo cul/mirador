@@ -4,6 +4,7 @@ import CanvasWorld from '../../lib/CanvasWorld';
 import { getVisibleCanvases } from './canvases';
 import { getLayersForVisibleCanvases } from './layers';
 import { getSequenceViewingDirection } from './sequences';
+import { getConfig } from './config';
 
 /**
  *  Instantiate a manifesto instance.
@@ -12,6 +13,8 @@ import { getSequenceViewingDirection } from './sequences';
  * @return {object}
  */
 export const getCurrentCanvasWorld = createSelector(
-  [getVisibleCanvases, getLayersForVisibleCanvases, getSequenceViewingDirection],
-  (canvases, layers, viewingDirection) => new CanvasWorld(canvases, layers, viewingDirection),
+  [getVisibleCanvases, getLayersForVisibleCanvases, getSequenceViewingDirection, getConfig],
+  (canvases, layers, viewingDirection, miradorConfig) => new CanvasWorld(canvases, {
+    layers, miradorConfig, viewingDirection,
+  }),
 );

@@ -2,7 +2,11 @@ import { select } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
 
 import { fetchCanvasAnnotations, fetchAnnotations } from '../../../src/state/sagas/annotations';
-import { getAnnotations, getCanvas } from '../../../src/state/selectors';
+import { getAnnotations, getCanvas, getConfig } from '../../../src/state/selectors';
+import settings from '../../../src/config/settings';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 describe('annotation sagas', () => {
   describe('fetchCanvasAnnotations', () => {
@@ -18,6 +22,7 @@ describe('annotation sagas', () => {
             { __jsonld: { otherContent: 'annoId' }, id: 'a' },
           ],
           [select(getAnnotations), { a: {} }],
+          [select(getConfig), miradorConfigSlice()],
         ])
         .put({
           annotationId: 'annoId',
@@ -37,6 +42,7 @@ describe('annotation sagas', () => {
           [select(getCanvas, { canvasId: 'a', windowId: 'foo' }),
             { __jsonld: { otherContent: ['annoId'] }, id: 'a' },
           ],
+          [select(getConfig), miradorConfigSlice()],
           [select(getAnnotations), { a: { annoId: {} } }],
         ])
         .run();
@@ -52,6 +58,7 @@ describe('annotation sagas', () => {
           [select(getCanvas, { canvasId: 'a', windowId: 'foo' }),
             { __jsonld: { annotations: { id: 'annoId', type: 'AnnotationPage' } }, id: 'a' },
           ],
+          [select(getConfig), miradorConfigSlice()],
           [select(getAnnotations), { a: {} }],
         ])
         .put({
@@ -74,6 +81,7 @@ describe('annotation sagas', () => {
           [select(getCanvas, { canvasId: 'a', windowId: 'foo' }),
             { __jsonld: { annotations }, id: 'a' },
           ],
+          [select(getConfig), miradorConfigSlice()],
           [select(getAnnotations), { a: {} }],
         ])
         .put({

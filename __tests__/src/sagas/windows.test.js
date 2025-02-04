@@ -4,6 +4,7 @@ import { Utils } from 'manifesto.js';
 
 import ActionTypes from '../../../src/state/actions/action-types';
 import { setCanvas } from '../../../src/state/actions';
+import settings from '../../../src/config/settings';
 import {
   getManifests, getManifestoInstance,
   getManifestSearchService, getCompanionWindowIdsForPosition,
@@ -14,7 +15,7 @@ import {
   getSortedSearchAnnotationsForCompanionWindow,
   getVisibleCanvasIds, getCanvasForAnnotation,
   getCanvases, selectInfoResponses,
-  getWindowConfig,
+  getWindowConfig, getConfig,
 } from '../../../src/state/selectors';
 import { fetchManifests } from '../../../src/state/sagas/iiif';
 import {
@@ -34,6 +35,9 @@ import {
 } from '../../../src/state/sagas/windows';
 import fixture from '../../fixtures/version-2/019.json';
 import collectionFixture from '../../fixtures/version-2/collection.json';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 describe('window-level sagas', () => {
   describe('fetchWindowManifest', () => {
@@ -463,6 +467,7 @@ describe('window-level sagas', () => {
       return expectSaga(fetchInfoResponses, action)
         .provide([
           [select(getCanvases, { windowId: 'foo' }), manifest.getSequences()[0].getCanvases()],
+          [select(getConfig), miradorConfigSlice()],
           [select(selectInfoResponses), {}],
         ])
         .put.like({
@@ -485,6 +490,7 @@ describe('window-level sagas', () => {
       return expectSaga(fetchInfoResponses, action)
         .provide([
           [select(getCanvases, { windowId: 'foo' }), manifest.getSequences()[0].getCanvases()],
+          [select(getConfig), miradorConfigSlice()],
           [select(selectInfoResponses), { 'https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44': {} }],
         ])
         .not.put.like({

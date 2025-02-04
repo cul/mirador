@@ -6,6 +6,11 @@ describe('getCurrentCanvasWorld', () => {
   it('returns a CanvasWorld', () => {
     const windowId = 'id';
     const state = {
+      config: {
+        auth: {},
+        canvas: {},
+        image: {},
+      },
       manifests: {
         a: {
           json: {

@@ -20,6 +20,7 @@ import {
   getCanvasGrouping, getWindow, getManifestoInstance,
   getCompanionWindowIdsForPosition, getManifestSearchService,
   getCanvasForAnnotation,
+  getConfig,
   getSelectedContentSearchAnnotationIds,
   getSortedSearchAnnotationsForCompanionWindow,
   getVisibleCanvasIds,
@@ -97,10 +98,11 @@ export function* setWindowStartingCanvas(action) {
     const thunk = yield call(setCanvas, windowId, canvasId, null, { preserveViewport: !!action.payload });
     yield put(thunk);
   } else {
+    const config = yield select(getConfig);
     const manifestoInstance = yield select(getManifestoInstance, { manifestId });
     if (manifestoInstance) {
       // set the startCanvas
-      const miradorManifest = new MiradorManifest(manifestoInstance);
+      const miradorManifest = new MiradorManifest(manifestoInstance, config);
       const startCanvas = miradorManifest.startCanvas
         || miradorManifest.canvasAt(canvasIndex || 0)
         || miradorManifest.canvasAt(0);
@@ -238,11 +240,12 @@ export function* setCanvasforSelectedAnnotation({ annotationId, windowId }) {
 /** Fetch info responses for the visible canvases */
 export function* fetchInfoResponses({ visibleCanvases: visibleCanvasIds, windowId }) {
   const canvases = yield select(getCanvases, { windowId });
+  const config = yield select(getConfig);
   const infoResponses = yield select(selectInfoResponses);
   const visibleCanvases = (canvases || []).filter(c => visibleCanvasIds.includes(c.id));
 
   yield all(visibleCanvases.map((canvas) => {
-    const miradorCanvas = new MiradorCanvas(canvas);
+    const miradorCanvas = new MiradorCanvas(canvas, config);
     return all(miradorCanvas.iiifImageResources.map(imageResource => (
       !infoResponses[imageResource.getServices()[0].id]
         && put(fetchInfoResponse({ imageResource, windowId }))

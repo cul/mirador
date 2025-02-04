@@ -7,6 +7,7 @@ import { getWindow } from './getters';
 import { getSequence } from './sequences';
 import { getWindowViewType } from './windows';
 import { getManifestLocale } from './manifests';
+import { getConfig } from './config';
 
 /**
  * Returns the info response.
@@ -211,9 +212,10 @@ export const getCanvasDescription = createSelector(
 export const getVisibleCanvasNonTiledResources = createSelector(
   [
     getVisibleCanvases,
+    getConfig,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).imageResources))
+  (canvases, miradorConfig) => flatten(canvases
+    .map(canvas => new MiradorCanvas(canvas, miradorConfig).imageResources))
     .filter(resource => resource.getServices().length < 1),
 );
 
@@ -226,9 +228,10 @@ export const getVisibleCanvasNonTiledResources = createSelector(
 export const getVisibleCanvasTextResources = createSelector(
   [
     getVisibleCanvases,
+    getConfig,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).textResources)),
+  (canvases, miradorConfig) => flatten(canvases
+    .map(canvas => new MiradorCanvas(canvas, miradorConfig).textResources)),
 );
 
 /**
@@ -240,9 +243,10 @@ export const getVisibleCanvasTextResources = createSelector(
 export const getVisibleCanvasVideoResources = createSelector(
   [
     getVisibleCanvases,
+    getConfig,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).videoResources)),
+  (canvases, miradorConfig) => flatten(canvases
+    .map(canvas => new MiradorCanvas(canvas, miradorConfig).videoResources)),
 );
 
 /**
@@ -254,9 +258,10 @@ export const getVisibleCanvasVideoResources = createSelector(
 export const getVisibleCanvasCaptions = createSelector(
   [
     getVisibleCanvases,
+    getConfig,
   ],
-  canvases => flatten(canvases.map(canvas => {
-    const miradorCanvas = new MiradorCanvas(canvas);
+  (canvases, miradorConfig) => flatten(canvases.map(canvas => {
+    const miradorCanvas = new MiradorCanvas(canvas, miradorConfig);
     // prefer v3, fallback to v2, which can also be an empty array if no captions exist.
     if (miradorCanvas.v3VttContent.length) return miradorCanvas.v3VttContent;
     return miradorCanvas.v2VttContent;
@@ -272,9 +277,10 @@ export const getVisibleCanvasCaptions = createSelector(
 export const getVisibleCanvasAudioResources = createSelector(
   [
     getVisibleCanvases,
+    getConfig,
   ],
-  canvases => flatten(canvases
-    .map(canvas => new MiradorCanvas(canvas).audioResources)),
+  (canvases, miradorConfig) => flatten(canvases
+    .map(canvas => new MiradorCanvas(canvas, miradorConfig).audioResources)),
 );
 
 /**
@@ -291,13 +297,14 @@ export const selectInfoResponse = createSelector(
     (state, { infoId }) => infoId,
     getCanvas,
     selectInfoResponses,
+    getConfig,
   ],
-  (infoId, canvas, infoResponses) => {
+  (infoId, canvas, infoResponses, miradorConfig) => {
     let iiifServiceId = infoId;
 
     if (!infoId) {
       if (!canvas) return undefined;
-      const miradorCanvas = new MiradorCanvas(canvas);
+      const miradorCanvas = new MiradorCanvas(canvas, miradorConfig);
       const image = miradorCanvas.iiifImageResources[0];
       iiifServiceId = image && image.getServices()[0].id;
     }

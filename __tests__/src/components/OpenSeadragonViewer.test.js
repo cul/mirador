@@ -4,10 +4,14 @@ import userEvent from '@testing-library/user-event';
 import { Utils } from 'manifesto.js';
 import { OpenSeadragonViewer } from '../../../src/components/OpenSeadragonViewer';
 import CanvasWorld from '../../../src/lib/CanvasWorld';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 import { OSDReferences } from '../../../src/plugins/OSDReferences';
 
 const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases();
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /**
  * Helper function to create a shallow wrapper around OpenSeadragonViewer
@@ -26,7 +30,7 @@ function createWrapper(props) {
       windowId="base"
       config={{}}
       updateViewport={vi.fn()}
-      canvasWorld={new CanvasWorld(canvases)}
+      canvasWorld={new CanvasWorld(canvases, { miradorConfig: miradorConfigSlice() })}
       {...props}
     >
       <Child testId="foo" />

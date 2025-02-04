@@ -3,8 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { Utils } from 'manifesto.js';
 
 import { ThumbnailCanvasGrouping } from '../../../src/components/ThumbnailCanvasGrouping';
+import settings from '../../../src/config/settings';
 import CanvasGroupings from '../../../src/lib/CanvasGroupings';
 import manifestJson from '../../fixtures/version-2/019.json';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** create wrapper */
 function createWrapper(props) {
@@ -13,6 +17,7 @@ function createWrapper(props) {
       index={1}
       currentCanvasId="https://purl.stanford.edu/fr426cg9537/iiif/canvas/fr426cg9537_1"
       classes={{}}
+      miradorConfig={miradorConfigSlice()}
       style={{
         height: 90,
         top: 0,

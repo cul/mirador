@@ -9,8 +9,8 @@ export default class CanvasWorld {
    * @param {Array} canvases - Array of Manifesto:Canvas objects to create a
    * world from.
    */
-  constructor(canvases, layers, viewingDirection = 'left-to-right') {
-    this.canvases = canvases.map(c => new MiradorCanvas(c));
+  constructor(canvases, { layers, miradorConfig = {}, viewingDirection = 'left-to-right' }) {
+    this.canvases = canvases.map(c => new MiradorCanvas(c, miradorConfig));
     this.layers = layers;
     this.viewingDirection = viewingDirection;
     this._canvasDimensions = null; // eslint-disable-line no-underscore-dangle
