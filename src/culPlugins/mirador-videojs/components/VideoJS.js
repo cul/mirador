@@ -4,7 +4,7 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 /** */
-export const VideoJS = ({ options = {}, onReady }) => {
+export const VideoJS = ({ options = {}, onReady = null }) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
 
@@ -53,7 +53,7 @@ export const VideoJS = ({ options = {}, onReady }) => {
 export default VideoJS;
 
 VideoJS.propTypes = {
-  onReady: PropTypes.func.isRequired,
+  onReady: PropTypes.func,
   options: PropTypes.shape({
     autoplay: PropTypes.bool,
     sources: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
