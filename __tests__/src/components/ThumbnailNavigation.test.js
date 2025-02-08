@@ -4,9 +4,17 @@ import { Utils } from 'manifesto.js';
 
 import { ThumbnailNavigation } from '../../../src/components/ThumbnailNavigation';
 import CanvasGroupings from '../../../src/lib/CanvasGroupings';
+import CanvasWorld from '../../../src/lib/CanvasWorld';
+import MiradorCanvas from '../../../src/lib/MiradorCanvas';
+import settings from '../../../src/config/settings';
 import manifestJson from '../../fixtures/version-2/019.json';
 import zeroWidthFixture from '../../fixtures/version-2/zeroWidthCanvas.json';
 
+/** wrap a manifesto canvas as mirador canvas  */
+const wrapCanvas = (c) => new MiradorCanvas(c, settings.canvas.resourceTypes, settings.image.serviceProfiles);
+
+/** CanvasWorld factory function provided by container */
+const getCanvasWorld = (canvases) => new CanvasWorld(canvases.map(wrapCanvas));
 /**
  * create a simple wrapper for rendering our component
  */
@@ -18,6 +26,7 @@ function Subject({ fixture = manifestJson, ...props }) {
       ).groupings()}
       canvasIndex={1}
       classes={{}}
+      getCanvasWorld={getCanvasWorld}
       windowId="foobar"
       thumbnailNavigation={{ height: 150, width: 100 }}
       position="far-bottom"

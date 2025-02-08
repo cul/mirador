@@ -8,7 +8,9 @@ import {
   getNextCanvasGrouping, getPreviousCanvasGrouping,
   getCanvasGroupings, getCanvasIndex, getWindowViewType,
   getSequenceViewingDirection, getConfig,
+  getMiradorCanvas,
 } from '../state/selectors';
+import CanvasWorld from '../lib/CanvasWorld';
 
 /**
  * mapStateToProps - used to hook up state to props
@@ -18,6 +20,7 @@ import {
 const mapStateToProps = (state, { windowId }) => ({
   canvasGroupings: getCanvasGroupings(state, { windowId }),
   canvasIndex: getCanvasIndex(state, { windowId }),
+  getCanvasWorld: (canvases) => new CanvasWorld(canvases.map((c) => getMiradorCanvas(state, c))),
   hasNextCanvas: !!getNextCanvasGrouping(state, { windowId }),
   hasPreviousCanvas: !!getPreviousCanvasGrouping(state, { windowId }),
   position: getCompanionWindow(state, {

@@ -9,6 +9,7 @@ import {
   getCompanionWindowsForPosition,
   getAnnotationResourcesByMotivation,
   getManifestSearchService,
+  getMiradorCanvas,
   getSearchQuery,
   getWindow,
   getWindowConfig,
@@ -27,14 +28,14 @@ const mapDispatchToProps = (dispatch, { windowId }) => ({
 });
 
 /** */
-function hasLayers(canvases) {
-  return canvases && canvases.some(c => new MiradorCanvas(c).imageResources.length > 1);
+function hasLayers(canvases, state) {
+  return canvases && canvases.some(c => getMiradorCanvas(state, c).imageResources.length > 1);
 }
 
 /** */
-function hasAnnotations(canvases) {
+function hasAnnotations(canvases, state) {
   return canvases && canvases.some(c => {
-    const canvas = new MiradorCanvas(c);
+    const canvas = getMiradorCanvas(state, c);
 
     return canvas.annotationListUris.length > 0
       || canvas.canvasAnnotationPages.length > 0;
@@ -60,9 +61,9 @@ const mapStateToProps = (state, { windowId }) => ({
     state,
     { windowId },
   ).length > 0,
-  hasAnyAnnotations: hasAnnotations(getCanvases(state, { windowId })),
-  hasAnyLayers: hasLayers(getCanvases(state, { windowId })),
-  hasCurrentLayers: hasLayers(getVisibleCanvases(state, { windowId })),
+  hasAnyAnnotations: hasAnnotations(getCanvases(state, { windowId }), state),
+  hasAnyLayers: hasLayers(getCanvases(state, { windowId }), state),
+  hasCurrentLayers: hasLayers(getVisibleCanvases(state, { windowId }), state),
   hasSearchResults: hasSearchResults(state, { windowId }),
   hasSearchService: getManifestSearchService(state, { windowId }) !== null,
   panels: getWindowConfig(state, { windowId }).panels,

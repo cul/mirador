@@ -5,6 +5,10 @@ import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 import manifestJson from '../../fixtures/version-2/019.json';
 import { GalleryViewThumbnail } from '../../../src/components/GalleryViewThumbnail';
+import settings from '../../../src/config/settings';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** create wrapper */
 function createWrapper(props) {
@@ -12,6 +16,7 @@ function createWrapper(props) {
     <GalleryViewThumbnail
       canvas={Utils.parseManifest(manifestJson).getSequences()[0].getCanvases()[0]}
       focusOnCanvas={() => {}}
+      miradorConfig={miradorConfigSlice()}
       setCanvas={() => {}}
       {...props}
     />,

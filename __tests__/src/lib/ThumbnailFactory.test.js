@@ -2,22 +2,26 @@ import {
   ManifestResource, Resource, Service, Utils,
 } from 'manifesto.js';
 import getThumbnail, { ThumbnailFactory } from '../../../src/lib/ThumbnailFactory';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 
 const manifest = Utils.parseManifest(fixture);
 const canvas = manifest.getSequences()[0].getCanvases()[0];
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** */
 function createSubject(jsonld, resourceType, iiifOpts) {
   if (resourceType === 'Image') {
     return createImageSubject(jsonld, iiifOpts);
   }
-  return getThumbnail(new ManifestResource(jsonld, {}), iiifOpts);
+  return getThumbnail(new ManifestResource(jsonld, {}), iiifOpts, miradorConfigSlice());
 }
 
 /** */
 function createImageSubject(jsonld, iiifOpts) {
-  return getThumbnail(new Resource(jsonld, {}), iiifOpts);
+  return getThumbnail(new Resource(jsonld, {}), iiifOpts, miradorConfigSlice());
 }
 
 /** */
@@ -138,7 +142,7 @@ describe('getThumbnail', () => {
     });
 
     it('uses the first image resource', () => {
-      expect(getThumbnail(canvas)).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44/full/,120/0/default.jpg' });
+      expect(getThumbnail(canvas, {}, miradorConfigSlice())).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44/full/,120/0/default.jpg' });
     });
 
     it('uses the width and height of a thumbnail without a IIIF Image API service', () => {
@@ -194,11 +198,11 @@ describe('getThumbnail', () => {
 
     it('uses the startCanvas', () => {
       const manifestWithStartCanvas = Utils.parseManifest({ ...manifest.__jsonld, start: { id: 'https://purl.stanford.edu/fr426cg9537/iiif/canvas/fr426cg9537_1' } });
-      expect(getThumbnail(manifestWithStartCanvas)).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/fr426cg9537%2FSC1094_s3_b14_f17_Cats_1976_0005/full/,120/0/default.jpg' });
+      expect(getThumbnail(manifestWithStartCanvas, {}, miradorConfigSlice())).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/fr426cg9537%2FSC1094_s3_b14_f17_Cats_1976_0005/full/,120/0/default.jpg' });
     });
 
     it('uses the first canvas', () => {
-      expect(getThumbnail(manifest)).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44/full/,120/0/default.jpg' });
+      expect(getThumbnail(manifest, {}, miradorConfigSlice())).toMatchObject({ url: 'https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44/full/,120/0/default.jpg' });
     });
   });
 

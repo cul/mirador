@@ -1,9 +1,13 @@
 import { Utils } from 'manifesto.js';
 import MiradorManifest from '../../../src/lib/MiradorManifest';
+import settings from '../../../src/config/settings';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** */
 function getSubject(manifest) {
-  return new MiradorManifest(Utils.parseManifest(manifest));
+  return new MiradorManifest(Utils.parseManifest(manifest), miradorConfigSlice().canvas.resourceTypes);
 }
 
 describe('MiradorCanvas', () => {

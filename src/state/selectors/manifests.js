@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 import { PropertyValue, Utils, Resource } from 'manifesto.js';
-import getThumbnail from '../../lib/ThumbnailFactory';
 import asArray from '../../lib/asArray';
 import { getCompanionWindowLocale } from './companionWindows';
 import { getManifest } from './getters';
 import { getConfig } from './config';
+import { getThumbnailFactory } from './thumbnails';
 
 /** */
 function createManifestoInstance(json, locale) {
@@ -111,6 +111,8 @@ export const getManifestProviderName = createSelector(
     && PropertyValue.parse(provider[0].label).getValue(locale),
 );
 
+const EMPTY_LOGO_OPTS = Object.freeze({});
+
 /**
  * Return the IIIF v3 provider logo.
  * @param {object} state
@@ -118,11 +120,14 @@ export const getManifestProviderName = createSelector(
  * @returns {string|null}
  */
 export const getProviderLogo = createSelector(
-  [getProperty('provider')],
-  (provider) => {
+  [
+    getProperty('provider'),
+    (state) => getThumbnailFactory(state, EMPTY_LOGO_OPTS),
+  ],
+  (provider, thumbnailFactory) => {
     const logo = provider && provider[0] && provider[0].logo && provider[0].logo[0];
     if (!logo) return null;
-    return getThumbnail(new Resource(logo))?.url;
+    return thumbnailFactory.get(new Resource(logo))?.url;
   },
 );
 
@@ -283,6 +288,17 @@ export const getRights = createSelector(
   },
 );
 
+/** memoize thumbnail opts for selector */
+const getManifestThumbnailOpts = createSelector(
+  [getConfig, (state, maxHeight, maxWidth) => maxHeight, (state, maxHeight, maxWidth) => maxWidth],
+  (miradorConfig, maxHeight, maxWidth) => {
+    const { thumbnails = {} } = miradorConfig;
+    return {
+      maxHeight, maxWidth, preferredFormats: thumbnails.preferredFormats,
+    };
+  },
+);
+
 /**
  * Return the supplied thumbnail for a manifest or null.
  * @param {object} state
@@ -291,18 +307,24 @@ export const getRights = createSelector(
  * @param {string} props.windowId
  * @returns {string|null}
  */
-export function getManifestThumbnail(state, props) {
-  const manifest = getManifestoInstance(state, props);
-  const { thumbnails = {} } = getConfig(state);
+export const getManifestThumbnail = createSelector(
+  [
+    (state, props) => getManifestoInstance(state, props),
+    (state) => {
+      const miradorConfig = getConfig(state);
+      const { thumbnails = {} } = miradorConfig;
+      const iiifOpts = getManifestThumbnailOpts(state, 80, 120);
+      return getThumbnailFactory(state, iiifOpts);
+    },
+  ],
+  (manifest, thumbnailFactory) => {
+    if (!manifest) return undefined;
 
-  if (!manifest) return undefined;
+    const thumbnail = thumbnailFactory.get(manifest);
 
-  const thumbnail = getThumbnail(manifest, {
-    maxHeight: 80, maxWidth: 120, preferredFormats: thumbnails.preferredFormats,
-  });
-
-  return thumbnail && thumbnail.url;
-}
+    return thumbnail && thumbnail.url;
+  },
+);
 
 /**
  * Return manifest title.

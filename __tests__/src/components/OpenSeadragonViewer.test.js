@@ -4,10 +4,15 @@ import userEvent from '@testing-library/user-event';
 import { Utils } from 'manifesto.js';
 import { OpenSeadragonViewer } from '../../../src/components/OpenSeadragonViewer';
 import CanvasWorld from '../../../src/lib/CanvasWorld';
+import MiradorCanvas from '../../../src/lib/MiradorCanvas';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 import { OSDReferences } from '../../../src/plugins/OSDReferences';
 
-const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases();
+/** wrap a manifesto canvas as mirador canvas  */
+const wrapCanvas = (c) => new MiradorCanvas(c, settings.canvas.resourceTypes, settings.image.serviceProfiles);
+
+const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases().map(wrapCanvas);
 
 /**
  * Helper function to create a shallow wrapper around OpenSeadragonViewer

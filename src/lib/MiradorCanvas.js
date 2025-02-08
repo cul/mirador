@@ -2,10 +2,8 @@ import flatten from 'lodash/flatten';
 import flattenDeep from 'lodash/flattenDeep';
 import { Canvas, AnnotationPage, Annotation } from 'manifesto.js';
 import {
-  audioResourcesFrom, choiceResourcesFrom, hasImageService, imageResourcesFrom, iiifImageResourcesFrom,
-  textResourcesFrom, videoResourcesFrom,
+  filterByTypes, hasImageService, iiifImageResourcesFrom,
 } from './resourceFilters';
-import canvasTypes from './canvasTypes';
 
 /**
  * MiradorCanvas - adds additional, testable logic around Manifesto's Canvas
@@ -14,9 +12,13 @@ import canvasTypes from './canvasTypes';
 export default class MiradorCanvas {
   /**
    * @param {MiradorCanvas} canvas
+   * @param {Object} resourceTypes indicating types as array for audio, choice, image, text, video from canvas config
+   * @param {Array} serviceProfiles indicating a resource is an image from image config
    */
-  constructor(canvas) {
+  constructor(canvas, resourceTypes = {}, imageServiceProfiles = []) {
     this.canvas = canvas;
+    this.resourceTypes = resourceTypes || {};
+    this.iiifImageProfiles = (imageServiceProfiles || []).map(p => p.profile);
   }
 
   /** */
@@ -74,8 +76,8 @@ export default class MiradorCanvas {
   get imageResources() {
     const resources = flattenDeep([
       this.canvas.getImages().map(i => i.getResource()),
-      imageResourcesFrom(this.contentBodies),
-      choiceResourcesFrom(this.contentBodies),
+      filterByTypes(this.contentBodies, this.resourceTypes.image || []),
+      filterByTypes(this.contentBodies, this.resourceTypes.choice || []),
     ]);
 
     return flatten(resources.map((resource) => {
@@ -97,17 +99,17 @@ export default class MiradorCanvas {
 
   /** */
   get textResources() {
-    return textResourcesFrom(this.contentBodies);
+    return filterByTypes(this.contentBodies, this.resourceTypes.text || []);
   }
 
   /** */
   get videoResources() {
-    return flatten(videoResourcesFrom(this.contentBodies));
+    return filterByTypes(this.contentBodies, this.resourceTypes.video || []);
   }
 
   /** */
   get audioResources() {
-    return flatten(audioResourcesFrom(this.contentBodies));
+    return filterByTypes(this.contentBodies, this.resourceTypes.audio || []);
   }
 
   /** */
@@ -168,12 +170,12 @@ export default class MiradorCanvas {
 
   /** */
   get iiifImageResources() {
-    return iiifImageResourcesFrom(this.imageResources);
+    return iiifImageResourcesFrom(this.imageResources, this.iiifImageProfiles);
   }
 
   /** */
   get imageServiceIds() {
-    return this.iiifImageResources.map(hasImageService);
+    return this.iiifImageResources.map(r => hasImageService(r, this.iiifImageProfiles));
   }
 
   /**

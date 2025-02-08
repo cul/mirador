@@ -3,6 +3,10 @@ import { Utils } from 'manifesto.js';
 
 import manifestJson from '../../fixtures/version-2/019.json';
 import { GalleryView } from '../../../src/components/GalleryView';
+import settings from '../../../src/config/settings';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** create wrapper */
 function createWrapper(props) {
@@ -11,6 +15,7 @@ function createWrapper(props) {
       canvases={Utils.parseManifest(manifestJson).getSequences()[0].getCanvases()}
       windowId="1234"
       selectedCanvasIndex={0}
+      miradorConfig={miradorConfigSlice()}
       {...props}
     />,
   );

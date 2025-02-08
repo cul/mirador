@@ -23,8 +23,12 @@ import {
   getVisibleCanvasIds,
 } from '../../../src/state/selectors/canvases';
 
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
+
 describe('getVisibleCanvasIds', () => {
   const state = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -44,6 +48,7 @@ describe('getVisibleCanvasIds', () => {
   };
 
   const noManifestationState = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -76,6 +81,7 @@ describe('getVisibleCanvasIds', () => {
 
 describe('getVisibleCanvases', () => {
   const state = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -95,6 +101,7 @@ describe('getVisibleCanvases', () => {
   };
 
   const noManifestationState = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -131,6 +138,7 @@ describe('getVisibleCanvases', () => {
 
 describe('getNextCanvasGrouping', () => {
   const state = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -168,6 +176,7 @@ describe('getNextCanvasGrouping', () => {
 
 describe('getPreviousCanvasGrouping', () => {
   const state = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -204,7 +213,7 @@ describe('getPreviousCanvasGrouping', () => {
 
 describe('getCanvas', () => {
   it('returns the canvas by id', () => {
-    const state = { manifests: { a: { json: manifestFixture001 } } };
+    const state = { config: miradorConfigSlice(), manifests: { a: { json: manifestFixture001 } } };
     const received = getCanvas(state, {
       canvasId: 'https://iiif.bodleian.ox.ac.uk/iiif/canvas/9cca8fdd-4a61-4429-8ac1-f648764b4d6d.json',
       manifestId: 'a',
@@ -215,7 +224,7 @@ describe('getCanvas', () => {
 
 describe('getCanvasLabel', () => {
   it('should return label of the canvas', () => {
-    const state = { manifests: { a: { json: manifestFixture001 } } };
+    const state = { config: miradorConfigSlice(), manifests: { a: { json: manifestFixture001 } } };
     const received = getCanvasLabel(state, {
       canvasId: 'https://iiif.bodleian.ox.ac.uk/iiif/canvas/9cca8fdd-4a61-4429-8ac1-f648764b4d6d.json',
       manifestId: 'a',
@@ -224,7 +233,7 @@ describe('getCanvasLabel', () => {
   });
 
   it('should return undefined if the canvas is undefined', () => {
-    const state = { manifests: { } };
+    const state = { config: miradorConfigSlice(), manifests: { } };
     expect(getCanvasLabel(state, {
       canvasId: 'https://iiif.bodleian.ox.ac.uk/iiif/canvas/9cca8fdd-4a61-4429-8ac1-f648764b4d6d.json',
       manifestId: 'b',
@@ -248,7 +257,7 @@ describe('getCanvasLabel', () => {
       ],
     };
 
-    const state = { manifests: { a: { json: manifest } } };
+    const state = { config: miradorConfigSlice(), manifests: { a: { json: manifest } } };
     const received = getCanvasLabel(state, {
       canvasId: 'some-canvas-without-a-label',
       manifestId: 'a',
@@ -263,7 +272,7 @@ describe('selectInfoResponse', () => {
 
     const state = {
       auth: {},
-      config: { auth: settings.auth },
+      config: miradorConfigSlice(),
       infoResponses: {
         'https://iiif.bodleian.ox.ac.uk/iiif/image/9cca8fdd-4a61-4429-8ac1-f648764b4d6d': {
           json: resource,
@@ -282,6 +291,7 @@ describe('selectInfoResponse', () => {
   it('returns nothing if there are no canvas resources', () => {
     const state = {
       auth: {},
+      config: miradorConfigSlice(),
       manifests: {
         a: {
           json: {
@@ -309,6 +319,7 @@ describe('selectInfoResponse', () => {
   it('returns nothing if there are no canvas services', () => {
     const state = {
       auth: {},
+      config: miradorConfigSlice(),
       manifests: {
         a: {
           json: {
@@ -343,6 +354,7 @@ describe('selectInfoResponse', () => {
 describe('getVisibleCanvasNonTiledResources', () => {
   it('returns canvases resources without services', () => {
     const state = {
+      config: miradorConfigSlice(),
       manifests: {
         'http://iiif.io/api/presentation/2.0/example/fixtures/1/manifest.json': {
           id: 'http://iiif.io/api/presentation/2.0/example/fixtures/1/manifest.json',
@@ -362,6 +374,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
   });
   it('works for v3 Presentation API', () => {
     const state = {
+      config: miradorConfigSlice(),
       manifests: {
         'https://preview.iiif.io/cookbook/master/recipe/0001-mvm-image/manifest.json': {
           id: 'https://preview.iiif.io/cookbook/master/recipe/0001-mvm-image/manifest.json',
@@ -383,6 +396,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
   describe('getVisibleCanvasVideoResources', () => {
     it('returns canvases resources', () => {
       const state = {
+        config: miradorConfigSlice(),
         manifests: {
           'https://iiif.io/api/cookbook/recipe/0015-start/manifest.json': {
             id: 'https://iiif.io/api/cookbook/recipe/0015-start/manifest.json',
@@ -405,6 +419,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
   describe('getVisibleCanvasCaptions', () => {
     it('returns v2 canvases resources', () => {
       const state = {
+        config: miradorConfigSlice(),
         manifests: {
           'https://iiif.io/api/cookbook/recipe/0015-start/manifest.json': {
             id: 'https://iiif.io/api/cookbook/recipe/0015-start/manifest.json',
@@ -424,6 +439,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
     });
     it('returns v3 canvases resources', () => {
       const state = {
+        config: miradorConfigSlice(),
         manifests: {
           'https://preview.iiif.io/cookbook/0219-using-caption-file/recipe/0219-using-caption-file/manifest.json': {
             id: 'https://preview.iiif.io/cookbook/0219-using-caption-file/recipe/0219-using-caption-file/manifest.json',
@@ -446,6 +462,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
   describe('getVisibleCanvasAudioResources', () => {
     it('returns canvases resources', () => {
       const state = {
+        config: miradorConfigSlice(),
         manifests: {
           'https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json': {
             id: 'https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json',
@@ -468,6 +485,7 @@ describe('getVisibleCanvasNonTiledResources', () => {
   describe('getVisibleCanvasTextResources', () => {
     it('returns canvases resources', () => {
       const state = {
+        config: miradorConfigSlice(),
         manifests: {
           'https://iiif.io/api/cookbook/recipe/0001-text-pdf/manifest.json': {
             id: 'https://iiif.io/api/cookbook/recipe/0001-text-pdf/manifest.json',

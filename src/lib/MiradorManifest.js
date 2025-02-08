@@ -4,8 +4,9 @@
  */
 export default class MiradorManifest {
   /** */
-  constructor(manifest) {
+  constructor(manifest, canvasResourceTypes = {}) {
     this.manifest = manifest;
+    this.canvasResourceTypes = canvasResourceTypes;
   }
 
   /**
@@ -32,13 +33,13 @@ export default class MiradorManifest {
       canvasId = start && (start.id || start.source);
     }
 
-    return (canvasId && sequence.getCanvasById(canvasId)) || undefined;
+    return (canvasId && sequence.getCanvasById(canvasId, this.canvasResourceTypes)) || undefined;
   }
 
   /** */
   canvasAt(index) {
     const sequence = this.manifest.getSequences()[0];
-    const canvases = sequence && sequence.getCanvases();
+    const canvases = sequence && sequence.getCanvases(this.canvasResourceTypes);
 
     return canvases && canvases[index];
   }

@@ -6,9 +6,14 @@ import { AnnotationsOverlay } from '../../../src/components/AnnotationsOverlay';
 import OpenSeadragonCanvasOverlay from '../../../src/lib/OpenSeadragonCanvasOverlay';
 import AnnotationList from '../../../src/lib/AnnotationList';
 import CanvasWorld from '../../../src/lib/CanvasWorld';
+import MiradorCanvas from '../../../src/lib/MiradorCanvas';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 
-const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases();
+/** wrap a manifesto canvas as mirador canvas  */
+const wrapCanvas = (c) => new MiradorCanvas(c, settings.canvas.resourceTypes, settings.image.serviceProfiles);
+
+const canvases = Utils.parseManifest(fixture).getSequences()[0].getCanvases().map(wrapCanvas);
 
 vi.mock('../../../src/lib/OpenSeadragonCanvasOverlay');
 

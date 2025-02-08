@@ -580,5 +580,24 @@ export default {
       { profile: 'http://iiif.io/api/auth/0/clickthrough' },
       { profile: 'http://iiif.io/api/auth/0/login' }
     ]
+  },
+  canvas: {
+    resourceTypes: {
+      audio: ['Audio', 'Sound', 'dctypes:Audio', 'dctypes:Sound'],
+      choice: ['oa:Choice'],
+      image: ['Image', 'StillImage', 'dctypes:Image', 'dctypes:StillImage'],
+      text: ['Document', 'Text', 'dctypes:Document', 'dctypes:Text'],
+      video: ['Video', 'MovingImage', 'dctypes:Video', 'dctypes:MovingImage']
+    }
+  },
+  image: {
+    serviceProfiles: [
+      { profile: 'level2' },
+      { profile: 'level1' },
+      { profile: 'level0' },
+      { profile: 'http://iiif.io/api/image/2/level2.json' },
+      { profile: 'http://iiif.io/api/image/2/level1.json' },
+      { profile: 'http://iiif.io/api/image/2/level0.json' },
+    ]
   }
 };

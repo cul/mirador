@@ -3,6 +3,10 @@ import { Utils } from 'manifesto.js';
 
 import fixture from '../../fixtures/version-2/019.json';
 import { SidebarIndexThumbnail } from '../../../src/components/SidebarIndexThumbnail';
+import settings from '../../../src/config/settings';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 /** */
 function createWrapper(props) {
@@ -12,6 +16,7 @@ function createWrapper(props) {
       label="yolo"
       classes={{}}
       config={{ canvasNavigation: { height: 200, width: 100 } }}
+      miradorConfig={miradorConfigSlice()}
       {...props}
     />,
   );

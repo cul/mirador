@@ -11,7 +11,7 @@ import ns from '../config/css-ns';
 /**
  */
 export function ThumbnailNavigation({
-  canvasGroupings, canvasIndex, hasNextCanvas = false, hasPreviousCanvas = false, position,
+  canvasGroupings, canvasIndex, getCanvasWorld, hasNextCanvas = false, hasPreviousCanvas = false, position,
   setNextCanvas = () => {}, setPreviousCanvas = () => {}, thumbnailNavigation, view = undefined, viewingDirection = '', windowId,
 }) {
   const { t } = useTranslation();
@@ -61,7 +61,7 @@ export function ThumbnailNavigation({
     const canvases = canvasGroupings[index];
     if (!canvases) return thumbnailNavigation.width + spacing;
 
-    const world = new CanvasWorld(canvases);
+    const world = getCanvasWorld(canvases);
     const bounds = world.worldBounds();
     switch (position) {
       case 'far-right': {
@@ -196,6 +196,7 @@ export function ThumbnailNavigation({
 ThumbnailNavigation.propTypes = {
   canvasGroupings: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canvasIndex: PropTypes.number.isRequired,
+  getCanvasWorld: PropTypes.func.isRequired,
   hasNextCanvas: PropTypes.bool,
   hasPreviousCanvas: PropTypes.bool,
   position: PropTypes.string.isRequired,

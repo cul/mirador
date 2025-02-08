@@ -4,7 +4,6 @@ import {
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { useInView } from 'react-intersection-observer';
-import getThumbnail from '../lib/ThumbnailFactory';
 import { IIIFResourceLabel } from './IIIFResourceLabel';
 
 const Root = styled('div', { name: 'IIIFThumbnail', slot: 'root' })({});
@@ -24,7 +23,7 @@ const Image = styled('img', { name: 'IIIFThumbnail', slot: 'image' })(() => ({
  */
 const LazyLoadedImage = ({
   border = false, placeholder, style = {}, thumbnail = null,
-  resource, maxHeight = null, maxWidth = null, thumbnailsConfig = {}, ...props
+  resource, maxHeight = null, maxWidth = null, getThumbnail, ...props
 }) => {
   const { ref, inView } = useInView();
   const [loaded, setLoaded] = useState(false);
@@ -42,12 +41,12 @@ const LazyLoadedImage = ({
   const image = useMemo(() => {
     if (thumbnail) return thumbnail;
 
-    const i = getThumbnail(resource, { ...thumbnailsConfig, maxHeight, maxWidth });
+    const i = getThumbnail(resource, { maxHeight, maxWidth });
 
     if (i && i.url) return i;
 
     return undefined;
-  }, [resource, thumbnail, maxWidth, maxHeight, thumbnailsConfig]);
+  }, [resource, thumbnail, maxWidth, maxHeight, getThumbnail]);
 
   const imageStyles = useMemo(() => {
     const styleProps = {
@@ -118,6 +117,7 @@ const LazyLoadedImage = ({
 
 LazyLoadedImage.propTypes = {
   border: PropTypes.bool,
+  getThumbnail: PropTypes.func.isRequired,
   maxHeight: PropTypes.number,
   maxWidth: PropTypes.number,
   placeholder: PropTypes.string.isRequired,
@@ -128,7 +128,6 @@ LazyLoadedImage.propTypes = {
     url: PropTypes.string.isRequired,
     width: PropTypes.number,
   }),
-  thumbnailsConfig: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 const defaultPlaceholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMMDQmtBwADgwF/Op8FmAAAAABJRU5ErkJggg==';
@@ -139,6 +138,7 @@ const defaultPlaceholder = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAA
 export function IIIFThumbnail({
   border = false,
   children = null,
+  getThumbnail,
   imagePlaceholder = defaultPlaceholder,
   label = undefined,
   labelled = false,
@@ -147,7 +147,6 @@ export function IIIFThumbnail({
   resource,
   style = {},
   thumbnail = null,
-  thumbnailsConfig = {},
 }) {
   const ownerState = arguments[0]; // eslint-disable-line prefer-rest-params
 
@@ -159,7 +158,7 @@ export function IIIFThumbnail({
         resource={resource}
         maxHeight={maxHeight}
         maxWidth={maxWidth}
-        thumbnailsConfig={thumbnailsConfig}
+        getThumbnail={getThumbnail}
         style={style}
         border={border}
       />
@@ -177,6 +176,7 @@ export function IIIFThumbnail({
 IIIFThumbnail.propTypes = {
   border: PropTypes.bool,
   children: PropTypes.node,
+  getThumbnail: PropTypes.func.isRequired,
   imagePlaceholder: PropTypes.string,
   label: PropTypes.string,
   labelled: PropTypes.bool,
@@ -189,6 +189,5 @@ IIIFThumbnail.propTypes = {
     url: PropTypes.string.isRequired,
     width: PropTypes.number,
   }),
-  thumbnailsConfig: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   variant: PropTypes.oneOf(['inside', 'outside']), // eslint-disable-line react/no-unused-prop-types
 };

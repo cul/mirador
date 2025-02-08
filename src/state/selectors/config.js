@@ -119,3 +119,16 @@ export const getRequestsConfig = createSelector(
   [getConfig],
   ({ requests }) => requests || {},
 );
+
+const EMPTY_ARRAY = Object.freeze([]);
+const EMPTY_OBJECT = Object.freeze({});
+
+export const getCanvasResourceTypes = createSelector(
+  [getConfig],
+  ({ canvas }) => (canvas && canvas.resourceTypes) || EMPTY_OBJECT,
+);
+
+export const getImageServiceProfiles = createSelector(
+  [getConfig],
+  ({ image }) => (image && image.serviceProfiles) || EMPTY_ARRAY,
+);

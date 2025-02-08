@@ -1,6 +1,6 @@
 import { Utils } from 'manifesto.js';
 
-import collection from '../../fixtures/version-2/collection.json';
+import settings from '../../../src/config/settings';
 import manifestFixture001 from '../../fixtures/version-2/001.json';
 import manifestFixture002 from '../../fixtures/version-2/002.json';
 import manifestFixture019 from '../../fixtures/version-2/019.json';
@@ -35,6 +35,9 @@ import {
   getManifestSearchService,
   getManifestAutocompleteService,
 } from '../../../src/state/selectors/manifests';
+
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
 
 describe('getManifestStatus', () => {
   const state = {
@@ -78,7 +81,7 @@ describe('getManifestLogo()', () => {
 
 describe('getManifestThumbnail()', () => {
   it('should return manifest-level thumbnail', () => {
-    const state = { manifests: { x: { json: manifestFixture001 } } };
+    const state = { config: miradorConfigSlice(), manifests: { x: { json: manifestFixture001 } } };
     const received = getManifestThumbnail(state, { manifestId: 'x' });
     expect(received).toEqual('https://iiif.bodleian.ox.ac.uk/iiif/image/9cca8fdd-4a61-4429-8ac1-f648764b4d6d/full/,120/0/default.jpg');
   });
@@ -100,13 +103,13 @@ describe('getManifestThumbnail()', () => {
       ],
     };
 
-    const state = { manifests: { x: { json: manifest } } };
+    const state = { config: miradorConfigSlice(), manifests: { x: { json: manifest } } };
     const received = getManifestThumbnail(state, { manifestId: 'x' });
     expect(received).toEqual('xyz');
   });
 
   it('returns a thumbnail sized image url from the first canvas', () => {
-    const state = { manifests: { x: { json: manifestFixture019 } } };
+    const state = { config: miradorConfigSlice(), manifests: { x: { json: manifestFixture019 } } };
     const received = getManifestThumbnail(state, { manifestId: 'x' });
     expect(received).toEqual('https://stacks.stanford.edu/image/iiif/hg676jb4964%2F0380_796-44/full/!120,120/0/default.jpg');
   });

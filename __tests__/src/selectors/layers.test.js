@@ -1,3 +1,4 @@
+import settings from '../../../src/config/settings';
 import manifestFixture019 from '../../fixtures/version-2/019.json';
 import manifestFixtureHamilton from '../../fixtures/version-2/hamilton.json';
 import {
@@ -7,8 +8,12 @@ import {
   getLayersForVisibleCanvases,
 } from '../../../src/state/selectors/layers';
 
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ({ auth: settings.auth, canvas: settings.canvas, image: settings.image });
+
 describe('getCanvasLayers', () => {
   const state = {
+    config: miradorConfigSlice(),
     manifests: {
       x: {
         id: 'x',
@@ -26,6 +31,7 @@ describe('getCanvasLayers', () => {
 
 describe('getLayers', () => {
   const state = {
+    config: miradorConfigSlice(),
     layers: {
       x: {
         bar: {
@@ -46,6 +52,7 @@ describe('getSortedLayers', () => {
 
   beforeEach(() => {
     state = {
+      config: miradorConfigSlice(),
       layers: {
       },
       manifests: {
@@ -87,6 +94,7 @@ describe('getSortedLayers', () => {
 
 describe('getLayersForVisibleCanvases', () => {
   const state = {
+    config: miradorConfigSlice(),
     layers: {
       x: {
         'https://purl.stanford.edu/fr426cg9537/iiif/canvas/fr426cg9537_1': {

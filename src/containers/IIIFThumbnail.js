@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withPlugins } from '../extend/withPlugins';
 import {
   getConfig,
+  getThumbnailFactory,
 } from '../state/selectors';
 import { IIIFThumbnail } from '../components/IIIFThumbnail';
 
@@ -11,7 +12,10 @@ import { IIIFThumbnail } from '../components/IIIFThumbnail';
  * @private
  */
 const mapStateToProps = (state) => ({
-  thumbnailsConfig: getConfig(state).thumbnails,
+  getThumbnail: (resource, { maxHeight, maxWidth }) => getThumbnailFactory(
+    { ...getConfig(state).thumbnails, maxHeight, maxWidth },
+    getConfig(state),
+  ).get(resource),
 });
 
 const enhance = compose(

@@ -1,5 +1,6 @@
 import { Utils } from 'manifesto.js';
 import MiradorCanvas from '../../../src/lib/MiradorCanvas';
+import settings from '../../../src/config/settings';
 import fixture from '../../fixtures/version-2/019.json';
 import serviceFixture from '../../fixtures/version-2/canvasService.json';
 import otherContentFixture from '../../fixtures/version-2/299843.json';
@@ -11,11 +12,15 @@ import textFixture from '../../fixtures/version-3/text-pdf.json';
 import videoFixture from '../../fixtures/version-3/0015-start.json';
 import videoWithAnnoCaptions from '../../fixtures/version-3/video_with_annotation_captions.json';
 
+/** return the slice of config relevant to MiradorCanvas */
+const miradorConfigSlice = () => ([settings.canvas.resourceTypes, settings.image.serviceProfiles]);
+
 describe('MiradorCanvas', () => {
   let instance;
   beforeEach(() => {
     instance = new MiradorCanvas(
       Utils.parseManifest(fixture).getSequences()[0].getCanvases()[0],
+      ...miradorConfigSlice(),
     );
   });
   describe('annotationListUris', () => {
@@ -29,6 +34,7 @@ describe('MiradorCanvas', () => {
         it('returns an array of uris', () => {
           const otherContentInstance = new MiradorCanvas(
             Utils.parseManifest(otherContentFixture).getSequences()[0].getCanvases()[0],
+            ...miradorConfigSlice(),
           );
           expect(otherContentInstance.annotationListUris.length).toEqual(1);
           expect(otherContentInstance.annotationListUris).toEqual([
@@ -40,6 +46,7 @@ describe('MiradorCanvas', () => {
         it('returns an array of uris', () => {
           const otherContentInstance = new MiradorCanvas(
             Utils.parseManifest(otherContentStringsFixture).getSequences()[0].getCanvases()[0],
+            ...miradorConfigSlice(),
           );
           expect(otherContentInstance.annotationListUris.length).toEqual(1);
           expect(otherContentInstance.annotationListUris).toEqual([
@@ -59,6 +66,7 @@ describe('MiradorCanvas', () => {
     it('correctly returns the service information for the given canvas', () => {
       const serviceInstance = new MiradorCanvas(
         Utils.parseManifest(serviceFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
 
       expect(serviceInstance.service).toBeDefined();
@@ -72,6 +80,7 @@ describe('MiradorCanvas', () => {
     it('returns the containing Annotation for a given contentResource id', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(fragmentFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(
         instance.resourceAnnotation('https://prtd.app/image/iiif/2/hamilton%2fHL_524_1r_00_PC17/full/739,521/0/default.jpg').id,
@@ -80,6 +89,7 @@ describe('MiradorCanvas', () => {
     it('returns the containing Annotation for a given contentResource id v3', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(fragmentFixtureV3).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(
         instance.resourceAnnotation('https://images.prtd.app/iiif/2/hamilton%2fHL_524_1r_00_PC17/full/739,521/0/default.jpg').id,
@@ -90,6 +100,7 @@ describe('MiradorCanvas', () => {
     it('when a fragment selector exists for a given contentResources id, returns that fragment', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(fragmentFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(
         instance.onFragment('https://prtd.app/image/iiif/2/hamilton%2fHL_524_1r_00_PC17/full/739,521/0/default.jpg'),
@@ -98,6 +109,7 @@ describe('MiradorCanvas', () => {
     it('when a fragment selector exists for a given contentResources id, returns that fragment v3', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(fragmentFixtureV3).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(
         instance.onFragment('https://images.prtd.app/iiif/2/hamilton%2fHL_524_1r_00_PC17/full/739,521/0/default.jpg'),
@@ -108,6 +120,7 @@ describe('MiradorCanvas', () => {
     it('returns video', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(videoFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(instance.videoResources.length).toEqual(1);
     });
@@ -116,6 +129,7 @@ describe('MiradorCanvas', () => {
     it('returns audio', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(audioFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(instance.audioResources.length).toEqual(1);
     });
@@ -124,12 +138,14 @@ describe('MiradorCanvas', () => {
     it('returns v2 vttContent', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(videoFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(instance.v2VttContent.length).toEqual(1);
     });
     it('returns v3 vttContent', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(videoWithAnnoCaptions).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(instance.v3VttContent.length).toEqual(1);
     });
@@ -138,6 +154,7 @@ describe('MiradorCanvas', () => {
     it('returns text', () => {
       instance = new MiradorCanvas(
         Utils.parseManifest(textFixture).getSequences()[0].getCanvases()[0],
+        ...miradorConfigSlice(),
       );
       expect(instance.textResources.length).toEqual(1);
     });
