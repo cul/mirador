@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 import deepmerge from 'deepmerge';
-import { miradorSlice } from './utils';
+import { miradorSlice, EMPTY_ARRAY, EMPTY_OBJECT } from './utils';
 import { getWorkspace } from './getters';
-
-const defaultConfig = Object.freeze({});
 
 /**
  * Returns the config from the redux state.
@@ -12,7 +10,7 @@ const defaultConfig = Object.freeze({});
  */
 export function getConfig(state) {
   const slice = miradorSlice(state || {});
-  return slice.config || defaultConfig;
+  return slice.config || EMPTY_OBJECT;
 }
 
 /**
@@ -117,11 +115,8 @@ export const getThemeDirection = createSelector(
  */
 export const getRequestsConfig = createSelector(
   [getConfig],
-  ({ requests }) => requests || {},
+  ({ requests }) => requests || EMPTY_OBJECT,
 );
-
-const EMPTY_ARRAY = Object.freeze([]);
-const EMPTY_OBJECT = Object.freeze({});
 
 export const getCanvasResourceTypes = createSelector(
   [getConfig],

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { getMiradorCanvasWrapper } from './wrappers';
 import { getCanvas, getVisibleCanvasIds } from './canvases';
-import { miradorSlice } from './utils';
+import { miradorSlice, EMPTY_ARRAY } from './utils';
 import { getConfig } from './config';
 
 /**
@@ -23,8 +23,6 @@ export const getCanvasLayers = createSelector(
     return getMiradorCanvas(canvas).imageResources;
   },
 );
-
-const EMPTY_ARRAY = Object.freeze([]);
 
 export const getLayersForWindow = createSelector(
   [

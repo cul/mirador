@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import flatten from 'lodash/flatten';
 import CanvasGroupings from '../../lib/CanvasGroupings';
 import { getMiradorCanvasWrapper } from './wrappers';
-import { miradorSlice } from './utils';
+import { miradorSlice, EMPTY_ARRAY } from './utils';
 import { getWindow } from './getters';
 import { getSequence } from './sequences';
 import { getWindowViewType } from './windows';
@@ -18,7 +18,7 @@ export const selectInfoResponses = state => miradorSlice(state).infoResponses;
 
 export const getCanvases = createSelector(
   [getSequence],
-  sequence => (sequence && sequence.getCanvases()) || [],
+  sequence => (sequence && sequence.getCanvases()) || EMPTY_ARRAY,
 );
 
 /**
@@ -70,7 +70,7 @@ export const getCurrentCanvas = createSelector(
  */
 export const getVisibleCanvasIds = createSelector(
   [getWindow],
-  window => (window && (window.visibleCanvases || (window.canvasId && [window.canvasId]))) || [],
+  window => (window && (window.visibleCanvases || (window.canvasId && [window.canvasId]))) || EMPTY_ARRAY,
 );
 
 /**
@@ -122,7 +122,7 @@ export const getCanvasGrouping = createSelector(
     (state, { canvasId }) => canvasId,
   ],
   (groupings, canvasId) => (groupings
-      && groupings.find(group => group.some(c => c.id === canvasId))) || [],
+      && groupings.find(group => group.some(c => c.id === canvasId))) || EMPTY_ARRAY,
 );
 
 /**

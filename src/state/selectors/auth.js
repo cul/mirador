@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
-import { miradorSlice } from './utils';
+import { miradorSlice, EMPTY_ARRAY, EMPTY_OBJECT } from './utils';
 import { getConfig } from './config';
 import { getVisibleCanvases, selectInfoResponses } from './canvases';
 import { getMiradorCanvasWrapper } from './wrappers';
@@ -23,14 +23,14 @@ export const getAuthProfiles = createSelector(
  * @param {object} state
  * @returns {object}
  */
-export const getAccessTokens = state => miradorSlice(state).accessTokens || {};
+export const getAccessTokens = state => miradorSlice(state).accessTokens || EMPTY_OBJECT;
 
 /**
  * Return the authentification data from the state
  * @param {object} state
  * @returns {object}
  */
-export const getAuth = state => miradorSlice(state).auth || {};
+export const getAuth = state => miradorSlice(state).auth || EMPTY_OBJECT;
 
 /**
  * Returns current authentification services based on state and windowId
@@ -68,8 +68,8 @@ export const selectCurrentAuthServices = createSelector(
       }));
     }
 
-    if (!currentAuthResources) return [];
-    if (currentAuthResources.length === 0) return [];
+    if (!currentAuthResources) return EMPTY_ARRAY;
+    if (currentAuthResources.length === 0) return EMPTY_ARRAY;
 
     const currentAuthServices = currentAuthResources.map(resource => {
       let lastAttemptedService;
