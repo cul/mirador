@@ -265,7 +265,7 @@ export function* fetchProbeResponses({ visibleCanvases: visibleCanvasIds, window
 
   yield all(visibleCanvases.map((canvas) => {
     const miradorCanvas = new MiradorCanvas(canvas);
-    return all(miradorCanvas.imageResources.filter((r) => getProbeService(r)).map(resource => (
+    return all(miradorCanvas.contentBodies.filter((r) => getProbeService(r)).map(resource => (
       !probeResponses[getProbeService(resource).id]
         && put(fetchProbeResponse({ resource, windowId }))
     )).filter(Boolean));
