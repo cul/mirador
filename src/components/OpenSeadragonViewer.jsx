@@ -111,6 +111,7 @@ export function OpenSeadragonViewer({
             fitBounds={fitBounds}
             index={index}
             opacity={opacity}
+            zoomToWorld={zoomToWorld}
           />
         );
       })}
@@ -131,6 +132,7 @@ export function OpenSeadragonViewer({
             fitBounds={fitBounds}
             index={index}
             opacity={opacity}
+            zoomToWorld={zoomToWorld}
           />
         );
       })}

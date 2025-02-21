@@ -6,6 +6,7 @@ import OpenSeadragonViewerContext from '../contexts/OpenSeadragonViewerContext';
 /** OSD tile source shim that adds + updates its tile source data */
 export default function OpenSeadragonTileSource({
   index = undefined, opacity = undefined, fitBounds = undefined, tileSource = {}, url = undefined,
+  zoomToWorld = undefined,
 }) {
   const viewer = useContext(OpenSeadragonViewerContext);
   const tiledImage = useRef(undefined);
@@ -46,6 +47,7 @@ export default function OpenSeadragonTileSource({
         tileSource: localTileSource,
       });
     }).then((event) => {
+      if (zoomToWorld) zoomToWorld();
       tiledImage.current = event.item;
     });
 
@@ -68,4 +70,5 @@ OpenSeadragonTileSource.propTypes = {
   opacity: PropTypes.number,
   tileSource: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   url: PropTypes.string,
+  zoomToWorld: PropTypes.func,
 };
