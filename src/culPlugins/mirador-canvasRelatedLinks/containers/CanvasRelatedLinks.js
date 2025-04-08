@@ -2,6 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withPlugins } from '../../../extend/withPlugins';
 import {
+  getCanvasId,
   getCanvasRelated,
   getCanvasRenderings,
   getCanvasSeeAlso,
@@ -14,7 +15,7 @@ import { CanvasRelatedLinks } from '../components/CanvasRelatedLinks';
  * @private
  */
 const mapStateToProps = (state, { id, windowId }) => ({
-  id,
+  id: id || getCanvasId(state, { windowId }),
   related: getCanvasRelated(state, { windowId }),
   renderings: getCanvasRenderings(state, { windowId }),
   seeAlso: getCanvasSeeAlso(state, { windowId }),

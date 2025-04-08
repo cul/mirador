@@ -12,6 +12,14 @@ function getProperty(property) {
 }
 
 /**
+* Return the IIIF v3 renderings of a canvas or null
+*/
+export const getCanvasId = createSelector(
+  [getCurrentCanvas],
+  canvas => (canvas.id || canvas['@id']),
+);
+
+/**
 * Return the IIIF v2 realated links of canvas or null
 * @param {object} state
 * @param {object} props
