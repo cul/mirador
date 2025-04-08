@@ -16,7 +16,7 @@ import SuppressedDownload from './SuppressedDownload';
 /**
  * Filter the misnamed imageResources property to actual imageResources
  */
-const anyImageResources = (imageResources) => (imageResources || []).filter((r) => imageServicesFrom(r).length > 0);
+const anyImageResources = (imageResources) => (imageResources || []).filter((r) => imageServicesFrom([r]).length > 0);
 
 /** */
 const CanvasDownloadLinks = ({
