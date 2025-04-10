@@ -16,7 +16,7 @@ function getProperty(property) {
 */
 export const getCanvasId = createSelector(
   [getCurrentCanvas],
-  canvas => (canvas.id || canvas['@id']),
+  canvas => canvas && (canvas.id || canvas['@id']),
 );
 
 /**
