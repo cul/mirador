@@ -137,7 +137,6 @@ export const HintingSideBarButtons = ({
             key={PluginComponent.value}
             value={PluginComponent.value}
             icon={<PluginComponent windowId={windowId} />}
-            windowId={windowId}
           />
         ))}
     </Root>
