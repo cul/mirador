@@ -1,6 +1,7 @@
 import canvasLinkPlugin from './mirador-canvaslink';
 import canvasRelatedLinksPlugin from './mirador-canvasRelatedLinks';
 import citationsSidebarPlugin from './mirador-citations';
+import collectionFoldersPlugin from './mirador-selectCollectionFolders';
 import downloadDialogPlugin from './mirador-downloaddialog';
 import hintingSideBar from './mirador-hinting-sidebar';
 import videojsPlugin from './mirador-videojs';
@@ -11,6 +12,7 @@ export default {
   canvasLinkPlugin,
   canvasRelatedLinksPlugin,
   citationsSidebarPlugin,
+  collectionFoldersPlugin,
   downloadDialogPlugin,
   hintingSideBar,
   videojsPlugin,
