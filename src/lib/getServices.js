@@ -1,6 +1,6 @@
 import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
-import { filterByTypes } from './typeFilters';
+import { filterByTypes } from './resourceFilters';
 
 /**
  */

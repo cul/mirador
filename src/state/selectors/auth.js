@@ -3,12 +3,12 @@ import { Utils } from 'manifesto.js';
 import flatten from 'lodash/flatten';
 import { anyProbeServices } from '../../lib/getServices';
 import {
-  audioResourcesFrom, iiifImageResourcesFrom, textResourcesFrom, videoResourcesFrom,
-} from '../../lib/typeFilters';
+  audioResourcesFrom, iiifImageResourcesFrom, imageServicesFrom, textResourcesFrom, videoResourcesFrom,
+} from '../../lib/resourceFilters';
 import MiradorCanvas from '../../lib/MiradorCanvas';
 import { miradorSlice, EMPTY_ARRAY, EMPTY_OBJECT } from './utils';
 import { getConfig } from './config';
-import { getVisibleCanvases, selectInfoResponses } from './canvases';
+import { getVisibleCanvases, selectInfoResponses, selectProbeResponses } from './canvases';
 import { getMiradorCanvasWrapper } from './wrappers';
 
 /**
@@ -47,16 +47,13 @@ export const selectCurrentAuthServices = createSelector(
   [
     getVisibleCanvases,
     selectInfoResponses,
+    selectProbeResponses,
     getAuthProfiles,
     getAuth,
     getMiradorCanvasWrapper,
     (state, { iiifResources }) => iiifResources,
   ],
-<<<<<<< HEAD
   (canvases, infoResponses = {}, probeResponses = {}, serviceProfiles, auth, getMiradorCanvas, iiifResources) => {
-=======
-  (canvases, infoResponses = {}, serviceProfiles, auth, iiifResources) => {
->>>>>>> 4e32924c (COLUMBIA: Support auth2 style external authentication)
     let currentAuthResources = iiifResources;
 
     if ((!currentAuthResources || currentAuthResources.length === 0) && !canvases) return EMPTY_ARRAY;
@@ -65,22 +62,26 @@ export const selectCurrentAuthServices = createSelector(
         const miradorCanvas = getMiradorCanvas(c);
         const canvasResources = miradorCanvas.imageResources;
         const authResources = iiifImageResourcesFrom(canvasResources).map(i => {
-          const iiifImageService = i.getServices()[0];
+          const iiifImageService = imageServicesFrom(i.getServices())[0];
 
           const infoResponse = infoResponses[iiifImageService.id];
           if (infoResponse && infoResponse.json) {
             return { ...infoResponse.json, options: {} };
           }
 
+          const probeResponse = probeResponses[iiifImageService.id];
+          if (probeResponse && probeResponse.json) {
+            return { ...probeResponse.json, options: {} };
+          }
           return iiifImageService;
         });
-        return authResources.concat(videoResourcesFrom(canvasResources))
-          .concat(audioResourcesFrom(canvasResources))
-          .concat(textResourcesFrom(canvasResources));
+        return authResources.concat(miradorCanvas.videoResources)
+          .concat(miradorCanvas.audioResources)
+          .concat(miradorCanvas.textResources);
       }));
     }
 
-    if (currentAuthResources.length === 0) return EMPTY_ARRAY;
+    if (!currentAuthResources || currentAuthResources.length == 0) return EMPTY_ARRAY;
 
     const currentAuthServices = currentAuthResources.map(resource => {
       let lastAttemptedService;

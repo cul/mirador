@@ -119,7 +119,7 @@ export default class MiradorCanvas {
 
   /** */
   get textResources() {
-    return textResourcesFrom(this.contentBodies);
+    return flatten(textResourcesFrom(this.contentBodies));
   }
 
   /** */

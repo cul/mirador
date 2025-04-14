@@ -64,6 +64,7 @@ describe('selectCurrentAuthServices', () => {
         json: manifestFixture019,
       },
       c: {
+        id: 'c',
         json: manifestFixtureAuth2ActiveVideo,
       },
       d: {

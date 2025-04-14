@@ -9,7 +9,7 @@ import { getSequence } from './sequences';
 import { getWindowViewType } from './windows';
 import { getManifestLocale } from './manifests';
 import { getProbeService } from '../../lib/getServices';
-import { anyImageServices } from '../../lib/typeFilters';
+import { imageServicesFrom } from '../../lib/resourceFilters';
 
 /**
  * Returns the info response.
@@ -228,26 +228,6 @@ const probeReplacements = (resources, probeResponses) => {
   });
 };
 
-/** */
-const probeReplacements = (resources, probeResponses) => {
-  if (!probeResponses) return resources;
-
-  return resources.map((r) => {
-    const probeService = getProbeService(r);
-    const probeServiceId = probeService && probeService.id;
-    const probeResponse = probeServiceId && probeResponses[probeServiceId];
-    if (!probeResponse || probeResponse.isFetching) return r;
-
-    const probeContentUrl = probeResponse.json && (probeResponse.json.location || probeResponse.json.substitute);
-    const probeReplacedProperties = {};
-    if (probeContentUrl) {
-      probeReplacedProperties.id = probeContentUrl;
-      if (probeResponse.json.format) probeReplacedProperties.format = probeResponse.json.format;
-    }
-    return new Resource({ ...r.__jsonld, ...probeReplacedProperties }, r.options);
-  });
-};
-
 /**
  * Return visible non tiled canvas resources.
  * @param {object}
@@ -261,7 +241,7 @@ export const getVisibleCanvasNonTiledResources = createSelector(
   ],
   (canvases, getMiradorCanvas) => flatten(canvases
     .map(canvas => getMiradorCanvas(canvas).imageResources))
-    .filter(resource => anyImageServices(resource).length < 1),
+    .filter(resource => imageServicesFrom(resource.getServices()).length < 1),
 );
 
 /**
@@ -274,9 +254,10 @@ export const getVisibleCanvasTextResources = createSelector(
   [
     getVisibleCanvases,
     getMiradorCanvasWrapper,
+    selectProbeResponses,
   ],
-  (canvases, getMiradorCanvas) => flatten(canvases
-    .map(canvas => getMiradorCanvas(canvas).textResources)),
+  (canvases, getMiradorCanvas, probeResponses) => flatten(canvases
+    .map(canvas => probeReplacements(getMiradorCanvas(canvas).textResources, probeResponses))),
 );
 
 /**
