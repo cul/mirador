@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import { Img } from 'react-image';
-import numCanvases from '../lib/numCanvases';
+import listItemLabel from '../lib/listItemLabel';
 import { getManifest } from '../../../state/selectors';
 import { IIIFResourceLabel } from '../../../components/IIIFResourceLabel';
 import IIIFThumbnail from '../../../containers/IIIFThumbnail';
@@ -167,7 +167,6 @@ export function CollectionListItem({
     );
   }
 
-  const numItems = (manifesto && manifesto.isCollection() && manifesto.items)?.length;
   return (
     <Root
       divider
@@ -210,7 +209,7 @@ export function CollectionListItem({
           </ButtonBase>
         </Grid>
         <Grid item xs={8} sm={4} display="flex" justifyContent="left" alignItems="center">
-          <Typography>{`${numItems || numCanvases(manifesto)} Items`}</Typography>
+          <Typography>{listItemLabel(manifesto)}</Typography>
         </Grid>
 
         <Grid item xs={4} sm={2}>
