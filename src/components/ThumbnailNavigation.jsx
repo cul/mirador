@@ -24,7 +24,7 @@ export function ThumbnailNavigation({
   useEffect(() => {
     if (previousView.current !== view && position !== 'off') {
       previousView.current = view;
-      gridRef.current.resetAfterIndex(0);
+      gridRef.current?.resetAfterIndex(0);
     }
   }, [view, position]);
 
