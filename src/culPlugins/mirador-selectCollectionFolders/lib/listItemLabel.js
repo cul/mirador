@@ -32,7 +32,7 @@ export default function listItemLabel(manifesto) {
   const canvasCount = numCanvases(manifesto);
   if (!canvasCount) return null;
   const suffix = canvasCount === 1 ? '' : 's';
-  if (manifesto.behavior?.includes('paged')) return `${canvasCount} Page${suffix}`;
+  if (manifesto.getBehavior && manifesto.getBehavior()?.includes('paged')) return `${canvasCount} Page${suffix}`;
 
   const typeWatcher = new CanvasTypeWatcher();
   const hasVaryingCanvases = someCanvases(manifesto, (c) => {
