@@ -34,19 +34,6 @@ const ImageDownloadLinks = ({
         <List>
           {sizes
             .sort((a, b) => b.width - a.width)
-            .slice(1)
-            .reduce(
-              (acc, { height, width }) => {
-                // only take sizes, where the difference between the last taken width
-                // and the current one is bigger than 500 pixels
-                if (acc[acc.length - 1].width - width >= 500) {
-                  acc.push({ height, width });
-                }
-                return acc;
-              },
-              // this represents the full size
-              [{ height: canvas.getHeight(), width: canvas.getWidth() }],
-            )
             .map(({ height, width }) => (
               <ListItem dense key={`${height}x${width}`}>
                 <ImageLink
