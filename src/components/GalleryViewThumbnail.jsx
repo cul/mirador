@@ -59,11 +59,12 @@ export function GalleryViewThumbnail({
   const myRef = useRef();
   const [requestedAnnotations, setRequestedAnnotations] = useState(false);
 
-  useEffect(() => {
-    if (selected) {
-      myRef.current?.scrollIntoView(true);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // CUL: We don't want to trigger an automatic scroll to the selected thumbnail, so we are disabling this.
+  // useEffect(() => {
+  //   if (selected) {
+  //     myRef.current?.scrollIntoView(true);
+  //   }
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /** @private */
   const handleSelect = () => {
