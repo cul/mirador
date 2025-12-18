@@ -81,4 +81,5 @@ While you could always add a DLC manifest to the demo client that starts up "man
    1. To publish, you'll need to have an NPM user account (on npmjs.com), and you'll need
    2. Make sure that all of your changes are committed and that you've updated the package.json version to the correct version.
    3. Publish the package using: `npm publish --access public`
+   4. If the publish operation fails because your NPM token has expired, the easiest way to fix this is to run `npm login`, which will prompt you to log in, and a new token will be saved locally.
 
